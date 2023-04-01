@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+  },
+  "include": [
+    "src/**/*.ts",
+    "./types/**/*.ts",
+    "**/*.d.ts", "index.ts", "index.ts",
+  ],
+  "exclude": [
+    "**/node_modules",
+  ],
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+  }
+}

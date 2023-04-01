@@ -1,0 +1,31 @@
+@import './reset.scss';
+@import './variables.scss';
+@import './mixins.scss';
+@import './layout.scss';
+@import './transition.scss';
+
+html, body {
+  // 禁止页面滚动，将使用 better-scroll 或其他插件模拟滚动以兼容所有浏览器
+  overflow: hidden;
+}
+
+html {
+  height: 100%;
+  font-size: $html__font-size;
+}
+
+@media (prefers-color-schema: dark) {
+  html {
+    filter: invert(1) hue-rotate(180deg);
+  }
+  img {
+    filter: invert(1) hue-rotate(180deg);
+  }
+  a {
+    // filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+body {
+  height: 100%;
+}

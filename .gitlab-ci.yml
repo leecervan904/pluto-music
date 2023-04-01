@@ -1,0 +1,72 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  RULES_CHANGES_PATH: "**/*"
+
+.base-rules:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - $RULES_CHANGES_PATH
+    - when: manual
+      allow_failure: true
+
+.web:
+  extends: .base-rules
+  variables:
+    RULES_CHANGES_PATH: "projects/web/**/*"
+
+web-build:
+  image: node
+  stage: build
+  extends: .web
+  needs: []
+  before_script:
+    - whoami
+    - node -v;
+    - npm -v;
+    - npm i -g pnpm@6.30.1;
+    - pnpm -v
+  script:
+    - cd projects/web
+    - pnpm i;
+    # - pnpm build:web;
+    - pnpm --filter @pluto-music/web build2
+    - ls;
+  artifacts:
+    paths:
+      - projects/web/dist/
+
+web-deploy:
+  image: ubuntu
+  stage: deploy
+  needs: ["web-build"]
+  only:
+    - master
+    - deploy
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - eval $(ssh-agent -s)
+
+    - echo "$SSH_PRIVATE_KEY"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    - ssh-keyscan $SSH_SERVER >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+  script:
+    - cd projects/web/
+    - tar -zcvf dist.tar.gz dist
+    - scp dist.tar.gz root@$SSH_SERVER:/srv/pluto-music_web/
+    - ssh -t root@$SSH_SERVER "cd /srv/pluto-music_web && tar -zxf dist.tar.gz; exit;"

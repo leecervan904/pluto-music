@@ -1,0 +1,59 @@
+{
+  "name": "music",
+  "version": "0.0.1",
+  "description": "A cross platform music app.",
+  "main": "index.js",
+  "scripts": {
+    "dev:stencil": "pnpm --filter @pluto-music/stencil dev",
+    "build:stencil": "pnpm --filter @pluto-music/stencil build",
+    "dev:ssr": "pnpm --filter @pluto-music/ssr dev",
+    "dev:react": "pnpm --filter @pluto-music/react dev",
+    "dev:h5": "pnpm --filter @pluto-music/h5 dev",
+    "dev:web": "pnpm --filter @pluto-music/web dev",
+    "dev:desktop": "pnpm --filter @pluto-music/desktop dev",
+    "dev:applet": "pnpm --filter @pluto-music/applet dev:mp-weixin",
+    "dev:pc-react": "pnpm --filter @pluto-music/pc-react dev",
+    "preview:h5": "pnpm --filter @pluto-music/h5 preview",
+    "preview:web": "pnpm --filter @pluto-music/web preview",
+    "build:h5": "pnpm --filter @pluto-music/h5 build",
+    "build:web": "pnpm --filter @pluto-music/web build2",
+    "build:desktop": "pnpm --filter @pluto-music/desktop build",
+    "build:applet": "pnpm --filter @pluto-music/applet build:mp-weixin",
+    "build:pc-react": "pnpm --filter @pluto-music/pc-react build",
+    "commit": "git-cz",
+    "prepare": "husky install",
+    "lint": "eslint . --ext .js,.ts,.vue,.jsx,.tsx",
+    "lint:fix": "eslint . --ext .js,.ts,.vue,.jsx,.tsx --fix",
+    "prettier": "prettier . --write"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5",
+    "prettier": "^2.5.1",
+    "typescript": "^4.9.5",
+    "unocss": "^0.48.4"
+  },
+  "license": "ISC",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue}": "eslint --fix",
+    "*.{js,jsx,ts,tsx,vue,css,scss,md}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./config/cz.config.js"
+    }
+  },
+  "dependencies": {
+    "@types/node": "^18.11.18"
+  }
+}

@@ -1,0 +1,6 @@
+export * from './getComment'
+export * from './getCommentFloor'
+export * from './getMvComment'
+export * from './getPlaylistComment'
+export * from './getSongComment'
+export * from './getAlbumComment'

@@ -1,0 +1,45 @@
+/* 关于命名
+1.考虑有意义的命名及规则，尽量一次命名后不再更改(否则要手动修改组件的引用，工作量大)
+2.仿 CSS BEM 命名规范：
+  + `-` 仍作为连字符
+  + `__` 连接 CSS 属性及元素/类别(如 $navbar__height)
+  + `--` 连接 CSS 属性及其状态(如 $navbar__color--dark)
+*/
+
+/* font-size */
+$html__font-size: 100px;
+$font--small-s: .1rem;
+$font--small: .12rem;
+$font--medium-s: .14rem;
+$font--medium: .16rem;
+$font--large-s: .18rem;
+$font--large: .2rem;
+
+/* theme */
+$bg-color--dark: #000;        // 背景色
+$bg-color--sec--dark: #ccc;   // 背景次要色
+$font-color--dark: #fff;      // 字体色
+$font-color__sec--dark: #ccc; // 字体次要色
+
+$bg-color--light: #fff;
+$bg-color--sub--light: #ccc;
+$font-color--light: #000;
+$font-color__sec--light: #ccc;
+
+/* color */
+$color-palette-red: #dd001b;
+
+/* layout */
+$viewport_height: calc(var(--vh, 1vh) * 100);
+$navbar__height: 50px;
+// $tabbar__height: .5rem;
+$tabbar__height: 0rem;
+$navbar__height--min: .4rem;
+$tabbar__height--min: .4rem;
+$mini-player__height: .5rem;
+$main__height: calc(100vh - #{$navbar__height} - #{$tabbar__height});
+$main__height: calc(#{$viewport_height} - #{$navbar__height} - #{$tabbar__height});
+$main__height--min: calc(100vh - #{$navbar__height--min} - #{$tabbar__height--min});
+
+$navbar__bg-color: transparent;
+$tabbar__bg-color: #fff;

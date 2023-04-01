@@ -1,0 +1,7 @@
+export * from './getCollectPlaylistUsers'
+export * from './getPlaylistCatlist'
+export * from './getPlaylistDetail'
+export * from './getPlaylistHot'
+export * from './getRelatedPlaylist'
+export * from './getSimPlaylist'
+export * from './getTopPlaylist'

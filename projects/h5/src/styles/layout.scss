@@ -1,0 +1,52 @@
+#app {
+  position: relative;
+  // fix: touch 事件仍会滑动 absolute 定位的元素
+  // overflow-x: hidden;
+  // overflow: hidden;
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &-navbar {
+    overflow: hidden;
+    height: $navbar__height;
+    box-shadow: 0 0 10px 3px #ccc;
+  }
+
+  &-main {
+    flex: 1;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    // height: $main__height;
+    &.is-mini-player {
+      // padding-bottom: $mini-player__height;
+    }
+  }
+
+  &-tabbar {
+    overflow: hidden;
+    height: $tabbar__height;
+  }
+
+  &-mini-player {
+    // position: fixed;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
+    height: $mini-player__height;
+    box-shadow: 0 0 10px 3px #ccc;
+    // background-color: #ace;
+  }
+
+  /* 对高度较小的设备，缩小 navbar/tabbar 的高度 */
+  /* @media (max-height: 600px) {
+    .app-navbar { height: $navbar__height--min; }
+    .app-main { height: $main__height--min; }
+    .app-tabbar { height: $tabbar__height--min; }
+  } */
+}

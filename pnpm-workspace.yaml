@@ -1,0 +1,12 @@
+packages:
+  - "packages/*"
+  - "packages/api"
+  - "packages/shared"
+  - "packages/vue-vendor"
+  # - "projects/react"
+  # - "projects/*"
+  # - "projects/desktop"
+  - "projects/web"
+  # - "projects/pc-react"
+  # - "projects/h5"
+  # - "projects/applet"

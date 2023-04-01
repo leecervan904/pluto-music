@@ -1,0 +1,35 @@
+{
+  "name": "@pluto-music/h5",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@pluto-music/api": "workspace:*",
+    "@types/axios": "^0.14.0",
+    "@vueuse/core": "^7.7.1",
+    "axios": "^0.26.0",
+    "lodash-es": "^4.17.21",
+    "motion": "^10.15.5",
+    "normalize.css": "^8.0.1",
+    "pinia": "^2.0.0-rc.10",
+    "sass": "^1.49.9",
+    "vant": "^4.0.7",
+    "vite-plugin-compression": "^0.5.1",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "fast-glob": "^3.2.12",
+    "unplugin-vue-components": "^0.22.12",
+    "vite": "^4.1.1",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-tsc": "^1.0.24",
+    "vue-types": "^5.0.2"
+  }
+}

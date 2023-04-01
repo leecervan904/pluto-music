@@ -1,0 +1,23 @@
+@import './variables.scss';
+@import './animation.scss';
+@import './mixins.scss';
+@import './sprite/index.scss';
+
+h1, h2, h3, h4, h5, h6,
+ul, ol,
+p {
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: $info;
+
+  &:hover {
+    color: $infoDark;
+  }
+}

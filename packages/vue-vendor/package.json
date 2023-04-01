@@ -1,0 +1,24 @@
+{
+  "name": "@pluto-music/vue-vendor",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./index.js",
+  "module": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pluto-music/api": "workspace:^0.0.1"
+  },
+  "devDependencies": {
+    "pinia": "^2.0.0-rc.10",
+    "vue": "^3.2.47",
+    "vue-router": "^4.0.13"
+  },
+  "peerDependencies": {
+    "vue-router": "^4.0.13"
+  }
+}
