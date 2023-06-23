@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithResponseCodeMessage, Nullable } from '../../types'
-import { IdTag, IArtist } from '../../model'
+import type { Nullable, RequestInstance, WithResponseCodeMessage } from '../../types'
+import type { IArtist, IdTag } from '../../model'
 
 export interface GetSimiMvParams {
   mvid: IdTag
@@ -26,7 +26,7 @@ export interface GetSimiMvData {
 
 export type GetSimiMvResult = WithResponseCodeMessage<GetSimiMvData>
 
-export const getSimiMv = (params: GetSimiMvParams, ...args: any[]) => {
+export function getSimiMv(params: GetSimiMvParams, ...args: any[]) {
   return (instance: RequestInstance): Promise<GetSimiMvResult> => {
     return instance.request({
       url: RequestPath.GET_SIMI_MV,

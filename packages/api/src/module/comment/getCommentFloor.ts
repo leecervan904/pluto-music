@@ -1,7 +1,8 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery, Nullable } from '../../types'
-import { IdTag } from '../../model'
-import { CommentTypeEnum, ICommentItemNew } from './getComment'
+import type { Nullable, RequestInstance, WithPageQuery } from '../../types'
+import type { IdTag } from '../../model'
+import type { ICommentItemNew } from './getComment'
+import { CommentTypeEnum } from './getComment'
 
 export interface GetCommentFloorBaseParams {
   id: IdTag
@@ -27,11 +28,11 @@ export interface GetCommentFloorResult {
   }
 }
 
-export const getCommentFloor = ({
+export function getCommentFloor({
   limit = 20,
   type = CommentTypeEnum.SONG,
   ...args
-}: GetCommentFloorParams) => {
+}: GetCommentFloorParams) {
   return (instance: RequestInstance): Promise<GetCommentFloorResult> => {
     return instance.request({
       url: RequestPath.GET_COMMENT_FLOOR,

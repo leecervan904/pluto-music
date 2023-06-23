@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, Nullable } from '../../types'
-import { IdTag } from '../../model'
+import type { Nullable, RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface IBaseArtist {
   id: IdTag
@@ -88,7 +88,7 @@ export interface GetSearchSuggestResult {
  * @param {String} keywords
  * @param {String} type
  */
-export const getSearchSuggest = (params: GetSearchSuggestParams) => {
+export function getSearchSuggest(params: GetSearchSuggestParams) {
   return (instance: RequestInstance): Promise<GetSearchSuggestResult> => {
     return instance.request({
       url: RequestPath.GET_SEARCH_SUGGEST,

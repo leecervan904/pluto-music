@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag, IRelativePlaylistItem } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IRelativePlaylistItem, IdTag } from '../../model'
 
 interface GetRelatedPlaylistParams {
   id: IdTag
@@ -15,7 +15,7 @@ export interface GetRelatedPlaylistResult {
 /**
  * 相关歌单推荐 getRelativePlaylist
  */
-export const getRelatedPlaylist = (params: GetRelatedPlaylistParams) => {
+export function getRelatedPlaylist(params: GetRelatedPlaylistParams) {
   return (
     instance: RequestInstance,
     callbackConfig?: (...args: any[]) => any,
@@ -26,9 +26,8 @@ export const getRelatedPlaylist = (params: GetRelatedPlaylistParams) => {
       params,
     }
 
-    if (callbackConfig) {
+    if (callbackConfig)
       config = callbackConfig?.(config)
-    }
 
     return instance.request(config)
   }

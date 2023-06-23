@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, Nullable } from '../../types'
-import { IdTag } from '../../model'
+import type { Nullable, RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface ICatItem {
   name: string
@@ -25,7 +25,7 @@ export interface GetPlaylistCatlistResult {
 /**
  * 歌单分类 getCategoryList
  */
-export const getPlaylistCatlist = () => {
+export function getPlaylistCatlist() {
   return (instance: RequestInstance): Promise<GetPlaylistCatlistResult> => {
     return instance.request({
       url: RequestPath.GET_PLAYLIST_CATLIST,

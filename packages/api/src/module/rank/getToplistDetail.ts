@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface IToplistDetailItem {
   id: IdTag
@@ -19,7 +19,7 @@ export interface GetToplistDetailResult {
 /**
  * 所有排行榜详情
  */
-export const getToplistDetail = () => {
+export function getToplistDetail() {
   return (instance: RequestInstance): Promise<GetToplistDetailResult> => {
     return instance.request({
       url: RequestPath.GET_TOPLIST_DETAIL,

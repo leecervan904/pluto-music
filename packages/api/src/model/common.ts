@@ -1,4 +1,4 @@
-import { IArtist } from './Role'
+import type { IArtist } from './Role'
 
 // 请求结果
 export type Res<T> = T & {

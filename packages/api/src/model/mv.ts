@@ -1,5 +1,5 @@
-import { IdTag } from "./common";
-import { IArtist } from "./Role";
+import type { IdTag } from './common'
+import type { IArtist } from './Role'
 
 export interface IMV {
   id: IdTag

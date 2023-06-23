@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface IPersonalizedItem {
   id: IdTag
@@ -23,7 +23,7 @@ export interface GetPersonalizedResult {
 }
 
 // 首页推荐歌单
-export const getPersonalized = (params: GetPersonalizedParams) => {
+export function getPersonalized(params: GetPersonalizedParams) {
   return (instance: RequestInstance): Promise<GetPersonalizedResult> => {
     return instance.request({
       url: RequestPath.GET_PERSONALIZED,

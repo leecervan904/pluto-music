@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface GetArtistDescParams {
   id: IdTag
@@ -22,9 +22,7 @@ export interface GetArtistDescResult {
   topicData: IArtistDescTopicDataItem[]
 }
 
-export const getArtistDesc = (
-  params: GetArtistDescParams,
-) => {
+export function getArtistDesc(params: GetArtistDescParams) {
   return (instance: RequestInstance): Promise<GetArtistDescResult> => {
     return instance.request({
       url: RequestPath.GET_ARTIST_DESC,

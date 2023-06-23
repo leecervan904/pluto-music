@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithResponseCodeMessage, Nullable } from '../../types'
-import { IdTag, IArtist } from '../../model'
+import type { Nullable, RequestInstance, WithResponseCodeMessage } from '../../types'
+import type { IArtist, IdTag } from '../../model'
 
 export interface GetMvDetailParams {
   mvid: IdTag
@@ -37,7 +37,7 @@ export interface GetMvDetailData {
 
 export type GetMvDetailResult = WithResponseCodeMessage<GetMvDetailData>
 
-export const getMvDetail = (params: GetMvDetailParams, ...args: any[]) => {
+export function getMvDetail(params: GetMvDetailParams, ...args: any[]) {
   return (instance: RequestInstance): Promise<GetMvDetailResult> => {
     return instance.request({
       url: RequestPath.GET_MV_DETAIL,

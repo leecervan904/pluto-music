@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery } from '../../types'
-import { IAlbumDetail } from '../../model'
+import type { RequestInstance, WithPageQuery } from '../../types'
+import type { IAlbumDetail } from '../../model'
 
 interface BaseParams {
   area?: string
@@ -19,7 +19,7 @@ export interface GetTopAlbumResult {
  * @param {Number} limit
  * @param {Number} offset
  */
-export const getTopAlbum = (params: GetTopAlbumParams = { area: 'ALL' }) => {
+export function getTopAlbum(params: GetTopAlbumParams = { area: 'ALL' }) {
   return (instance: RequestInstance): Promise<GetTopAlbumResult> => {
     return instance.request({
       url: RequestPath.GET_TOP_ALBUM,

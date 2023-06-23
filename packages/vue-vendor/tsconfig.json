@@ -10,17 +10,17 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
+    "baseUrl": "./"
   },
   "include": [
     "src/**/*.ts",
     "./types/**/*.ts",
-    "**/*.d.ts", "index.ts", "index.ts",
+    "**/*.d.ts", "index.ts", "index.ts"
   ],
   "exclude": [
-    "**/node_modules",
+    "**/node_modules"
   ],
   "files.watcherExclude": {
-    "**/node_modules/**": true,
+    "**/node_modules/**": true
   }
 }

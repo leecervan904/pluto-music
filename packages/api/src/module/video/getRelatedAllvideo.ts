@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, Nullable } from '../../types'
-import { IdTag } from '../../model'
+import type { Nullable, RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface GetRelatedAllvideoParams {
   id: IdTag
@@ -30,7 +30,7 @@ export interface GetRelatedAllvideoResult {
   data: IRelatedAllvideo[]
 }
 
-export const getRelatedAllvideo = (params: GetRelatedAllvideoParams) => {
+export function getRelatedAllvideo(params: GetRelatedAllvideoParams) {
   return (instance: RequestInstance): Promise<GetRelatedAllvideoResult> => {
     return instance.request({
       url: RequestPath.GET_RELATED_ALLVIDEO,

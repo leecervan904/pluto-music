@@ -1,5 +1,5 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
+import type { RequestInstance } from '../../types'
 
 export interface GetPlaylistHotResult {
   code: number
@@ -10,7 +10,7 @@ export interface GetPlaylistHotResult {
  * 歌单详情
  * @param {number} id
  */
-export const getPlaylistHot = () => {
+export function getPlaylistHot() {
   return (instance: RequestInstance): Promise<GetPlaylistHotResult> => {
     return instance.request({
       url: RequestPath.GET_PLAYLIST_HOT,

@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag, IPlaylist } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IPlaylist, IdTag } from '../../model'
 
 export interface GetPlaylistDetailParams {
   id: IdTag
@@ -16,7 +16,7 @@ export interface GetPlaylistDetailResult {
  * 歌单详情
  * @param {number} id
  */
-export const getPlaylistDetail = (params: GetPlaylistDetailParams) => {
+export function getPlaylistDetail(params: GetPlaylistDetailParams) {
   return (
     instance: RequestInstance,
     transformConfig?: (...args: any[]) => any,
@@ -27,9 +27,8 @@ export const getPlaylistDetail = (params: GetPlaylistDetailParams) => {
       params,
     }
 
-    if (transformConfig) {
+    if (transformConfig)
       config = transformConfig?.(config)
-    }
 
     return instance.request(config)
   }

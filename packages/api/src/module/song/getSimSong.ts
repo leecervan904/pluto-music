@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag, ISong } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { ISong, IdTag } from '../../model'
 
 interface GetSimSongParams {
   id: IdTag
@@ -13,7 +13,7 @@ export interface GetSimSongResult {
 }
 
 // 相似音乐
-export const getSimSong = (params: GetSimSongParams) => {
+export function getSimSong(params: GetSimSongParams) {
   return (instance: RequestInstance): Promise<GetSimSongResult> => {
     return instance.request({
       url: RequestPath.GET_SIM_SONG,

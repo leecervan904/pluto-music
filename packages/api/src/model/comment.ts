@@ -1,5 +1,5 @@
-import { WithPageQuery, Nullable } from '../types'
-import { IdTag } from './common'
+import type { Nullable, WithPageQuery } from '../types'
+import type { IdTag } from './common'
 
 export interface GetCommentBaseQuery {
   id: IdTag

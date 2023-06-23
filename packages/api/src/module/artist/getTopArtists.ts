@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery } from '../../types'
-import { IArtist } from '../../model'
+import type { RequestInstance, WithPageQuery } from '../../types'
+import type { IArtist } from '../../model'
 
 export type GetTopArtistsQuery = WithPageQuery<{}>
 
@@ -10,9 +10,7 @@ export interface GetTopArtistsResult {
   artists: IArtist[]
 }
 
-export const getTopArtists = (
-  params: GetTopArtistsQuery,
-) => {
+export function getTopArtists(params: GetTopArtistsQuery) {
   return (instance: RequestInstance): Promise<GetTopArtistsResult> => {
     return instance.request({
       url: RequestPath.GET_TOP_ARTIST,

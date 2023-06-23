@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag, ISong } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { ISong, IdTag } from '../../model'
 
 interface GetSongDetailParams {
   id: IdTag | IdTag[]
@@ -15,7 +15,7 @@ export interface GetSongDetailResult {
  * 获取歌曲详情，支持同时获取多个
  * @param {number | array} id
  */
-export const getSongDetail = (params: GetSongDetailParams) => {
+export function getSongDetail(params: GetSongDetailParams) {
   const ids = Array.isArray(params.id) ? params.id.join(',') : params.id
 
   return (
@@ -28,9 +28,8 @@ export const getSongDetail = (params: GetSongDetailParams) => {
       params: { ids },
     }
 
-    if (callbackConfig) {
+    if (callbackConfig)
       config = callbackConfig?.(config)
-    }
 
     return instance.request(config)
   }

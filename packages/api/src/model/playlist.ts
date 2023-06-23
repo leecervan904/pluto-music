@@ -1,6 +1,6 @@
+import type { Nullable } from '../types'
 import type { IPlayListCreator } from './Role'
 import type { ISong, IdTag } from './common'
-import { Nullable } from '../types'
 
 // 歌单信息
 export interface IPlaylist {

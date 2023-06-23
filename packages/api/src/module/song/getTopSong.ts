@@ -1,5 +1,5 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
+import type { RequestInstance } from '../../types'
 
 /**
  * 全部:0
@@ -26,7 +26,7 @@ interface GetTopSongResult {}
  * 新歌速递
  * @param {number} type
  */
-export const getTopSong = (params: GetTopSongParams = { type: TopSongType.CN }) => {
+export function getTopSong(params: GetTopSongParams = { type: TopSongType.CN }) {
   return (instance: RequestInstance): Promise<GetTopSongResult> => {
     return instance.request({
       url: RequestPath.GET_TOP_SONG,

@@ -1,5 +1,5 @@
-import { RequestInstance } from '../../types'
-import { IdTag } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 import { RequestMethod, RequestPath } from '../../constants'
 
 export interface IBannerItem {
@@ -34,9 +34,8 @@ export function getBanner(params: GetBannerParams = { type: '2' }) {
       params,
     }
 
-    if (callbackConfig) {
+    if (callbackConfig)
       config = callbackConfig?.(config)
-    }
 
     return instance.request(config)
   }

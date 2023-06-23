@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery } from '../../types'
-import { IdTag, IMV } from '../../model'
+import type { RequestInstance, WithPageQuery } from '../../types'
+import type { IMV, IdTag } from '../../model'
 
 export interface GetArtistMvBaseParams {
   id: IdTag
@@ -14,9 +14,7 @@ export interface GetArtistMvResult {
 
 export type GetArtistMvParams = WithPageQuery<GetArtistMvBaseParams>
 
-export const getArtistMv = (
-  params: GetArtistMvParams,
-) => {
+export function getArtistMv(params: GetArtistMvParams) {
   return (instance: RequestInstance): Promise<GetArtistMvResult> => {
     return instance.request({
       url: RequestPath.GET_ARTIST_MV,

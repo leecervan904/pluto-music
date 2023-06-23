@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery } from '../../types'
-import { IdTag } from '../../model'
+import type { RequestInstance, WithPageQuery } from '../../types'
+import type { IdTag } from '../../model'
 
 interface GetArtistCateBaseParams {
   cat?: IdTag
@@ -28,9 +28,7 @@ export interface GetArtistCateResult {
   artists: IArtistCateItem[]
 }
 
-export const getArtistCate = (
-  params: GetArtistCateParams = { cat: 1001, initial: '', limit: 100 },
-) => {
+export function getArtistCate(params: GetArtistCateParams = { cat: 1001, initial: '', limit: 100 }) {
   return (instance: RequestInstance): Promise<GetArtistCateResult> => {
     return instance.request({
       url: RequestPath.GET_ARTIST_CATE,

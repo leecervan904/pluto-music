@@ -1,5 +1,5 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
+import type { RequestInstance } from '../../types'
 
 export enum SearchTypeEnum {
   SONG = 1,
@@ -35,12 +35,12 @@ export interface GetSearchResult {
  * @param {Number} offset
  * @param {Number} type
  */
-export const getSearch = ({
+export function getSearch({
   keywords,
   limit = 30,
   offset = 0,
   type = SearchTypeEnum.COMPOSITE,
-}: GetSearchParams) => {
+}: GetSearchParams) {
   const params: GetSearchParams = {
     keywords,
     type,

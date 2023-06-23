@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQueryNew, Nullable } from '../../types'
-import { IdTag } from '../../model'
+import type { Nullable, RequestInstance, WithPageQueryNew } from '../../types'
+import type { IdTag } from '../../model'
 
 export enum CommentTypeEnum {
   SONG = 0,
@@ -64,14 +64,14 @@ export interface GetCommentMusicResult {
   }
 }
 
-export const getComment = ({
+export function getComment({
   id,
   type,
   sortType = CommentSortTypeEnum.RECOMMEND,
   cursor,
   pageNo = 1,
   pageSize = 20,
-}: GetCommentMusicParams) => {
+}: GetCommentMusicParams) {
   return (instance: RequestInstance): Promise<GetCommentMusicResult> => {
     return instance.request({
       url: RequestPath.GET_COMMENT,

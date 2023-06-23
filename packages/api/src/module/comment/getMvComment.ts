@@ -1,13 +1,13 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { GetCommentQuery, GetCommentResult } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { GetCommentQuery, GetCommentResult } from '../../model'
 
-export const getMvComment = ({
+export function getMvComment({
   id,
   before,
   offset = 0,
   limit = 20,
-}: GetCommentQuery) => {
+}: GetCommentQuery) {
   return (instance: RequestInstance): Promise<GetCommentResult> => {
     return instance.request({
       url: RequestPath.GET_PLAYLIST_COMMENT,

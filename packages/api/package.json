@@ -1,16 +1,16 @@
 {
   "name": "@pluto-music/api",
+  "type": "module",
   "version": "0.0.1",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "./src/index.js",
   "module": "./src/index.ts",
-  "type": "module",
   "scripts": {
     "build": "tsc -b tsconfig.types.json && rollup -c"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "rollup": "^3.10.0",
     "rollup-plugin-ts": "^3.1.1"

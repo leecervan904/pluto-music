@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface ILyricInfo {
   version: number
@@ -37,7 +37,7 @@ interface GetLyricParams {
  * 获取歌词
  * @param {Number} id
  */
-export const getLyric = (params: GetLyricParams) => {
+export function getLyric(params: GetLyricParams) {
   return (instance: RequestInstance): Promise<GetLyricResult> => {
     return instance.request({
       url: RequestPath.GET_LYRIC,

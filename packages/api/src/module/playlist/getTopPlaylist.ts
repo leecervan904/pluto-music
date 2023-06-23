@@ -1,6 +1,6 @@
 import type { RequestInstance, WithPageQuery } from '../../types'
 import type { IRelativePlaylistItem } from '../../model'
-import { RequestPath, RequestMethod } from '../../constants'
+import { RequestMethod, RequestPath } from '../../constants'
 
 export enum GetRelatedPlaylistParamsOrderType {
   /** 按最新 */
@@ -33,13 +33,13 @@ export interface GetTopPlaylistResult {
  * @param {Number} params.limit
  * @param {Number} params.offset
  */
-export const getTopPlaylist = ({
+export function getTopPlaylist({
   cat = '全部',
   order = GetRelatedPlaylistParamsOrderType.HOT,
   limit = 20,
   offset = 0,
   ...other
-}: GetTopPlaylistParams) => {
+}: GetTopPlaylistParams) {
   return (
     instance: RequestInstance,
     callbackConfig?: (...args: any[]) => any,
@@ -56,9 +56,8 @@ export const getTopPlaylist = ({
       },
     }
 
-    if (callbackConfig) {
+    if (callbackConfig)
       config = callbackConfig?.(config)
-    }
 
     return instance.request(config)
   }

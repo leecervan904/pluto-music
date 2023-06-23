@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery } from '../../types'
-import { IdTag, IRelativePlaylistItem } from '../../model'
+import type { RequestInstance, WithPageQuery } from '../../types'
+import type { IRelativePlaylistItem, IdTag } from '../../model'
 
 interface CollectPlaylistUsersBaseParams {
   id: IdTag
@@ -26,7 +26,7 @@ export interface GetCollectPlaylistResult {
  * @param {Number} id
  * @param {Number} limit
  */
-export const getCollectPlaylistUsers = ({ id, limit = 30 }: CollectPlaylistUsersParams) => {
+export function getCollectPlaylistUsers({ id, limit = 30 }: CollectPlaylistUsersParams) {
   return (instance: RequestInstance): Promise<GetCollectPlaylistResult> => {
     return instance.request({
       url: RequestPath.GET_COLLECT_PLAYLIST_USERS,

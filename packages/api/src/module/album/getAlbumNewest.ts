@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IAlbumDetail } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IAlbumDetail } from '../../model'
 
 export interface GetAlbumNewestResult {
   code: number

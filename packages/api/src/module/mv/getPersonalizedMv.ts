@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance } from '../../types'
-import { IdTag, IArtist } from '../../model'
+import type { RequestInstance } from '../../types'
+import type { IArtist, IdTag } from '../../model'
 
 export interface IPersonalizedMvItem {
   id: IdTag
@@ -18,13 +18,13 @@ export interface IPersonalizedMvItem {
   alg: string
 }
 
-export type GetPersonalizedMvResult = {
+export interface GetPersonalizedMvResult {
   code: number
   category: number
   result: IPersonalizedMvItem[]
 }
 
-export const getPersonalizedMv = () => {
+export function getPersonalizedMv() {
   return (instance: RequestInstance): Promise<GetPersonalizedMvResult> => {
     return instance.request({
       url: RequestPath.GET_PERSONALIZED_MV,

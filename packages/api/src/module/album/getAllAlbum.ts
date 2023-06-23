@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithPageQuery } from '../../types'
-import { IdTag, IArtist, IAlbumDetail } from '../../model'
+import type { RequestInstance, WithPageQuery } from '../../types'
+import type { IAlbumDetail, IArtist, IdTag } from '../../model'
 
 export type GetAllAlbumParams = WithPageQuery<{ id: IdTag }>
 
@@ -16,7 +16,7 @@ export interface GetAllAlbumResult {
  * @param {Number} id
  * @param {Number} limit
  */
-export const getAllAlbum = ({ id, limit = 50 }: GetAllAlbumParams) => {
+export function getAllAlbum({ id, limit = 50 }: GetAllAlbumParams) {
   return (instance: RequestInstance): Promise<GetAllAlbumResult> => {
     return instance.request({
       url: RequestPath.GET_ALL_ALBUM,

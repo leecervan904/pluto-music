@@ -1,6 +1,6 @@
 import { RequestMethod, RequestPath } from '../../constants'
-import { RequestInstance, WithResponseCodeMessage, Nullable } from '../../types'
-import { IdTag } from '../../model'
+import type { Nullable, RequestInstance, WithResponseCodeMessage } from '../../types'
+import type { IdTag } from '../../model'
 
 export interface GetMvUrlParams {
   id: IdTag
@@ -24,10 +24,10 @@ export interface GetMvUrlData {
 
 export type GetMvUrlResult = WithResponseCodeMessage<GetMvUrlData>
 
-export const getMvUrl = ({
+export function getMvUrl({
   id,
-  r = 1080
-}: GetMvUrlParams, ...args: any[]) => {
+  r = 1080,
+}: GetMvUrlParams, ...args: any[]) {
   return (instance: RequestInstance): Promise<GetMvUrlResult> => {
     return instance.request({
       url: RequestPath.GET_MV_URL,
