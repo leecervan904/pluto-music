@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@pluto-music/api": "workspace:^0.0.1",
-    "@pluto-music/vue-library": "workspace:^1.0.0",
     "@pluto-music/vue-vendor": "workspace:^0.0.1",
     "@vueuse/core": "^7.7.1",
     "axios": "^0.26.0",

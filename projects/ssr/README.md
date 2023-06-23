@@ -1,3 +1,0 @@
-## intro
-
-SSR Music Website
