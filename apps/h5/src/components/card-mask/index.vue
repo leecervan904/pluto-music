@@ -1,16 +1,6 @@
-<template>
-  <div class="mask-wrapper" :style="wrapperStyles">
-    <div class="bg" :style="bgStyles"></div>
-    <div class="bg-mask" :style="maskStyles"></div>
-    <div class="content">
-      <slot></slot>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
-  name: 'base-card-mask',
+  name: 'BaseCardMask',
   props: {
     borderRadius: {
       type: String,
@@ -66,6 +56,16 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div class="mask-wrapper" :style="wrapperStyles">
+    <div class="bg" :style="bgStyles" />
+    <div class="bg-mask" :style="maskStyles" />
+    <div class="content">
+      <slot />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .mask-wrapper {

@@ -1,3 +1,15 @@
+<script>
+export default {
+  name: 'InverseIcon',
+  props: {
+    isActive: { type: Boolean, require: true },
+    padding: { type: String, default: 'auto' },
+    activeColor: { type: String, default: 'red' },
+    inactiveColor: { type: String, default: '#fff' },
+  },
+}
+</script>
+
 <template>
   <span
     class="icon-wrapper"
@@ -7,21 +19,9 @@
       color: isActive ? inactiveColor : '#aaa',
     }"
   >
-    <slot></slot>
+    <slot />
   </span>
 </template>
-
-<script>
-export default {
-  name: 'inverse-icon',
-  props: {
-    isActive: { type: Boolean, require: true },
-    padding: { type: String, default: 'auto' },
-    activeColor: { type: String, default: 'red' },
-    inactiveColor: { type: String, default: '#fff' },
-  },
-}
-</script>
 
 <style lang="scss" scoped>
 .icon-wrapper {

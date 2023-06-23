@@ -1,23 +1,7 @@
-<template>
-  <div class="album">
-    <div v-if="detail" class="content">
-      <album-poster :detail="detail" @play-all="handlePalyAll" />
-      <album-recommend :desc="detail.desc" />
-      <song-list-table :song-list="songList" :show-play-count="false" />
-      <Comment :id="albumId" :type="CommentTypeEnum.ALBUM" />
-    </div>
-
-    <div class="aside">
-      <AsideAlbum :album-likes="albumLikes" :own-albums="ownAlbums" @to-album="handleToAlbum" />
-      <AsideDownload />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import type { ISong, IAlbumDetail } from '@pluto-music/api'
+import type { IAlbumDetail, ISong } from '@pluto-music/api'
 import { CommentTypeEnum } from '@pluto-music/api'
-import { ref, computed, onMounted, watch, unref, type ComputedRef } from 'vue'
+import { type ComputedRef, computed, onMounted, ref, unref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from '/@/utils'
 import { usePlayerStore } from '/@/store/module/player'
@@ -42,7 +26,8 @@ const albumId = computed(() => route.query.id) as unknown as ComputedRef<number>
 async function initialData() {
   // 获取专辑信息
   const [error, data] = await useRequest('getAlbumDetail')({ id: unref(albumId) })
-  if (error) return
+  if (error)
+    return
   detail.value = data.album
   songList.value = data.songs
 
@@ -50,7 +35,8 @@ async function initialData() {
     id: unref(detail)!.artists[0].id,
     limit: 4,
   })
-  if (error2) return
+  if (error2)
+    return
   ownAlbums.value = data2.hotAlbums
 }
 
@@ -66,6 +52,22 @@ onMounted(initialData)
 
 watch(albumId, initialData)
 </script>
+
+<template>
+  <div class="album">
+    <div v-if="detail" class="content">
+      <AlbumPoster :detail="detail" @play-all="handlePalyAll" />
+      <AlbumRecommend :desc="detail.desc" />
+      <SongListTable :song-list="songList" :show-play-count="false" />
+      <Comment :id="albumId" :type="CommentTypeEnum.ALBUM" />
+    </div>
+
+    <div class="aside">
+      <AsideAlbum :album-likes="albumLikes" :own-albums="ownAlbums" @to-album="handleToAlbum" />
+      <AsideDownload />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .album {

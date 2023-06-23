@@ -17,14 +17,14 @@ defineProps({
 
 const emit = defineEmits(['to-playlist', 'to-song', 'play-song'])
 
-const handleShowAbout = () => {}
-const handleToPlaylist = (id: number | string) => {
+function handleShowAbout() {}
+function handleToPlaylist(id: number | string) {
   emit('to-playlist', id)
 }
-const handleToSong = (id: number | string) => {
+function handleToSong(id: number | string) {
   emit('to-song', id)
 }
-const handlePlaySong = (song: ISong) => {
+function handlePlaySong(song: ISong) {
   emit('play-song', song)
 }
 </script>
@@ -37,7 +37,7 @@ const handlePlaySong = (song: ISong) => {
 
     <div v-for="(item, i) of relativePlaylist" :key="i" class="item">
       <div class="item-avatar">
-        <img :src="item.coverImgUrl + '?param=50y50'" />
+        <img :src="`${item.coverImgUrl}?param=50y50`">
       </div>
       <div class="item-info">
         <p class="info-name" @click="handleToPlaylist(item.id)">
@@ -60,14 +60,16 @@ const handlePlaySong = (song: ISong) => {
 
     <div v-for="(item, i) of similarSong" :key="i" class="item">
       <div class="item-info">
-        <p class="info-name" @click="handleToSong(item.id)">{{ item.name }}</p>
+        <p class="info-name" @click="handleToSong(item.id)">
+          {{ item.name }}
+        </p>
         <p class="info-singers">
           <span class="singer-item" @click="handleShowAbout">{{ getSingers(item.artists) }}</span>
         </p>
       </div>
       <div class="item-ctrl">
-        <span class="ctrl-play" @click="handlePlaySong(item)"></span>
-        <span class="ctrl-add"></span>
+        <span class="ctrl-play" @click="handlePlaySong(item)" />
+        <span class="ctrl-add" />
       </div>
     </div>
   </AsideItem>

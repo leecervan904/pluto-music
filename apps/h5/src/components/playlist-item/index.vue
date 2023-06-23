@@ -1,49 +1,54 @@
-<template>
-  <router-link class="pl-item" tag="li"
-    :to="`/playlist/${id}`"
-    :style="{ width: width }">
-    <div class="pl-item__img">
-      <div class="pl-item__playcount">
-        <svg-icon icon-class="play-pure" class="playcount-prefix"></svg-icon>
-        <span class="playcount">{{ filterCount }}</span>
-      </div>
-      <img
-        :src="`${img}?param=200y200`" alt="img" />
-    </div>
-    <div class="pl-item__desc">{{ desc }}</div>
-  </router-link>
-</template>
-
 <script>
 export default {
-  name: 'playlist-item',
+  name: 'PlaylistItem',
   props: {
     id: { type: Number, required: true },
     img: { type: String, required: true },
     playcount: { type: Number, default: 0 },
     desc: { type: String, default: '' },
-    width: { type: String, default: '1rem' }
+    width: { type: String, default: '1rem' },
   },
   computed: {
     filterCount() {
-      let count = this.playcount
-      if (count > 100000000) {
+      const count = this.playcount
+      if (count > 100000000)
         return `${Math.floor(count / 100000000)}亿`
-      } else if (count > 100000) {
+      else if (count > 100000)
         return `${Math.floor(count / 10000)}万`
-      }
+
       return count
-    }
+    },
   },
   methods: {
-    onClick (id) {
+    onClick(id) {
       // :to="`/playlist/${id}`"
       console.log('click item...')
       // this.$router.push({ path: `/playlist/${id}` })
-    }
-  }
+    },
+  },
 }
 </script>
+
+<template>
+  <router-link
+    class="pl-item" tag="li"
+    :to="`/playlist/${id}`"
+    :style="{ width }"
+  >
+    <div class="pl-item__img">
+      <div class="pl-item__playcount">
+        <svg-icon icon-class="play-pure" class="playcount-prefix" />
+        <span class="playcount">{{ filterCount }}</span>
+      </div>
+      <img
+        :src="`${img}?param=200y200`" alt="img"
+      >
+    </div>
+    <div class="pl-item__desc">
+      {{ desc }}
+    </div>
+  </router-link>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

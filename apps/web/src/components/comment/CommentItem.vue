@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ICommentItem } from '@pluto-music/api'
-import { PropType } from 'vue'
+import type { ICommentItem } from '@pluto-music/api'
+import type { PropType } from 'vue'
 
 defineProps({
   comment: {
@@ -17,12 +17,11 @@ defineProps({
         class="img"
         :src="`${comment.user.avatarUrl}?param=50y50`"
         :alt="comment.user.nickname"
-      />
+      >
     </div>
     <div class="comment-item__content">
       <div class="comment-item__content-main">
-        <span class="main-user">{{ comment.user.nickname }}</span
-        >:
+        <span class="main-user">{{ comment.user.nickname }}</span>:
         <span class="main-content">{{ comment.content }}</span>
       </div>
       <div class="comment-item__content-footer">

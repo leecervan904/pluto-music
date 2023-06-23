@@ -1,28 +1,6 @@
-<template>
-  <van-swipe
-    class="swiper"
-    :style="{ height: `${bodyWidth * 0.39}px`  }"
-    :autoplay="3000"
-    indicator-color="#dd001b"
-  >
-    <van-swipe-item class="swiper-item"
-      v-for="(item, index) of banners" :key=index
-      @click.stop="handleClick(item)"
-    >
-      <img laze-render
-        :src="item.pic"
-        :alt="item.typeTitle"
-      />
-      <span class="item-tag"
-        :style="{ background: item.titleColor }"
-      >{{ item.typeTitle }}</span>
-    </van-swipe-item>
-  </van-swipe>
-</template>
-
 <script setup lang="ts">
 import type { IBannerItem } from '@pluto-music/api'
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRequest } from '/@/utils/useRequest'
 
@@ -32,7 +10,7 @@ const banners = ref<IBannerItem[]>([])
 
 const bodyWidth = document.body.clientWidth
 
-const initData = async () => {
+async function initData() {
   const [error, data] = await useRequest('getBanner')()
   if (error) {
     console.log(error)
@@ -41,18 +19,16 @@ const initData = async () => {
   banners.value = data.banners
 }
 
-const handleClick = (item: IBannerItem) => {
-  if (item.url) {
+function handleClick(item: IBannerItem) {
+  if (item.url)
     return window.open(item.url as string)
-  }
 
   if (item.song) {
     // return this.$store.dispatch('player/changeSong', { song: item.song })
   }
 
-  if (item.encodeId) {
+  if (item.encodeId)
     return router.push(`/album/${item.encodeId}`)
-  }
 }
 
 onMounted(() => {
@@ -60,6 +36,31 @@ onMounted(() => {
   initData()
 })
 </script>
+
+<template>
+  <van-swipe
+    class="swiper"
+    :style="{ height: `${bodyWidth * 0.39}px` }"
+    :autoplay="3000"
+    indicator-color="#dd001b"
+  >
+    <van-swipe-item
+      v-for="(item, index) of banners"
+      :key="index" class="swiper-item"
+      @click.stop="handleClick(item)"
+    >
+      <img
+        laze-render
+        :src="item.pic"
+        :alt="item.typeTitle"
+      >
+      <span
+        class="item-tag"
+        :style="{ background: item.titleColor }"
+      >{{ item.typeTitle }}</span>
+    </van-swipe-item>
+  </van-swipe>
+</template>
 
 <style lang="scss" scoped>
 /* 使用了两层 padding-bottom 为图片占位，并保证容器的高度 */

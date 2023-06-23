@@ -1,38 +1,44 @@
-<template>
-  <div class="recommend">
-    <router-link class="recommend-item"
-      v-for="item of recommend" :key=item.icon
-      :to="item.path">
-      <div class="item-icon">
-        <svg-icon :icon-class="item.icon"></svg-icon>
-      </div>
-      <p class="item-title">{{ item.title }}</p>
-    </router-link>
-
-    <div class="recommend-item">
-      <div class="item-icon">
-        <svg-icon icon-class="radio"></svg-icon>
-      </div>
-      <p class="item-title">电台</p>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
-  name: 'home-recommend',
-  data () {
+  name: 'HomeRecommend',
+  data() {
     return {
       recommend: [
         { icon: 'dayly', title: '每日推荐', path: '/rank' },
         { icon: 'playlist', title: '歌单', path: '/playlist-square' },
-        { icon: 'ranklist', title: '排行榜', path: '/rank' }
+        { icon: 'ranklist', title: '排行榜', path: '/rank' },
         // { icon: 'radio', title: '电台', path: '/test' }
-      ]
+      ],
     }
-  }
+  },
 }
 </script>
+
+<template>
+  <div class="recommend">
+    <router-link
+      v-for="item of recommend"
+      :key="item.icon" class="recommend-item"
+      :to="item.path"
+    >
+      <div class="item-icon">
+        <svg-icon :icon-class="item.icon" />
+      </div>
+      <p class="item-title">
+        {{ item.title }}
+      </p>
+    </router-link>
+
+    <div class="recommend-item">
+      <div class="item-icon">
+        <svg-icon icon-class="radio" />
+      </div>
+      <p class="item-title">
+        电台
+      </p>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

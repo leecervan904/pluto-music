@@ -1,18 +1,5 @@
-<template>
-  <div id="base-alphabet-cate">
-    <span
-      v-for="(item, i) of list"
-      :key="item"
-      :class="['item', { 'item-active': i === activeIndex }]"
-      @click="handleClick(i, item)"
-    >
-      <span>{{ item }}</span>
-    </span>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const emit = defineEmits(['change'])
 
@@ -26,24 +13,37 @@ const list = computed(() => {
   return a2z
 })
 
-const reset = () => {
+function reset() {
   activeIndex.value = 0
 }
 
-const handleClick = (i: number, item: string) => {
-  if (activeIndex.value === i) return
+function handleClick(i: number, item: string) {
+  if (activeIndex.value === i)
+    return
   activeIndex.value = i
-  if (i === 0 || i === 27) {
+  if (i === 0 || i === 27)
     emit('change', '')
-  } else {
+  else
     emit('change', item)
-  }
 }
 
 defineExpose({
   reset,
 })
 </script>
+
+<template>
+  <div id="base-alphabet-cate">
+    <span
+      v-for="(item, i) of list"
+      :key="item"
+      class="item" :class="[{ 'item-active': i === activeIndex }]"
+      @click="handleClick(i, item)"
+    >
+      <span>{{ item }}</span>
+    </span>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 #base-alphabet-cate {

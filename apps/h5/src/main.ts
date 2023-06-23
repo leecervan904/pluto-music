@@ -8,6 +8,7 @@ import { setupDirectives } from '/@/directives'
 
 import 'normalize.css'
 import 'uno.css'
+
 // import '/@/styles/index.scss'
 
 import BgMask from '/@/components/bg-mask/index.vue'

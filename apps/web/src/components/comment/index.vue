@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
-import { CommentTypeEnum } from '@pluto-music/api'
+import { type PropType, ref } from 'vue'
+import type { CommentTypeEnum } from '@pluto-music/api'
 import { useSearch } from './useSearch'
 
 import CommentItem from './CommentItem.vue'
@@ -25,7 +25,9 @@ const { total, comments, hotComments, getComment } = useSearch(props.id, props.t
 <template>
   <div class="comment">
     <div class="comment-group">
-      <div class="comment-group__title">精彩评论</div>
+      <div class="comment-group__title">
+        精彩评论
+      </div>
       <CommentItem
         v-for="comment in hotComments"
         :key="comment.commentId"
@@ -34,7 +36,9 @@ const { total, comments, hotComments, getComment } = useSearch(props.id, props.t
       />
     </div>
     <div class="comment-group">
-      <div ref="refNewComment" class="comment-group__title">最新评论</div>
+      <div ref="refNewComment" class="comment-group__title">
+        最新评论
+      </div>
       <CommentItem
         v-for="comment in comments"
         :key="comment.commentId"

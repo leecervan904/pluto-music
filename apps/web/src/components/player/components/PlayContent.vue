@@ -1,66 +1,9 @@
-<template>
-  <div v-if="songId" class="pc">
-    <div class="pc-header">
-      <div class="header-left">
-        <h3 class="header-title">播放列表(92)</h3>
-        <div class="header-ctrl">
-          <span class="header-ctrl__collect">
-            <i class="icon header-ctrl__collect__icon"></i>收藏全部
-          </span>
-          <span class="line"></span>
-          <span class="header-ctrl__clear" @click="handleClearPlaylist()">
-            <i class="icon header-ctrl__clear__icon"></i>清除
-          </span>
-        </div>
-      </div>
-      <div class="header-right">
-        <div class="title">{{ songName }}</div>
-        <span class="header-right__close" @click="handleCloseContent"></span>
-      </div>
-    </div>
-    <div class="pc-wrapper">
-      <ul class="wr-left">
-        <li
-          v-for="(item, i) of playlist"
-          :key="i"
-          :class="['song', { 'song-play': item.id === songId }]"
-          @click="handleToPlay(item)"
-        >
-          <span v-show="item.id === songId" class="song-tag"></span>
-          <h4 class="song-name">{{ item.name }}</h4>
-          <span class="song-ctrl">
-            <i class="ctrl-icon song-ctrl__icon-collect" @click.stop="handleShowAbout()"></i>
-            <i class="ctrl-icon song-ctrl__icon-share" @click.stop="handleShowAbout()"></i>
-            <i class="ctrl-icon song-ctrl__icon-download" @click.stop="handleShowAbout()"></i>
-            <i class="ctrl-icon song-ctrl__icon-delete" @click.stop="handleDelete(item)"></i>
-          </span>
-          <span class="song-singer">{{ getSingers(item.ar) }}</span>
-          <span class="song-duration">{{ getDuration(item.dt) }}</span>
-          <span class="song-from"></span>
-        </li>
-      </ul>
-
-      <div ref="lyricWrapper" class="wr-right">
-        <ul ref="content" class="lyric">
-          <li
-            v-for="(item, i) of lyrics"
-            :key="i"
-            :class="['lyric-item', { 'lyric-item-active': i === 1 }]"
-          >
-            {{ item }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { ISong } from '@pluto-music/api'
-import { ref, computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePlayerStore } from '/@/store/module/player'
-import { useRequest, getSingers, getDuration } from '/@/utils'
+import { getDuration, getSingers, useRequest } from '/@/utils'
 
 defineProps({
   currentTime: {
@@ -76,18 +19,18 @@ const playerStore = usePlayerStore()
 const { songId, songName, playlist } = storeToRefs(playerStore)
 
 const lyric = ref('')
-const lyrics = computed(() => lyric.value.split('\n').map((v) => v.replace(/[\[\]\d\:\.]+/, '')))
+const lyrics = computed(() => lyric.value.split('\n').map(v => v.replace(/[\[\]\d\:\.]+/, '')))
 
 async function initialData() {
   const [error, data] = await useRequest('getLyric')({ id: songId.value as number })
-  if (error) return
+  if (error)
+    return
   lyric.value = data.lrc.lyric || ''
 }
 
 onMounted(() => {
-  if (songId.value) {
+  if (songId.value)
     initialData()
-  }
 })
 
 function handleCloseContent() {
@@ -108,6 +51,69 @@ function handleShowAbout() {
 
 watch(songId, initialData)
 </script>
+
+<template>
+  <div v-if="songId" class="pc">
+    <div class="pc-header">
+      <div class="header-left">
+        <h3 class="header-title">
+          播放列表(92)
+        </h3>
+        <div class="header-ctrl">
+          <span class="header-ctrl__collect">
+            <i class="icon header-ctrl__collect__icon" />收藏全部
+          </span>
+          <span class="line" />
+          <span class="header-ctrl__clear" @click="handleClearPlaylist()">
+            <i class="icon header-ctrl__clear__icon" />清除
+          </span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="title">
+          {{ songName }}
+        </div>
+        <span class="header-right__close" @click="handleCloseContent" />
+      </div>
+    </div>
+    <div class="pc-wrapper">
+      <ul class="wr-left">
+        <li
+          v-for="(item, i) of playlist"
+          :key="i"
+          class="song" :class="[{ 'song-play': item.id === songId }]"
+          @click="handleToPlay(item)"
+        >
+          <span v-show="item.id === songId" class="song-tag" />
+          <h4 class="song-name">
+            {{ item.name }}
+          </h4>
+          <span class="song-ctrl">
+            <i class="ctrl-icon song-ctrl__icon-collect" @click.stop="handleShowAbout()" />
+            <i class="ctrl-icon song-ctrl__icon-share" @click.stop="handleShowAbout()" />
+            <i class="ctrl-icon song-ctrl__icon-download" @click.stop="handleShowAbout()" />
+            <i class="ctrl-icon song-ctrl__icon-delete" @click.stop="handleDelete(item)" />
+          </span>
+          <span class="song-singer">{{ getSingers(item.ar) }}</span>
+          <span class="song-duration">{{ getDuration(item.dt) }}</span>
+          <span class="song-from" />
+        </li>
+      </ul>
+
+      <div class="wr-right">
+        <ul class="lyric">
+          <li
+            v-for="(item, i) of lyrics"
+            :key="i"
+            class="lyric-item" :class="[{ 'lyric-item-active': i === 1 }]"
+          >
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .pc {

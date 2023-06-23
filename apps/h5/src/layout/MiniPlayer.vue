@@ -13,15 +13,15 @@ const {
   songAr,
 } = storeToRefs(playerStore)
 
-const handleTogglePlay = () => {
+function handleTogglePlay() {
   playerStore.togglePlay()
 }
 
-const handleShowPlaylist = () => {
+function handleShowPlaylist() {
   playerStore.toggleShowPlaylist(true)
 }
 
-const handleShowPlayer = async () => {
+async function handleShowPlayer() {
   layoutStore.toggleShowPlayer(true)
 }
 </script>

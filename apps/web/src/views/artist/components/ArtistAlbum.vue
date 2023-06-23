@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IAlbumDetail } from '@pluto-music/api'
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import NewDiscCard from '/@/components/base/NewDiscCard.vue'
 import Pagination from '/@/components/base/Pagination.vue'
 

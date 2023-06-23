@@ -1,4 +1,3 @@
-import type { Router } from 'vue-router'
 import { defineStore } from 'pinia'
 
 /**
@@ -32,11 +31,10 @@ export const useLayoutStore = defineStore({
 
       this.showPlayer = typeof val === 'boolean' ? val : !this.showPlayer
 
-      if (val) {
+      if (val)
         this.toggleShowMiniPlayer(false)
-      } else if (layout?.showMiniPlayer) {
+      else if (layout?.showMiniPlayer)
         this.toggleShowMiniPlayer(true)
-      }
     },
     toggleShowConfig(val?: boolean) {
       this.showConfig = typeof val === 'boolean' ? val : !this.showConfig

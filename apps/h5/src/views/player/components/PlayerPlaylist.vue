@@ -1,47 +1,6 @@
-<template>
-  <van-popup
-    v-model:show="isShow"
-    class="player-playlist"
-    :style="{ height: '70%', padding: '0 20px 20px', background: 'transparent' }"
-    round
-    overlay
-    position="bottom"
-  >
-    <div class="player-playlist__wrapper">
-      <div class="pl-title">
-        <span>当前播放</span>
-        <span class="pl-title__count">({{ playlist.length }})</span>
-      </div>
-      <div class="pl-menu">
-        <div class="pl-menu__left"></div>
-      </div>
-        <div class="pl-list">
-          <p class="pl-list__item"
-            :class="{ 'is-play': item.id === songId}"
-            v-for="item of playlist"
-            :key="item.id"
-            @click="handlePlaySong(item)"
-          >
-            <svg-icon class="item-sound"
-              icon-class="sound"
-              v-show="item.id === songId"/>
-            <span class="item-name">{{ item.name }}</span>
-            <span class="item-separator">-</span>
-            <span class="item-ar">{{ formatArtists(item.ar) }}</span>
-            <svg-icon class="item-close"
-              icon-class="close"
-              @click.stop="handleRemoveSong(item.id)"
-            />
-          </p>
-        </div>
-      <div class="pl-footer" @click="$emit('update:showPlaylist', false)">关 闭</div>
-    </div>
-  </van-popup>
-</template>
-
 <script setup lang="ts">
 import { computed, withDefaults } from 'vue'
-import { ISong } from '@pluto-music/api';
+import type { ISong } from '@pluto-music/api'
 import { usePlayerStore } from '/@/store/module/player'
 import { formatArtists } from '/@/utils'
 
@@ -68,14 +27,61 @@ const isShow = computed({
   },
 })
 
-const handlePlaySong = (song: ISong) => {
+function handlePlaySong(song: ISong) {
   playerStore.playSong(song, false)
 }
 
-const handleRemoveSong = (songId: number | string) => {
+function handleRemoveSong(songId: number | string) {
   // playerStore.removeSong(songId)
 }
 </script>
+
+<template>
+  <van-popup
+    v-model:show="isShow"
+    class="player-playlist"
+    :style="{ height: '70%', padding: '0 20px 20px', background: 'transparent' }"
+    round
+    overlay
+    position="bottom"
+  >
+    <div class="player-playlist__wrapper">
+      <div class="pl-title">
+        <span>当前播放</span>
+        <span class="pl-title__count">({{ playlist.length }})</span>
+      </div>
+      <div class="pl-menu">
+        <div class="pl-menu__left" />
+      </div>
+      <div class="pl-list">
+        <p
+          v-for="item of playlist"
+          :key="item.id"
+          class="pl-list__item"
+          :class="{ 'is-play': item.id === songId }"
+          @click="handlePlaySong(item)"
+        >
+          <svg-icon
+            v-show="item.id === songId"
+            class="item-sound"
+            icon-class="sound"
+          />
+          <span class="item-name">{{ item.name }}</span>
+          <span class="item-separator">-</span>
+          <span class="item-ar">{{ formatArtists(item.ar) }}</span>
+          <svg-icon
+            class="item-close"
+            icon-class="close"
+            @click.stop="handleRemoveSong(item.id)"
+          />
+        </p>
+      </div>
+      <div class="pl-footer" @click="$emit('update:showPlaylist', false)">
+        关 闭
+      </div>
+    </div>
+  </van-popup>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/mixins.scss';

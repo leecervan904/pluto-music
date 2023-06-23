@@ -1,24 +1,3 @@
-<template>
-  <div class="list-title">
-    <div class="left" @click="$emit('play-all')">
-      <div class="icon-wrapper">
-        <svg-icon icon-class="play"></svg-icon>
-      </div>
-      <div class="play-all">
-        <strong>播放全部</strong>
-        <em class="count">(共{{ count }}首)</em>
-      </div>
-    </div>
-
-    <div v-coming="''" class="right">
-      <div class="content">
-        <svg-icon icon-class="add"></svg-icon>
-        收藏<span v-show="collect" class="count">({{ collect }})</span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 defineProps({
   count: {
@@ -31,6 +10,27 @@ defineProps({
   },
 })
 </script>
+
+<template>
+  <div class="list-title">
+    <div class="left" @click="$emit('play-all')">
+      <div class="icon-wrapper">
+        <svg-icon icon-class="play" />
+      </div>
+      <div class="play-all">
+        <strong>播放全部</strong>
+        <em class="count">(共{{ count }}首)</em>
+      </div>
+    </div>
+
+    <div v-coming="''" class="right">
+      <div class="content">
+        <svg-icon icon-class="add" />
+        收藏<span v-show="collect" class="count">({{ collect }})</span>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

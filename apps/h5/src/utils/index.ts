@@ -10,7 +10,7 @@ export const bodyWidth = document.body.clientWidth
  * @param {array} ar
  * @returns string
  */
-export const formatArtists = (ar: { name: string, [key: string]: unknown }[]) => {
+export function formatArtists(ar: { name: string; [key: string]: unknown }[]) {
   return ar.map(v => v.name).join('/')
 }
 
@@ -19,11 +19,10 @@ export const formatArtists = (ar: { name: string, [key: string]: unknown }[]) =>
  * @param {array} arr
  * @param {number} num
  */
-export const groupByNum = (arr: unknown[], num: number) => {
+export function groupByNum(arr: unknown[], num: number) {
   const len = arr.length
-  if (num >= len) {
+  if (num >= len)
     return arr
-  }
 
   const res = []
   let start = 0
@@ -40,7 +39,7 @@ export const groupByNum = (arr: unknown[], num: number) => {
  * @param {integer} dt
  * @returns string
  */
-export const formatDuration = (dt: number) => {
+export function formatDuration(dt: number) {
   // 228285 -> 229
   let sec: string | number = Math.ceil(dt / 1000)
   let minutes: string | number = Math.floor(sec / 60)
@@ -56,7 +55,7 @@ export const formatDuration = (dt: number) => {
  * 返回： 10月29日
  * @param {Date} time
  */
-export const formatUpdateTime = (time: number) => {
+export function formatUpdateTime(time: number) {
   const date = new Date(time)
   return `${date.getMonth() + 1}月${date.getDate()}日`
 }
@@ -65,7 +64,7 @@ export const formatUpdateTime = (time: number) => {
  * 返回 2020-10-30
  * @param {Date} time
  */
-export const formatPublishTime = (time: number) => {
+export function formatPublishTime(time: number) {
   const date = new Date(time)
   const month = date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
   const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
@@ -76,18 +75,18 @@ export const formatPublishTime = (time: number) => {
  * 格式化次数
  * @param {Number} count
  */
-export const formatCount = (count: number) => {
-  if (count > 100000000) {
+export function formatCount(count: number) {
+  if (count > 100000000)
     return `${Math.floor(count / 100000000)}亿`
-  } else if (count > 100000) {
+  else if (count > 100000)
     return `${Math.floor(count / 10000)}万`
-  }
+
   return count
 }
 
 export const upper = (val: string) => val.toUpperCase()
 export const upperFirst = (val: string) => val.replace(/\w/, v => v.toUpperCase())
-export const sleep = (ms: number) => {
+export function sleep(ms: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(null)

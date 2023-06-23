@@ -1,7 +1,7 @@
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
-export const useLayout = () => {
+export function useLayout() {
   const route = useRoute()
 
   const showNavbar = computed(() => route.meta.showNavbar)

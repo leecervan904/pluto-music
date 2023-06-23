@@ -1,10 +1,3 @@
-<template>
-  <div class="app-wrapper" @click.once="handleInitialPlayer">
-    <router-view />
-    <Player />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -22,7 +15,8 @@ const { featureRank, globalRank } = storeToRefs(commonStore)
 
 async function initialData() {
   const [error, data] = await useRequest('getToplistDetail')()
-  if (error) return
+  if (error)
+    return
   featureRank.value = data.list.slice(0, 4)
   globalRank.value = data.list.slice(4)
   // let featureRank = this.$storage.getLocalStorage('featureRank')
@@ -54,6 +48,13 @@ async function initialData() {
 
 onMounted(initialData)
 </script>
+
+<template>
+  <div class="app-wrapper" @click.once="handleInitialPlayer">
+    <router-view />
+    <Player />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 #app {

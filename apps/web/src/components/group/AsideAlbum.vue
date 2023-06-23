@@ -17,11 +17,11 @@ defineProps({
 
 const emit = defineEmits(['to-album'])
 
-const handleToAlbum = (album: IAlbum) => {
+function handleToAlbum(album: IAlbum) {
   emit('to-album', album.id)
 }
 const getFormatTime = (time: number) => dateFormat(time)
-const handleShowAbout = () => {}
+function handleShowAbout() {}
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const handleShowAbout = () => {}
     </template>
 
     <div v-for="i of 8" :key="i" class="item">
-      <img src="../../../public/img/icons/user_default.jpg" @click="handleShowAbout" />
+      <img src="../../../public/img/icons/user_default.jpg" @click="handleShowAbout">
     </div>
   </AsideItem>
 
@@ -43,11 +43,15 @@ const handleShowAbout = () => {}
 
     <div v-for="item of ownAlbums" :key="item.id" class="item" @click="handleToAlbum(item)">
       <div class="item-avatar">
-        <img :src="item.picUrl + '?param=50y50'" />
+        <img :src="`${item.picUrl}?param=50y50`">
       </div>
       <div class="item-info">
-        <p class="info-name">{{ item.name }}</p>
-        <p class="info-date">{{ getFormatTime(item.publishTime) }}</p>
+        <p class="info-name">
+          {{ item.name }}
+        </p>
+        <p class="info-date">
+          {{ getFormatTime(item.publishTime) }}
+        </p>
       </div>
     </div>
   </AsideItem>

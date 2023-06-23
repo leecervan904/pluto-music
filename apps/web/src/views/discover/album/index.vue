@@ -1,40 +1,7 @@
-<template>
-  <div class="album">
-    <div class="header">
-      <h2 class="header-title">热门新碟</h2>
-    </div>
-    <div class="content hot">
-      <div v-for="(item, i) of newest" :key="i" class="content-item">
-        <new-disc-card :album="item" size="lg" tt-size="m" />
-      </div>
-    </div>
-    <div class="header">
-      <h2 ref="refAllAlbum" class="header-title">全部新碟</h2>
-      <ul class="header-cate">
-        <li
-          v-for="(item, i) of allCates"
-          :key="i"
-          class="header-cate-item"
-          @click="handleChangeArea(item.area)"
-        >
-          {{ item.title }}
-        </li>
-      </ul>
-    </div>
-    <div class="content all">
-      <div v-for="(item, i) of newestAll" :key="i" class="content-item">
-        <new-disc-card :album="item" size="lg" tt-size="m" />
-      </div>
-    </div>
-
-    <base-pagination ref="refPagination" :pages="pages" @change-page="handleChangePage" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { IAlbumDetail } from '@pluto-music/api'
 import type { SimpleAlbum } from './typing'
-import { ref, computed, onMounted, unref } from 'vue'
+import { computed, onMounted, ref, unref } from 'vue'
 import { useRequest } from '/@/utils'
 
 import BasePagination from '/@/components/base/Pagination.vue'
@@ -58,7 +25,7 @@ const pages = computed(() => Math.ceil(total.value / limit))
 
 // 提取 albums 的关键数据
 function extractAlbums(albums: IAlbumDetail[]): SimpleAlbum[] {
-  return albums.map((v) => ({
+  return albums.map(v => ({
     name: v.name,
     picUrl: `${v.picUrl}?param=130x130`,
     id: v.id,
@@ -69,7 +36,8 @@ function extractAlbums(albums: IAlbumDetail[]): SimpleAlbum[] {
 // 热门新碟
 async function getNewestData() {
   const [error, data] = await useRequest('getAlbumNewest')()
-  if (error) return
+  if (error)
+    return
   newest.value = extractAlbums(data.albums.slice(0, 10))
 }
 
@@ -80,7 +48,8 @@ async function getAlbumNewData(page = 1) {
     offset: (page - 1) * limit,
     area: unref(area),
   })
-  if (error) return
+  if (error)
+    return
   newestAll.value = extractAlbums(data.albums)
   total.value = data.total
 }
@@ -103,6 +72,43 @@ async function handleChangePage(page: number) {
 
 onMounted(getInitialData)
 </script>
+
+<template>
+  <div class="album">
+    <div class="header">
+      <h2 class="header-title">
+        热门新碟
+      </h2>
+    </div>
+    <div class="content hot">
+      <div v-for="(item, i) of newest" :key="i" class="content-item">
+        <NewDiscCard :album="item" size="lg" tt-size="m" />
+      </div>
+    </div>
+    <div class="header">
+      <h2 ref="refAllAlbum" class="header-title">
+        全部新碟
+      </h2>
+      <ul class="header-cate">
+        <li
+          v-for="(item, i) of allCates"
+          :key="i"
+          class="header-cate-item"
+          @click="handleChangeArea(item.area)"
+        >
+          {{ item.title }}
+        </li>
+      </ul>
+    </div>
+    <div class="content all">
+      <div v-for="(item, i) of newestAll" :key="i" class="content-item">
+        <NewDiscCard :album="item" size="lg" tt-size="m" />
+      </div>
+    </div>
+
+    <BasePagination ref="refPagination" :pages="pages" @change-page="handleChangePage" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .album {

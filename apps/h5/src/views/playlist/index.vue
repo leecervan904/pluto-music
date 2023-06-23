@@ -1,30 +1,7 @@
-<template>
-  <div class="playlist">
-    <loading-spinner
-      v-if="loading"
-      width="30px"
-      height="30px"
-      color="rgb(238, 10, 36)"
-      item-width="8%"
-    />
-
-    <div v-else>
-      <SongListPoster :detail="detail" />
-      <SongListContent
-        :count="tracks.length"
-        :collect="detail.subscribedCount"
-        :tracks="tracks"
-        @play-song="handlePlaySong"
-        @play-all="handleUpdatePlaylist"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, unref, type ComputedRef } from 'vue'
+import { type ComputedRef, computed, onMounted, reactive, ref, unref } from 'vue'
 import { useRoute } from 'vue-router'
-import { ISong, IPlaylist } from '@pluto-music/api'
+import type { IPlaylist, ISong } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 import { usePlayerStore } from '/@/store/module/player'
 
@@ -51,12 +28,13 @@ const detail = reactive({
 
 const id = computed(() => route.params.id) as unknown as ComputedRef<number>
 
-const initData = async () => {
+async function initData() {
   loading.value = true
   const [error, data] = await useRequest('getPlaylistDetail')({ id: unref(id) })
   loading.value = false
 
-  if (error) return
+  if (error)
+    return
   const { playlist } = data
   tracks.value = playlist.tracks
 
@@ -73,21 +51,20 @@ const initData = async () => {
   extractDetail(playlist)
 }
 
-const extractDetail = (data: IPlaylist) => {
+function extractDetail(data: IPlaylist) {
   Object.keys(detail).map((v) => {
-    if (data[v]) {
+    if (data[v])
       detail[v] = data[v]
-    }
   })
   detail.avatarUrl = data.creator.avatarUrl
   detail.nickname = data.creator.nickname
 }
 
-const handlePlaySong = (song: ISong) => {
+function handlePlaySong(song: ISong) {
   playerStore.playSong(song)
 }
 
-const handleUpdatePlaylist = () => {
+function handleUpdatePlaylist() {
   playerStore.updatePlaylist(unref(tracks), unref(id) as string)
 }
 
@@ -95,6 +72,29 @@ onMounted(() => {
   initData()
 })
 </script>
+
+<template>
+  <div class="playlist">
+    <loading-spinner
+      v-if="loading"
+      width="30px"
+      height="30px"
+      color="rgb(238, 10, 36)"
+      item-width="8%"
+    />
+
+    <div v-else>
+      <SongListPoster :detail="detail" />
+      <SongListContent
+        :count="tracks.length"
+        :collect="detail.subscribedCount"
+        :tracks="tracks"
+        @play-song="handlePlaySong"
+        @play-all="handleUpdatePlaylist"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .playlist {

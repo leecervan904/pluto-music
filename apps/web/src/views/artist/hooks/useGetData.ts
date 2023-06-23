@@ -1,11 +1,11 @@
 import type {
-  GetArtistsResult,
-  IMV,
   GetArtistDescResult,
+  GetArtistsResult,
   IAlbumDetail,
   IArtist,
+  IMV,
 } from '@pluto-music/api'
-import { ref, shallowRef, onMounted, watch, unref, type ComputedRef } from 'vue'
+import { type ComputedRef, onMounted, ref, shallowRef, unref, watch } from 'vue'
 import { useRequest } from '/@/utils'
 
 export function useGetArtists(id: ComputedRef<string>) {
@@ -16,7 +16,8 @@ export function useGetArtists(id: ComputedRef<string>) {
 
   async function getArtists() {
     const [error, data] = await useRequest('getArtists')({ id: unref(id) })
-    if (error) return
+    if (error)
+      return
     albumSize.value = data.artist.albumSize
     mvSize.value = data.artist.mvSize
     musicSize.value = data.artist.musicSize
@@ -46,7 +47,8 @@ export function useGetArtistAlbum(id: ComputedRef<string>) {
       limit: 12,
       offset: (page - 1) * 12,
     })
-    if (error) return
+    if (error)
+      return
     albums.value = data.hotAlbums
   }
 
@@ -71,7 +73,8 @@ export function useGetArtistMv(id: ComputedRef<string>) {
       limit: 12,
       offset: (page - 1) * 12,
     })
-    if (error) return
+    if (error)
+      return
     mvs.value = data.mvs
   }
 
@@ -89,7 +92,8 @@ export function useGetArtistDesc(id: ComputedRef<string>) {
 
   async function getArtistDesc() {
     const [error, data] = await useRequest('getArtistDesc')({ id: unref(id) })
-    if (error) return
+    if (error)
+      return
     desc.value = data
   }
 
@@ -107,7 +111,8 @@ export function useGetTopArtists(id: ComputedRef<string>) {
 
   async function getTopArtists() {
     const [error, data] = await useRequest('getTopArtists')({ limit: 6 })
-    if (error) return
+    if (error)
+      return
     topArtists.value = data.artists
   }
 

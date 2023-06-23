@@ -1,34 +1,6 @@
-<template>
-  <div class="new-cate">
-    <category-header title="新碟上架" more-path="/discover/album" />
-    <div class="content">
-      <div class="wrapper">
-        <transition :name="transitionName">
-          <ul v-show="currentList === 'first'" ref="first" class="list">
-            <li v-for="(item, i) of albums.slice(0, 5)" :key="i" class="item">
-              <new-disc-card :album="item" />
-            </li>
-          </ul>
-        </transition>
-
-        <transition :name="transitionName">
-          <ul v-show="currentList === 'second'" ref="second" class="list">
-            <li v-for="(item, i) of albums.slice(5, 10)" :key="i" class="item">
-              <new-disc-card :album="item" />
-            </li>
-          </ul>
-        </transition>
-      </div>
-
-      <span class="new-cate__prev" @click="handleShowList('prev')">&nbsp;</span>
-      <span class="new-cate__next" @click="handleShowList('next')">&nbsp;</span>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { IAlbumDetail } from '@pluto-music/api'
-import { ref, shallowRef, onMounted } from 'vue'
+import { onMounted, ref, shallowRef } from 'vue'
 import { useRequest } from '/@/utils'
 
 import CategoryHeader from '/@/components/base/CategoryHeader.vue'
@@ -40,7 +12,8 @@ const transitionName = ref('')
 
 async function initialData() {
   const [error, data] = await useRequest('getAlbumNewest')()
-  if (error) return
+  if (error)
+    return
   albums.value = data.albums.slice(0, 10)
 }
 
@@ -51,6 +24,34 @@ function handleShowList(choose: string) {
 
 onMounted(initialData)
 </script>
+
+<template>
+  <div class="new-cate">
+    <CategoryHeader title="新碟上架" more-path="/discover/album" />
+    <div class="content">
+      <div class="wrapper">
+        <transition :name="transitionName">
+          <ul v-show="currentList === 'first'" class="list">
+            <li v-for="(item, i) of albums.slice(0, 5)" :key="i" class="item">
+              <NewDiscCard :album="item" />
+            </li>
+          </ul>
+        </transition>
+
+        <transition :name="transitionName">
+          <ul v-show="currentList === 'second'" class="list">
+            <li v-for="(item, i) of albums.slice(5, 10)" :key="i" class="item">
+              <NewDiscCard :album="item" />
+            </li>
+          </ul>
+        </transition>
+      </div>
+
+      <span class="new-cate__prev" @click="handleShowList('prev')">&nbsp;</span>
+      <span class="new-cate__next" @click="handleShowList('next')">&nbsp;</span>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .new-cate {

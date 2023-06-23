@@ -5,6 +5,7 @@ import { useLayoutStore } from '/@/store/module/layout'
 import { Motion, Presence } from 'motion/vue'
 import AppMain from './AppMain.vue'
 import NavBar from './navbar/index.vue'
+
 // import TabBar from './TabBar.vue'
 import MiniPlayer from './MiniPlayer.vue'
 

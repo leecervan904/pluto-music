@@ -1,36 +1,12 @@
-<template>
-  <div class="playlist">
-    <div v-if="detail" class="content">
-      <playlist-poster :detail="detail" @play-all="handlePlayAll" />
-      <song-list-table
-        :song-list="songList"
-        :show-album="true"
-        :track-count="detail.trackCount"
-        :play-count="detail.playCount"
-      ></song-list-table>
-      <Comment :id="playlistId" :type="CommentTypeEnum.PLAYLIST" />
-    </div>
-
-    <div class="aside">
-      <AsidePlaylist
-        :playlist-likes="playlistLikes"
-        :relative-recommend="relativeRecommend"
-        @to-playlist="handleToPlaylist"
-      />
-      <AsideDownload />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type {
-  IPlaylist,
-  ISong,
-  IRelativePlaylistItem,
   ICollectPlaylistSubscriber,
+  IPlaylist,
+  IRelativePlaylistItem,
+  ISong,
 } from '@pluto-music/api'
 import { CommentTypeEnum } from '@pluto-music/api'
-import { ref, computed, onMounted, unref, watch, type ComputedRef } from 'vue'
+import { type ComputedRef, computed, onMounted, ref, unref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from '/@/utils'
 import { usePlayerStore } from '/@/store/module/player'
@@ -54,7 +30,8 @@ const playlistId = computed(() => route.query.id) as unknown as ComputedRef<numb
 
 async function initialData() {
   const [error, data] = await useRequest('getPlaylistDetail')({ id: unref(playlistId) })
-  if (error) return
+  if (error)
+    return
   detail.value = data.playlist
   songList.value = data.playlist.tracks
 
@@ -62,11 +39,13 @@ async function initialData() {
     id: unref(playlistId),
     limit: 8,
   })
-  if (error2) return
+  if (error2)
+    return
   playlistLikes.value = data2.subscribers
 
   const [error3, data3] = await useRequest('getRelatedPlaylist')({ id: unref(playlistId) })
-  if (error3) return
+  if (error3)
+    return
   relativeRecommend.value = data3.playlists
 }
 
@@ -82,6 +61,30 @@ onMounted(initialData)
 
 watch(playlistId, initialData)
 </script>
+
+<template>
+  <div class="playlist">
+    <div v-if="detail" class="content">
+      <PlaylistPoster :detail="detail" @play-all="handlePlayAll" />
+      <SongListTable
+        :song-list="songList"
+        :show-album="true"
+        :track-count="detail.trackCount"
+        :play-count="detail.playCount"
+      />
+      <Comment :id="playlistId" :type="CommentTypeEnum.PLAYLIST" />
+    </div>
+
+    <div class="aside">
+      <AsidePlaylist
+        :playlist-likes="playlistLikes"
+        :relative-recommend="relativeRecommend"
+        @to-playlist="handleToPlaylist"
+      />
+      <AsideDownload />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .playlist {

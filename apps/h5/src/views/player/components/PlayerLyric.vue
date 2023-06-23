@@ -1,22 +1,6 @@
-<template>
-  <div class="p-lyric">
-    <div class="p-lyric__voice"></div>
-    <div
-      ref="content"
-      class="p-lyric__content"
-      :style="{ padding: `${contentPaddingTop} 20px` }"
-    >
-      <p class="lyric-line"
-        v-for="(line, i) of lyric"
-        :key="i"
-      >{{ line.text }}</p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, unref } from 'vue'
-import { useRequest, addClass, removeClass } from '/@/utils'
+import { computed, onMounted, ref, unref, watch } from 'vue'
+import { addClass, removeClass, useRequest } from '/@/utils'
 
 const props = defineProps({
   songId: { type: [Number, String], require: true },
@@ -32,14 +16,15 @@ const scrollTimer = null // 下一次滚动的 timer
 const content = ref<HTMLElement | null>(null)
 const times = computed(() => unref(lyric).map(v => v.time))
 
-const initData = async () => {
+async function initData() {
   const [error, data] = await useRequest('getLyric')({ id: props.songId })
-  if (error) return
-  if (!data.lrc) {
+  if (error)
+    return
+  if (!data.lrc)
     lyric.value = [{ time: 0, text: '暂时没有歌词' }]
-  } else {
+  else
     lyric.value = extractLyric(data.lrc.lyric).filter(v => v.text)
-  }
+
   // this.scroll.scrollTop()
 }
 
@@ -47,8 +32,8 @@ const initData = async () => {
  * lyric is a string.
  * return like [{ time: 89122, text: 'some lyric...' }, ...]
  */
-const extractLyric = (lyric) => {
-  return lyric.split('\n').map(v => {
+function extractLyric(lyric) {
+  return lyric.split('\n').map((v) => {
     const patch = v.split(']')
     const time = patch[0] && decodeLyricTime(patch[0].substr(1))
     const text = patch[1] && patch[1].trim()
@@ -57,12 +42,12 @@ const extractLyric = (lyric) => {
   })
 }
 
-const decodeLyricTime = (time) => {
+function decodeLyricTime(time) {
   const times = time.replace('.', ':').split(':').map(Number)
   return (times[0] * 60 * 1000) + (times[1] * 1000) + times[2]
 }
 
-const handleLyricScroll = () => {
+function handleLyricScroll() {
   // 必须引用 this.ct，否则在循环中它的值会变化
   const ct = props.ct
   let index = 0
@@ -73,9 +58,8 @@ const handleLyricScroll = () => {
       break
     }
     // fixed：确保最后一句歌曲会停留到播放完毕
-    if (i === len - 1) {
+    if (i === len - 1)
       index = i
-    }
   }
   // currentLine.value = this.$refs[this.times[index]][0]
 }
@@ -115,14 +99,31 @@ watch(
     // 动态修改类名
     oldEl && removeClass(oldEl, 'is-current')
     addClass(newEl, 'is-current')
-    if (scrollImmediate.value) {
+    if (scrollImmediate.value)
       console.log('will scroll')
       // this.$refs.scroll.scrollToElement(newEl, 500, true, true)
-    }
-
-  }
+  },
 )
 </script>
+
+<template>
+  <div class="p-lyric">
+    <div class="p-lyric__voice" />
+    <div
+      ref="content"
+      class="p-lyric__content"
+      :style="{ padding: `${contentPaddingTop} 20px` }"
+    >
+      <p
+        v-for="(line, i) of lyric"
+        :key="i"
+        class="lyric-line"
+      >
+        {{ line.text }}
+      </p>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .p-lyric {

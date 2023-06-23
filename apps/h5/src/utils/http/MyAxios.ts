@@ -1,5 +1,6 @@
-import type { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
+
 // import { Axios } from './Axios'
 
 interface IResponse {
@@ -10,14 +11,14 @@ interface IResponse {
 
 function handelAuthError(status: string) {
   const authErrMap: any = {
-    '10031': '登录失效，需要重新登录', // token 失效
-    '10032': '您太久没登录，请重新登录~', // token 过期
-    '10033': '账户未绑定角色，请联系管理员绑定角色',
-    '10034': '该用户未注册，请联系管理员注册用户',
-    '10035': 'code 无法获取对应第三方平台用户',
-    '10036': '该账户未关联员工，请联系管理员做关联',
-    '10037': '账号已无效',
-    '10038': '账号未找到',
+    10031: '登录失效，需要重新登录', // token 失效
+    10032: '您太久没登录，请重新登录~', // token 过期
+    10033: '账户未绑定角色，请联系管理员绑定角色',
+    10034: '该用户未注册，请联系管理员注册用户',
+    10035: 'code 无法获取对应第三方平台用户',
+    10036: '该账户未关联员工，请联系管理员做关联',
+    10037: '账号已无效',
+    10038: '账号未找到',
   }
 
   if (authErrMap.hasOwnProperty(status)) {
@@ -64,9 +65,8 @@ export class MyAxios {
         // 1. 请求头设置
 
         // 2. 验证信息设置
-        if (config.headers) {
-          config.headers['token'] = localStorage.getItem('__TOKEN__') || ''
-        }
+        if (config.headers)
+          config.headers.token = localStorage.getItem('__TOKEN__') || ''
 
         return config
       },
@@ -83,9 +83,8 @@ export class MyAxios {
         const { status } = response
         const data = response.data as IResponse
         // 1. 网络错误处理
-        if (status !== 200) {
+        if (status !== 200)
           return Promise.reject(data.data)
-        }
 
         // 2. 授权错误处理
         handelAuthError(data.status)

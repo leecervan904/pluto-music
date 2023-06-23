@@ -133,7 +133,8 @@ router.beforeEach((to, from, next) => {
     router.transitionName = 'route-back'
     router.isBack = false
     // history.splice(history.length - 1, 1)
-  } else {
+  }
+  else {
     router.transitionName = 'route-forward'
     // history.push(to.path)
   }
@@ -161,15 +162,14 @@ function addDevRoutes(router: Router) {
           showNavbar: true,
           showTabbar: false,
           showMiniPlayer: true,
-        }
+        },
       },
     },
   ]
 
   if (import.meta.env.DEV) {
-    for (const route of devRoutes) {
+    for (const route of devRoutes)
       router.addRoute('discover', route)
-    }
   }
 }
 

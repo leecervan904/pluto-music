@@ -1,7 +1,8 @@
 <script lang="tsx">
-import { ref, computed, onMounted, defineComponent, unref, type ComputedRef } from 'vue'
+import { type ComputedRef, computed, defineComponent, onMounted, ref, unref } from 'vue'
 import { useRoute } from 'vue-router'
-import { CommentTypeEnum, CommentSortTypeEnum, ICommentItem } from '@pluto-music/api'
+import type { ICommentItem } from '@pluto-music/api'
+import { CommentSortTypeEnum, CommentTypeEnum } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 
 import CommentItem from './CommentItem.vue'
@@ -22,9 +23,10 @@ export default defineComponent({
       const [error, data] = await useRequest('getComment')({
         id: unref(id),
         type: unref(type),
-        sortType: unref(sortType)
+        sortType: unref(sortType),
       })
-      if (error) return
+      if (error)
+        return
       list.value = data.data.comments
     }
 

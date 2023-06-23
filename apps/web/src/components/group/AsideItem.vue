@@ -1,12 +1,12 @@
 <template>
   <div class="aside-item">
     <h3 class="title">
-      <slot name="title"></slot>
+      <slot name="title" />
     </h3>
     <div class="content">
-      <slot></slot>
+      <slot />
     </div>
-    <slot name="after"></slot>
+    <slot name="after" />
   </div>
 </template>
 

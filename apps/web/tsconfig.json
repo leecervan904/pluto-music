@@ -13,7 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
-      "/@/*": ["./src/*"],
+      "/@/*": ["./src/*"]
     },
     "types": [
       "vite/client"
@@ -25,13 +25,13 @@
     "src/**/*.vue",
     // "./vite-plugins/*.ts",
     "./types/**/*.ts",
-    "**/*.d.ts",
+    "**/*.d.ts"
   ],
   "exclude": [
-    "**/node_modules",
+    "**/node_modules"
   ],
   "files.watcherExclude": {
-    "**/node_modules/**": true,
+    "**/node_modules/**": true
   },
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -4,7 +4,7 @@ import { useVirtualList } from '@vueuse/core'
 import VueTypes from 'vue-types'
 
 export default defineComponent({
-  name: 'virtual-scroller',
+  name: 'VirtualScroller',
   props: {
     data: VueTypes.array.def([]),
     itemHeight: VueTypes.number.def(22),
@@ -16,7 +16,7 @@ export default defineComponent({
       props.data,
       {
         itemHeight: props.itemHeight,
-      }
+      },
     )
 
     return () => {
@@ -32,8 +32,8 @@ export default defineComponent({
         <div class="scroller" {...{
           ...containerProps,
           style: {
-            height: `${props.height}px`
-          }
+            height: `${props.height}px`,
+          },
         }}>
           <div class="scroller-wrapper" {...wrapperProps}>
             {renderChildren()}
@@ -41,7 +41,7 @@ export default defineComponent({
         </div>
       )
     }
-  }
+  },
 })
 </script>
 

@@ -1,30 +1,3 @@
-<template>
-  <div class="category">
-    <div class="category-header">
-      <span class="category-header-all" @click="changeCategory('全部')">全部风格</span>
-      <i class="category__up-icon"></i>
-    </div>
-    <div class="category-content">
-      <dl v-for="(cateItem, ci) of categories" :key="ci" class="category__content-wrapper">
-        <dt class="cate-tag">
-          <i class="cate-tag-icon"></i>
-          <span>{{ cateItem.name }}</span>
-        </dt>
-        <dd class="cate-list">
-          <span
-            v-for="(item, i) of cateItem.subs"
-            :key="i"
-            class="cate-item"
-            @click="changeCategory(item)"
-            >{{ item }}</span
-          >
-        </dd>
-      </dl>
-    </div>
-    <div class="dd-divide"></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import { useRouter } from 'vue-router'
@@ -46,12 +19,38 @@ const emit = defineEmits(['hide-category'])
 const router = useRouter()
 
 function changeCategory(cate: string) {
-  if (cate !== props.cate) {
+  if (cate !== props.cate)
     router.push({ path: '/discover/playlist', query: { cate } })
-  }
+
   emit('hide-category')
 }
 </script>
+
+<template>
+  <div class="category">
+    <div class="category-header">
+      <span class="category-header-all" @click="changeCategory('全部')">全部风格</span>
+      <i class="category__up-icon" />
+    </div>
+    <div class="category-content">
+      <dl v-for="(cateItem, ci) of categories" :key="ci" class="category__content-wrapper">
+        <dt class="cate-tag">
+          <i class="cate-tag-icon" />
+          <span>{{ cateItem.name }}</span>
+        </dt>
+        <dd class="cate-list">
+          <span
+            v-for="(item, i) of cateItem.subs"
+            :key="i"
+            class="cate-item"
+            @click="changeCategory(item)"
+          >{{ item }}</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="dd-divide" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .category {

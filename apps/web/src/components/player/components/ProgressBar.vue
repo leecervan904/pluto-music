@@ -1,34 +1,6 @@
-<template>
-  <div class="bar">
-    <div
-      ref="refBar"
-      class="bar-bg"
-      @click="handleClickChange"
-      @mousemove="handlePullChange"
-      @mouseup="btnMouseUp()"
-      @mouseleave="btnMouseUp()"
-    >
-      <div ref="refReady" class="bar-bg__ready"></div>
-      <div ref="refCurrent" class="bar-bg__current">
-        <span
-          ref="refBtn"
-          class="bar-bg__current__ctrl"
-          @mousedown="btnMouseDown()"
-          @mouseup="btnMouseUp()"
-        ></span>
-      </div>
-    </div>
-    <div class="bar-time">
-      <span class="bar-time-current">{{ currentTimeFormat }}</span>
-      <span class="bar-time-divide">/</span>
-      <span class="bar-time-all">{{ durationFormat }}</span>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, watch, unref } from 'vue'
-import { getDuration, boxOffsetLeft as getBoxOffsetLeft } from '/@/utils'
+import { computed, ref, unref, watch } from 'vue'
+import { boxOffsetLeft as getBoxOffsetLeft, getDuration } from '/@/utils'
 
 const props = defineProps({
   duration: {
@@ -72,9 +44,9 @@ function handleClickChange(event: MouseEvent) {
 
 // 拉拽进度条时
 function handlePullChange(event: MouseEvent) {
-  if (!unref(btnDrag)) {
+  if (!unref(btnDrag))
     return
-  }
+
   // 获取拉拽过程中的变化，溢出处理
   let barCurrentWidth = event.clientX - unref(barOffsetLeft)
   barCurrentWidth = barCurrentWidth > unref(barWidth) ? unref(barWidth) : barCurrentWidth
@@ -95,6 +67,34 @@ watch(
   },
 )
 </script>
+
+<template>
+  <div class="bar">
+    <div
+      ref="refBar"
+      class="bar-bg"
+      @click="handleClickChange"
+      @mousemove="handlePullChange"
+      @mouseup="btnMouseUp()"
+      @mouseleave="btnMouseUp()"
+    >
+      <div ref="refReady" class="bar-bg__ready" />
+      <div ref="refCurrent" class="bar-bg__current">
+        <span
+          ref="refBtn"
+          class="bar-bg__current__ctrl"
+          @mousedown="btnMouseDown()"
+          @mouseup="btnMouseUp()"
+        />
+      </div>
+    </div>
+    <div class="bar-time">
+      <span class="bar-time-current">{{ currentTimeFormat }}</span>
+      <span class="bar-time-divide">/</span>
+      <span class="bar-time-all">{{ durationFormat }}</span>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .bar {

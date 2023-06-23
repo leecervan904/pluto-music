@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, computed, watchEffect, unref } from 'vue'
+import { computed, shallowRef, unref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { GetMvDetailData, ISimiMvItem } from '@pluto-music/api'
+import type { GetMvDetailData, ISimiMvItem } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 
 const route = useRoute()
@@ -11,59 +11,62 @@ const id = computed(() => route.params.id as string)
 const detail = shallowRef<GetMvDetailData>()
 const related = shallowRef<ISimiMvItem[]>([])
 
-const getMvDetail = async () => {
+async function getMvDetail() {
   const [error, data] = await useRequest('getMvDetail')({
-    mvid: unref(id)
+    mvid: unref(id),
   })
-  if (error) return
+  if (error)
+    return
   // console.log(data.data)
   detail.value = data.data
 }
 
-const getMvUrl = async () => {
+async function getMvUrl() {
   const [error, data] = await useRequest('getMvUrl')({
-    id: unref(id)
+    id: unref(id),
   })
-  if (error) return
+  if (error)
+    return
   // console.log(data.data.url)
   detail.value!.url = data.data.url
 }
 
-const getRelatedVideo = async () => {
+async function getRelatedVideo() {
   const [error, data] = await useRequest('getSimiMv')({
-    mvid: unref(id)
+    mvid: unref(id),
   })
-  if (error) return
+  if (error)
+    return
   // console.log(data)
   related.value = data.data.mvs
 }
 
-const initData = async () => {
+async function initData() {
   await getMvDetail()
   await getMvUrl()
   await getRelatedVideo()
 }
 
-const handlePlayMv = (vid: number | string) => {
+function handlePlayMv(vid: number | string) {
   router.replace(`/mv/${vid}`)
 }
 
 watchEffect(() => {
-  if (unref(id)) {
+  if (unref(id))
     initData()
-  }
 })
 </script>
 
 <template>
   <div class="mv">
     <div class="mv-container">
-      <video class="mv-container__video"
+      <video
+        class="mv-container__video"
         controls
         playsinline
         :src="detail?.url"
-        :poster="detail?.cover">
-      </video>
+        :poster="detail?.cover"
+      />
     </div>
 
     <div class="mv-info">
@@ -73,14 +76,20 @@ watchEffect(() => {
             <!-- <img src="" alt="" class="img"> -->
           </div>
           <div class="owner-info">
-            <div class="owner-info__nickname">{{ detail?.artistName }}</div>
-            <div class="owner-info__desc"></div>
+            <div class="owner-info__nickname">
+              {{ detail?.artistName }}
+            </div>
+            <div class="owner-info__desc" />
           </div>
         </div>
 
-        <div class="title">{{ detail?.name }}</div>
-        <div class="song"></div>
-        <div class="desc">{{ detail?.desc }}</div>
+        <div class="title">
+          {{ detail?.name }}
+        </div>
+        <div class="song" />
+        <div class="desc">
+          {{ detail?.desc }}
+        </div>
       </div>
 
       <div class="mv-info__control">
@@ -99,17 +108,23 @@ watchEffect(() => {
       </div>
 
       <div class="mv-info__related">
-        <div class="item" v-for="item in related" @click="handlePlayMv(item.id)">
+        <div v-for="item in related" class="item" @click="handlePlayMv(item.id)">
           <div class="item-left">
             <div class="item-left__wrapper">
               <img class="img" :src="item.cover" alt="">
             </div>
           </div>
           <div class="item-right">
-            <div class="item-right__title">{{ item.name }}</div>
+            <div class="item-right__title">
+              {{ item.name }}
+            </div>
             <div class="item-right__info">
-              <div class="item-right__creator">{{ item.artistName }}</div>
-              <div class="item-right__play">{{ item.playCount }} 播放</div>
+              <div class="item-right__creator">
+                {{ item.artistName }}
+              </div>
+              <div class="item-right__play">
+                {{ item.playCount }} 播放
+              </div>
             </div>
           </div>
         </div>

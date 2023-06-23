@@ -1,5 +1,6 @@
-import { ref, reactive, shallowRef, onMounted, type Ref } from 'vue'
-import { CommentTypeEnum, ICommentItem } from '@pluto-music/api'
+import { type Ref, onMounted, reactive, ref, shallowRef } from 'vue'
+import type { ICommentItem } from '@pluto-music/api'
+import { CommentTypeEnum } from '@pluto-music/api'
 import { useRequest } from '/@/utils'
 
 export function useSearch(
@@ -35,7 +36,8 @@ export function useSearch(
       default:
         break
     }
-    if (!func) return
+    if (!func)
+      return
 
     const [error, data] = await func({
       id,
@@ -43,17 +45,17 @@ export function useSearch(
       offset: (page - 1) * 20,
     })
 
-    if (error) return
+    if (error)
+      return
     // console.log(data)
     total.value = data.total || 0
     comments.value = data.comments
-    if (page === 1) {
+    if (page === 1)
       hotComments.value = data.hotComments
-    }
+
     // 滚动到评论顶部
-    if (page > 1) {
+    if (page > 1)
       refNewComment?.value?.scrollIntoView({ behavior: 'smooth' })
-    }
   }
 
   onMounted(() => {

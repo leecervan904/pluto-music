@@ -1,6 +1,6 @@
 import * as API from '@pluto-music/api'
-import type { ResponseType } from './request'
 import type { AxiosError } from 'axios'
+import type { ResponseType } from './request'
 import service from './request'
 
 type APIAllKey = typeof API

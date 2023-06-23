@@ -1,27 +1,28 @@
+<script>
+export default {
+  name: 'SearchArtists',
+  props: {
+    artist: { type: Object, require: true },
+  },
+}
+</script>
+
 <template>
   <div class="ar-item">
     <div class="left">
       <img
         :src="`${artist.img1v1Url}?param=200y200`"
-        :alt="artist.name">
+        :alt="artist.name"
+      >
     </div>
     <div class="center">
-      <p>{{  artist.name }}</p>
+      <p>{{ artist.name }}</p>
     </div>
     <div class="right">
-      <span></span>
+      <span />
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'search-artists',
-  props: {
-    artist: { type: Object, require: true }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .ar-item {

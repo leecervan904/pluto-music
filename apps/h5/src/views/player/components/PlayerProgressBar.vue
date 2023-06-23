@@ -1,87 +1,69 @@
-<template>
-  <div class="p-progress-bar" ref="progress">
-    <!-- 左侧时间 -->
-    <div class="p-progress-bar_left" :class="{ 'is-drag': isDrag }">{{ formattedCt }}</div>
-    <div class="p-progress-bar_main">
-      <!-- 进度条：全时长 -->
-      <div class="main-duration" :class="{ 'is-drag': isDrag }" ref="dtBar">
-        <!-- 在 wrapper 添加事件让 touch 的范围更大，即时 dot 很小也易于操作 -->
-        <div class="main-dot-wrapper" ref="dot" :style="dotStyle"
-          @touchstart.stop.prevent="onDotTouchStart"
-          @touchmove.stop.prevent="onDotTouchMove"
-          @touchend.stop.prevent="onDotTouchEnd">
-          <!-- 视觉小圆点 -->
-          <div class="mini-dot" :class="{ 'is-drag': isDrag }"></div>
-        </div>
-        <!-- 进度条：播放时长 -->
-        <div class="main-current" :class="{ 'is-drag': isDrag }" ref="ctBar" :style="ctBarStyle"></div>
-      </div>
-    </div>
-    <!-- 右侧时间 -->
-    <div class="p-progress-bar_right">{{ formattedDt }}</div>
-  </div>
-</template>
-
 <script>
 import { formatDuration, getOffsetLeft } from '/@/utils'
 
 export default {
-  name: 'player-progress-bar',
+  name: 'PlayerProgressBar',
   props: {
     ct: { type: Number, require: true },
-    songDt: { type: Number, require: true }
+    songDt: { type: Number, require: true },
   },
-  data () {
+  data() {
     return {
       ctTemp: 0, // 拖动进度条时显示的当前播放时间，ms
       dtBarLeft: 0, // 进度条左侧相对视窗左侧的位置
       dtBarWidth: 0, // 进度条总长度，dtBarLeft + dtBarWidth = dtBarRight
       dotInitLeft: 0, // dot 的初始 left
-      isDrag: false // 是否拖动更改进度条
+      isDrag: false, // 是否拖动更改进度条
     }
   },
   computed: {
-    dtBar () {
+    dtBar() {
       return this.$refs.dtBar
     },
-    ctBar () {
+    ctBar() {
       return this.$refs.ctBar
     },
-    dot () {
+    dot() {
       return this.$refs.dot
     },
-    formattedDt () {
+    formattedDt() {
       return formatDuration(this.songDt)
     },
-    formattedCt () {
+    formattedCt() {
       return formatDuration(Math.floor(this.ctTemp))
     },
-    playRatio () {
+    playRatio() {
       // drag 时，引用的是 ctTemp
       return this.isDrag
         ? this.ctTemp / this.songDt
         : this.ct / this.songDt
     },
     // style
-    ctBarStyle () {
+    ctBarStyle() {
       return {
-        width: this.playRatio * this.dtBarWidth + 'px'
+        width: `${this.playRatio * this.dtBarWidth}px`,
       }
     },
-    dotStyle () {
+    dotStyle() {
       return {
-        left: this.playRatio * this.dtBarWidth + this.dotInitLeft + 'px'
+        left: `${this.playRatio * this.dtBarWidth + this.dotInitLeft}px`,
       }
-    }
+    },
   },
-  mounted () {
-    this.$nextTick(_ => {
+  watch: {
+    ct(newVal) {
+      if (!this.isDrag)
+        this.ctTemp = newVal
+    },
+  },
+  mounted() {
+    this.$nextTick((_) => {
       this.getDomSize()
     })
   },
   methods: {
     // 获取进度条相关的盒子尺寸
-    getDomSize () {
+    getDomSize() {
       this.dtBarWidth = this.dtBar.offsetWidth
       // console.log(this.dtBarWidth)
       this.dtBarLeft = getOffsetLeft(this.dtBar, this.$refs.progress)
@@ -90,37 +72,59 @@ export default {
       // console.log(`dtBarLeft: ${this.dtBarLeft}, dtBarWidth: ${this.dtBarWidth}`)
     },
     // 进度条相关，顺序: touhcstart -> touchmove -> touchend -> click
-    onDotTouchStart () {
+    onDotTouchStart() {
       console.log('dot touch start------')
       this.isDrag = true
     },
-    onDotTouchMove (e) {
+    onDotTouchMove(e) {
       // console.log('dot touch move')
       const point = e.touches[0]
       const { pageX } = point
       // 相对于进度条左侧的偏移量
       const positionX = pageX - this.dtBarLeft
       // 控制 dot 只能在进度条中
-      if (positionX > 0 && positionX < this.dtBarWidth) {
+      if (positionX > 0 && positionX < this.dtBarWidth)
         this.ctTemp = (positionX / this.dtBarWidth) * this.songDt
-      }
     },
-    onDotTouchEnd () {
+    onDotTouchEnd() {
       console.log('dot touch end--------')
       this.isDrag = false
       // 设置播放时间
       this.$emit('update-time', this.ctTemp)
-    }
+    },
   },
-  watch: {
-    ct(newVal) {
-      if (!this.isDrag) {
-        this.ctTemp = newVal
-      }
-    }
-  }
 }
 </script>
+
+<template>
+  <div ref="progress" class="p-progress-bar">
+    <!-- 左侧时间 -->
+    <div class="p-progress-bar_left" :class="{ 'is-drag': isDrag }">
+      {{ formattedCt }}
+    </div>
+    <div class="p-progress-bar_main">
+      <!-- 进度条：全时长 -->
+      <div ref="dtBar" class="main-duration" :class="{ 'is-drag': isDrag }">
+        <!-- 在 wrapper 添加事件让 touch 的范围更大，即时 dot 很小也易于操作 -->
+        <div
+          ref="dot" class="main-dot-wrapper" :style="dotStyle"
+          @touchstart.stop.prevent="onDotTouchStart"
+          @touchmove.stop.prevent="onDotTouchMove"
+          @touchend.stop.prevent="onDotTouchEnd"
+        >
+          <!-- 视觉小圆点 -->
+          <div class="mini-dot" :class="{ 'is-drag': isDrag }" />
+        </div>
+        <!-- 进度条：播放时长 -->
+        <div ref="ctBar" class="main-current" :class="{ 'is-drag': isDrag }" :style="ctBarStyle" />
+      </div>
+    </div>
+    <!-- 右侧时间 -->
+    <div class="p-progress-bar_right">
+      {{ formattedDt }}
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

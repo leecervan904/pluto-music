@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, computed, watch } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 import VueType from 'vue-types'
-import { GetCommentFloorResult } from '@pluto-music/api'
+import type { GetCommentFloorResult } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 
 import CommentItem from './CommentItem.vue'
@@ -28,41 +28,43 @@ const show = computed({
   },
 })
 
-const getCommentReply = async () => {
+async function getCommentReply() {
   console.log(props)
   const [error, data] = await useRequest('getCommentFloor')({
     id: props.resourceId,
     parentCommentId: props.activeId,
   })
-  if (error) return
+  if (error)
+    return
   result.value = data
 }
 
 watch(
   () => props.modelValue,
   (newVal) => {
-    if (newVal) {
+    if (newVal)
       getCommentReply()
-    }
   },
 )
 </script>
 
 <template>
   <van-popup
-    class="comment-popup"
     v-model:show="show"
+    class="comment-popup"
     position="bottom"
     round
   >
-    <h3 class="comment-title">回复({{ totalCount }})</h3>
+    <h3 class="comment-title">
+      回复({{ totalCount }})
+    </h3>
 
     <div class="comment-content">
-      <div class="comment-content__owner" v-if="!!result && !!ownerComment">
+      <div v-if="!!result && !!ownerComment" class="comment-content__owner">
         <CommentItem :comment="ownerComment" hide-reply />
       </div>
 
-      <div class="comment-content__reply" v-if="!!result && comments?.length">
+      <div v-if="!!result && comments?.length" class="comment-content__reply">
         <CommentItem v-for="comment in comments" :comment="comment" hide-reply />
       </div>
     </div>

@@ -1,29 +1,12 @@
-<template>
-  <div class="p-album">
-    <div class="p-album-wrapper">
-      <div class="p-album-mask">
-        <div class="p-album-track">
-          <div class="p-album-img-wrapper">
-            <img class="p-album-img" ref="img"
-              :class="{ 'is-play': isPlay }"
-              :src="`${imgUrl}?param=400y400`"
-              :alt="name">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { usePlayerStore } from '/@/store/module/player'
 
 export default defineComponent({
-  name: 'player-album',
+  name: 'PlayerAlbum',
   props: {
     imgUrl: { type: String, default: '' },
-    name: { type: String, default: '' }
+    name: { type: String, default: '' },
   },
   setup() {
     const playerStore = usePlayerStore()
@@ -35,6 +18,25 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="p-album">
+    <div class="p-album-wrapper">
+      <div class="p-album-mask">
+        <div class="p-album-track">
+          <div class="p-album-img-wrapper">
+            <img
+              ref="img" class="p-album-img"
+              :class="{ 'is-play': isPlay }"
+              :src="`${imgUrl}?param=400y400`"
+              :alt="name"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .p-album {

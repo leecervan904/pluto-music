@@ -1,74 +1,8 @@
-<template>
-  <div ref="playbar" :class="['playbar', { 'is-locked': isBarLock }]">
-    <div class="right-bg playbar__right-bg">
-      <span :class="playbarLockCls" @click="handleLock"></span>
-    </div>
-    <div class="right-scroll playbar__right-scroll"></div>
-    <div class="left-bg playbar__left-bg"></div>
-    <div class="content">
-      <div class="main-ctrl">
-        <span ref="prev" class="ctrl-prev playbar__prev" @click="handlePlayPrev"></span>
-        <span ref="play" :class="mainCtrlCls" @click="handlePlay"></span>
-        <span ref="next" class="ctrl-next playbar__next" @click="handlePlayNext(false)"></span>
-      </div>
-      <div class="song-info">
-        <div class="info-pic">
-          <img v-if="songPicUrl" class="pic" :src="`${songPicUrl}?param=50y50`" />
-          <a href="#" class="info-href playbar__song-link" @click="toSongView"></a>
-        </div>
-        <div class="info-gp">
-          <div class="info-title">
-            <a class="info-title-name" @click="toSongView">{{ songName }}</a>
-            <a class="info-title-singer">{{ singers }}</a>
-            <a v-show="songName" class="info-title-icon playbar__song-from">&nbsp;</a>
-          </div>
-          <ProgressBar :duration="songDt" :current-time="ctime" @update="handleBarUpdate" />
-        </div>
-      </div>
-      <div class="more-ctrl">
-        <div :class="['voice-column', { 'voice-column-shown': isShowVoice }]">
-          <div class="column-line"></div>
-          <div class="column-btn"></div>
-        </div>
-        <a href="#" class="ctrl-voice playbar__voice" @click.prevent="handleChangeVoice"></a>
-        <a href="#" :class="['ctrl-mode', nowModeCls]" @click.prevent="handleChangePlayMode"></a>
-        <a class="ctrl-list playbar__list" @click="handleShowPlayContent">
-          <em>{{ playlist.length }}</em>
-        </a>
-      </div>
-      <div class="other-options">
-        <a href="#" class="op-collect playbar__collect" @click="handleShowAbout"></a>
-        <a href="#" class="op-share playbar__share" @click="handleShowAbout"></a>
-      </div>
-    </div>
-    <div class="audio-wrapper">
-      <audio
-        ref="refAudio"
-        controls
-        :src="songUrl"
-        @timeupdate="handleTimeupdate"
-        @ended="handlePlayNext(true)"
-      >
-        <source src="" type="" />
-      </audio>
-    </div>
-
-    <transition name="slide">
-      <PlayContent
-        v-show="isShowPlayContent"
-        class="play-wrapper"
-        :current-time="ctime"
-        @close="handleShowPlayContent"
-      />
-    </transition>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { usePlayerStore, PlayMode } from '/@/store/module/player'
+import { PlayMode, usePlayerStore } from '/@/store/module/player'
 import { getSingers } from '/@/utils'
 
 import ProgressBar from './components/ProgressBar.vue'
@@ -84,8 +18,8 @@ onMounted(() => {
   playerStore.setAudio(refAudio.value!)
 })
 
-const { songId, songName, songUrl, songPicUrl, songAr, songDt, playlist, playMode, isPlay, ctime } =
-  storeToRefs(playerStore)
+const { songId, songName, songUrl, songPicUrl, songAr, songDt, playlist, playMode, isPlay, ctime }
+  = storeToRefs(playerStore)
 
 const singers = computed(() => getSingers(songAr.value))
 
@@ -125,24 +59,90 @@ const handleChangePlayMode = playerStore.togglePlayMode
 // 播放时间改变时
 const handleTimeupdate = playerStore.onTimeUpdate
 // 子组件改变播放时间
-const handleBarUpdate = (time: number) => {
+function handleBarUpdate(time: number) {
   playerStore.setCTime(time, true)
 }
 
-const handleShowAbout = () => {}
-const handleShowPlayContent = () => {
+function handleShowAbout() {}
+function handleShowPlayContent() {
   isShowPlayContent.value = !isShowPlayContent.value
 }
-const handleChangeVoice = () => {
+function handleChangeVoice() {
   isShowVoice.value = !isShowVoice.value
 }
-const toSongView = () => {
+function toSongView() {
   router.push({ path: '/song', query: { id: songId.value } })
 }
-const handleLock = () => {
+function handleLock() {
   isBarLock.value = !isBarLock.value
 }
 </script>
+
+<template>
+  <div ref="playbar" class="playbar" :class="[{ 'is-locked': isBarLock }]">
+    <div class="right-bg playbar__right-bg">
+      <span :class="playbarLockCls" @click="handleLock" />
+    </div>
+    <div class="right-scroll playbar__right-scroll" />
+    <div class="left-bg playbar__left-bg" />
+    <div class="content">
+      <div class="main-ctrl">
+        <span class="ctrl-prev playbar__prev" @click="handlePlayPrev" />
+        <span :class="mainCtrlCls" @click="handlePlay" />
+        <span class="ctrl-next playbar__next" @click="handlePlayNext(false)" />
+      </div>
+      <div class="song-info">
+        <div class="info-pic">
+          <img v-if="songPicUrl" class="pic" :src="`${songPicUrl}?param=50y50`">
+          <a href="#" class="info-href playbar__song-link" @click="toSongView" />
+        </div>
+        <div class="info-gp">
+          <div class="info-title">
+            <a class="info-title-name" @click="toSongView">{{ songName }}</a>
+            <a class="info-title-singer">{{ singers }}</a>
+            <a v-show="songName" class="info-title-icon playbar__song-from">&nbsp;</a>
+          </div>
+          <ProgressBar :duration="songDt" :current-time="ctime" @update="handleBarUpdate" />
+        </div>
+      </div>
+      <div class="more-ctrl">
+        <div class="voice-column" :class="[{ 'voice-column-shown': isShowVoice }]">
+          <div class="column-line" />
+          <div class="column-btn" />
+        </div>
+        <a href="#" class="ctrl-voice playbar__voice" @click.prevent="handleChangeVoice" />
+        <a href="#" class="ctrl-mode" :class="[nowModeCls]" @click.prevent="handleChangePlayMode" />
+        <a class="ctrl-list playbar__list" @click="handleShowPlayContent">
+          <em>{{ playlist.length }}</em>
+        </a>
+      </div>
+      <div class="other-options">
+        <a href="#" class="op-collect playbar__collect" @click="handleShowAbout" />
+        <a href="#" class="op-share playbar__share" @click="handleShowAbout" />
+      </div>
+    </div>
+    <div class="audio-wrapper">
+      <audio
+        ref="refAudio"
+        controls
+        :src="songUrl"
+        @timeupdate="handleTimeupdate"
+        @ended="handlePlayNext(true)"
+      >
+        <source src="" type="">
+      </audio>
+    </div>
+
+    <transition name="slide">
+      <PlayContent
+        v-show="isShowPlayContent"
+        class="play-wrapper"
+        :current-time="ctime"
+        @close="handleShowPlayContent"
+      />
+    </transition>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .playbar {

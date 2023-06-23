@@ -1,30 +1,5 @@
-<template>
-  <div :class="['card', `card-${size}`]">
-    <router-link :to="`/album?id=${album.id}`" :class="['card-wrapper', `card-wrapper-${size}`]">
-      <img
-        :class="['card-img', `card-img-${size}`]"
-        :src="`${album.picUrl}?param=300y300`"
-        alt=""
-      />
-      <span :class="['play-icon', `play-icon-${size}`]" @click.stop.prevent="handlePlayAll"></span>
-    </router-link>
-    <span
-      :class="['card-link', `card-link-${size}`]"
-      @click="$router.push(`/album?id=${album.id}`)"
-    ></span>
-    <p class="card-title" :style="fontSizeStyle">
-      <router-link :to="`/album?id=${album.id}`">{{ album.name }}</router-link>
-    </p>
-    <p class="card-artists">
-      <span v-for="(item, i) of artists" :key="i" class="singer" @click="handleShowAbout()">
-        {{ item }}
-      </span>
-    </p>
-  </div>
-</template>
-
 <script lang="ts">
-import { computed, defineComponent, type PropType } from 'vue'
+import { type PropType, computed, defineComponent } from 'vue'
 import { usePlayerStore } from '/@/store/module/player'
 import { addSeparator, useRequest } from '/@/utils'
 import type { IAlbumDetail } from '@pluto-music/api'
@@ -61,7 +36,8 @@ export default defineComponent({
 
     const handlePlayAll = async () => {
       const [error, data] = await useRequest('getAlbumDetail')({ id: props.album.id as string })
-      if (error) return
+      if (error)
+        return
       playerStore.updatePlaylist(data.songs, data.album.id)
     }
 
@@ -73,7 +49,7 @@ export default defineComponent({
 
   computed: {
     artists() {
-      const artists = this.album.artists!.map((v) => v.name)
+      const artists = this.album.artists!.map(v => v.name)
       return addSeparator(artists, '/')
     },
   },
@@ -85,6 +61,33 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="card" :class="[`card-${size}`]">
+    <router-link :to="`/album?id=${album.id}`" class="card-wrapper" :class="[`card-wrapper-${size}`]">
+      <img
+        class="card-img" :class="[`card-img-${size}`]"
+        :src="`${album.picUrl}?param=300y300`"
+        alt=""
+      >
+      <span class="play-icon" :class="[`play-icon-${size}`]" @click.stop.prevent="handlePlayAll" />
+    </router-link>
+    <span
+      class="card-link" :class="[`card-link-${size}`]"
+      @click="$router.push(`/album?id=${album.id}`)"
+    />
+    <p class="card-title" :style="fontSizeStyle">
+      <router-link :to="`/album?id=${album.id}`">
+        {{ album.name }}
+      </router-link>
+    </p>
+    <p class="card-artists">
+      <span v-for="(item, i) of artists" :key="i" class="singer" @click="handleShowAbout()">
+        {{ item }}
+      </span>
+    </p>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 /*

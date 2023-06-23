@@ -1,32 +1,3 @@
-<template>
-  <div class="poster">
-    <div class="wrapper">
-      <img :src="`${listInfo.coverImgUrl}?param=400y400`" alt="" />
-    </div>
-    <div class="desc">
-      <div class="title">{{ listInfo.name }}</div>
-      <div class="info">
-        <i class="poster__info-icon"></i>
-        <span class="info-update">最近更新：{{ time }}</span>
-        <span class="info-frequency">（{{ updateFrequency }}）</span>
-      </div>
-      <div class="btn">
-        <btn-bar v-bind="$attrs">
-          <template #collect>
-            <span>({{ listInfo.subscribedCount }})</span>
-          </template>
-          <template #share>
-            <span>({{ listInfo.shareCount }})</span>
-          </template>
-          <template #comment>
-            <span>({{ listInfo.commentCount }})</span>
-          </template>
-        </btn-bar>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getMonthAndDay } from '/@/utils'
@@ -54,6 +25,37 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="poster">
+    <div class="wrapper">
+      <img :src="`${listInfo.coverImgUrl}?param=400y400`" alt="">
+    </div>
+    <div class="desc">
+      <div class="title">
+        {{ listInfo.name }}
+      </div>
+      <div class="info">
+        <i class="poster__info-icon" />
+        <span class="info-update">最近更新：{{ time }}</span>
+        <span class="info-frequency">（{{ updateFrequency }}）</span>
+      </div>
+      <div class="btn">
+        <BtnBar v-bind="$attrs">
+          <template #collect>
+            <span>({{ listInfo.subscribedCount }})</span>
+          </template>
+          <template #share>
+            <span>({{ listInfo.shareCount }})</span>
+          </template>
+          <template #comment>
+            <span>({{ listInfo.commentCount }})</span>
+          </template>
+        </BtnBar>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 /* @import '@/styles/variables.scss'; */

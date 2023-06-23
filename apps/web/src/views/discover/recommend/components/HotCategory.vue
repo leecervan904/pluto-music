@@ -1,17 +1,6 @@
-<template>
-  <div class="container">
-    <category-header :title="title" :list="list" :more-path="morePath" />
-    <div class="content">
-      <ul class="playlist">
-        <playlist-card v-for="(item, i) of playlist" :key="i" class="item" :info="item" />
-      </ul>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { IPersonalizedItem } from '@pluto-music/api'
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRequest } from '/@/utils'
 
 import PlaylistCard from '/@/components/base/PlaylistCard.vue'
@@ -24,10 +13,22 @@ const playlist = ref<IPersonalizedItem[]>([])
 
 onMounted(async () => {
   const [error, data] = await useRequest('getPersonalized')({ limit: 8 })
-  if (error) return
+  if (error)
+    return
   playlist.value = data.result
 })
 </script>
+
+<template>
+  <div class="container">
+    <CategoryHeader :title="title" :list="list" :more-path="morePath" />
+    <div class="content">
+      <ul class="playlist">
+        <PlaylistCard v-for="(item, i) of playlist" :key="i" class="item" :info="item" />
+      </ul>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .container {

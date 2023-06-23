@@ -1,26 +1,6 @@
-<template>
-  <div class="p-ctrl-bar">
-    <div class="p-ctrl-bar_item p-ctrl-bar_cycle">
-      <svg-icon :icon-class="iconPlayMode" @click="togglePlayMode"/>
-    </div>
-    <div class="p-ctrl-bar_item p-ctrl-bar_prev">
-      <svg-icon icon-class="prev" @click="togglePlayPrev"/>
-    </div>
-    <div class="p-ctrl-bar_item p-ctrl-bar_play">
-      <svg-icon :icon-class="iconPlayOrPause" @click="togglePlay"/>
-    </div>
-    <div class="p-ctrl-bar_item p-ctrl-bar_next">
-      <svg-icon icon-class="next" @click="togglePlayNext"/>
-    </div>
-    <div class="p-ctrl-bar_item p-ctrl-bar_list">
-      <svg-icon icon-class="song-list" @click="handleToggleShowPlaylist"/>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed, unref } from 'vue'
-import { usePlayerStore, PlayMode } from '/@/store/module/player'
+import { PlayMode, usePlayerStore } from '/@/store/module/player'
 
 const playerStore = usePlayerStore()
 const isPlay = computed(() => playerStore.isPlay)
@@ -29,30 +9,51 @@ const playMode = computed(() => playerStore.playMode)
 // const songId = computed(() => playerStore.songId)
 const iconPlayOrPause = computed(() => unref(isPlay) ? 'pause' : 'play')
 const iconPlayMode = computed(() => {
-  if (unref(playMode) === PlayMode.LOOP) return 'play-loop'
+  if (unref(playMode) === PlayMode.LOOP)
+    return 'play-loop'
   return unref(playMode) === PlayMode.SINGLE
     ? 'play-single'
     : 'play-random'
 })
 
-const togglePlayMode = () => {
+function togglePlayMode() {
   playerStore.togglePlayMode()
 }
-const togglePlayPrev = () => {
+function togglePlayPrev() {
   playerStore.togglePlayPrev()
   // this.$emit('reset-ct')
 }
-const togglePlayNext = () => {
+function togglePlayNext() {
   playerStore.togglePlayNext()
   // this.$emit('reset-ct')
 }
-const togglePlay = () => {
+function togglePlay() {
   playerStore.togglePlay()
 }
-const handleToggleShowPlaylist = () => {
+function handleToggleShowPlaylist() {
   playerStore.toggleShowPlaylist(!playerStore.showPlaylist)
 }
 </script>
+
+<template>
+  <div class="p-ctrl-bar">
+    <div class="p-ctrl-bar_item p-ctrl-bar_cycle">
+      <svg-icon :icon-class="iconPlayMode" @click="togglePlayMode" />
+    </div>
+    <div class="p-ctrl-bar_item p-ctrl-bar_prev">
+      <svg-icon icon-class="prev" @click="togglePlayPrev" />
+    </div>
+    <div class="p-ctrl-bar_item p-ctrl-bar_play">
+      <svg-icon :icon-class="iconPlayOrPause" @click="togglePlay" />
+    </div>
+    <div class="p-ctrl-bar_item p-ctrl-bar_next">
+      <svg-icon icon-class="next" @click="togglePlayNext" />
+    </div>
+    <div class="p-ctrl-bar_item p-ctrl-bar_list">
+      <svg-icon icon-class="song-list" @click="handleToggleShowPlaylist" />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .p-ctrl-bar {

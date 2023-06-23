@@ -1,14 +1,15 @@
 <script setup lang="ts">
 // import  from '@pluto-music/stencil/'
 import type { IRelativePlaylistItem } from '@pluto-music/api'
-import { shallowRef, onMounted } from 'vue'
+import { onMounted, shallowRef } from 'vue'
 import { useRequest } from '/@/utils'
 
 const playlists = shallowRef<IRelativePlaylistItem[]>([])
 // import { MyComponent } from '@pluto-music/vue-library/lib/components'
 async function initData() {
   const [error, data] = await useRequest('getTopPlaylist')({})
-  if (error) return
+  if (error)
+    return
   playlists.value = data.playlists
 }
 
@@ -30,7 +31,7 @@ onMounted(() => {
         :key="playlist.id"
         :playlist="playlist"
         @to-playlist="handleToPlaylist"
-      ></my-component>
+      />
     </div>
   </div>
 </template>

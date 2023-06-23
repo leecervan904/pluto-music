@@ -1,28 +1,7 @@
-<template>
-  <div class="wrapper">
-    <h1 class="cate-title">{{ title }}</h1>
-    <div class="cate-list">
-      <div
-        v-for="(item, i) of rank"
-        :key="i"
-        :class="['card', { 'cate-item-active': item.id == id }]"
-        @click="handleChangeRank(item.id)"
-      >
-        <div class="img">
-          <img :src="`${item.coverImgUrl}?param=100y100`" :alt="item.name" />
-        </div>
-        <div class="desc">
-          <p class="name">{{ item.name }}</p>
-          <p class="info">{{ item.updateFrequency }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import type { IToplistDetailItem } from '@pluto-music/api'
-import { defineComponent, PropType } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -38,6 +17,34 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="wrapper">
+    <h1 class="cate-title">
+      {{ title }}
+    </h1>
+    <div class="cate-list">
+      <div
+        v-for="(item, i) of rank"
+        :key="i"
+        class="card" :class="[{ 'cate-item-active': item.id == id }]"
+        @click="handleChangeRank(item.id)"
+      >
+        <div class="img">
+          <img :src="`${item.coverImgUrl}?param=100y100`" :alt="item.name">
+        </div>
+        <div class="desc">
+          <p class="name">
+            {{ item.name }}
+          </p>
+          <p class="info">
+            {{ item.updateFrequency }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .wrapper {

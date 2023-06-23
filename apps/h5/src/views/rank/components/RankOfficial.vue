@@ -1,37 +1,43 @@
+<script>
+export default {
+  name: 'RankOfficial',
+  props: {
+    title: { type: String, require: true },
+    rank: { type: Array, default: () => [] },
+  },
+}
+</script>
+
 <template>
   <div>
-    <h2 class="title">{{ title }}</h2>
+    <h2 class="title">
+      {{ title }}
+    </h2>
     <div class="list">
-      <router-link class="item" tag="div"
+      <router-link
         v-for="(item, index) of rank" :key="index"
-        :to="`/ranklist/${item.id}`">
+        class="item" tag="div"
+        :to="`/ranklist/${item.id}`"
+      >
         <div class="poster-wrapper">
           <div class="item-poster">
-            <img class="img"
+            <img
+              class="img"
               :src="`${item.coverImgUrl}?param=200y200`"
-              :alt="item.name">
+              :alt="item.name"
+            >
           </div>
         </div>
         <div class="item-toplist">
-          <p class="toplist-row" v-for="(row, ri) of item.tracks" :key="ri">
+          <p v-for="(row, ri) of item.tracks" :key="ri" class="toplist-row">
             <span class="row-order">{{ ri + 1 }}.</span>
-            {{ row.first }} = {{  row.second }}
+            {{ row.first }} = {{ row.second }}
           </p>
         </div>
       </router-link>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'rank-official',
-  props: {
-    title: { type: String, require: true },
-    rank: { type: Array, default: () => [] }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

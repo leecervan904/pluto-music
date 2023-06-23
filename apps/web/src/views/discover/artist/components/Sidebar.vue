@@ -1,25 +1,8 @@
-<template>
-  <aside class="ar-sidebar">
-    <div v-for="cate of singerCate" :key="cate.title" class="cate">
-      <h4 class="cate-title">{{ cate.title }}</h4>
-      <ul class="cate-list">
-        <li
-          v-for="item of cate.list"
-          :key="item.name"
-          class="cate-item"
-          :class="{ active: item.name === activeCate.name }"
-          @click="changeCate(item)"
-        >
-          {{ item.name }}
-        </li>
-      </ul>
-    </div>
-  </aside>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { ICateItem, ICateList } from '../typing'
+
+const emit = defineEmits(['change'])
 
 const singerCate: ICateList[] = [
   {
@@ -71,12 +54,11 @@ const singerCate: ICateList[] = [
   },
 ]
 
-const emit = defineEmits(['change'])
-
 const activeCate = ref<ICateItem>(singerCate[0].list[0])
 
-const changeCate = (cate: ICateItem) => {
-  if (cate === activeCate.value) return
+function changeCate(cate: ICateItem) {
+  if (cate === activeCate.value)
+    return
   activeCate.value = cate
 }
 
@@ -90,6 +72,27 @@ watch(
   },
 )
 </script>
+
+<template>
+  <aside class="ar-sidebar">
+    <div v-for="cate of singerCate" :key="cate.title" class="cate">
+      <h4 class="cate-title">
+        {{ cate.title }}
+      </h4>
+      <ul class="cate-list">
+        <li
+          v-for="item of cate.list"
+          :key="item.name"
+          class="cate-item"
+          :class="{ active: item.name === activeCate.name }"
+          @click="changeCate(item)"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
+    </div>
+  </aside>
+</template>
 
 <style lang="scss" scoped>
 .ar-sidebar {

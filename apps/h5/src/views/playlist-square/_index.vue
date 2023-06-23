@@ -1,36 +1,3 @@
-<template>
-  <div class="pl-squares">
-    <!-- <nav-bar class="pl-squares__title" :title="title"></nav-bar> -->
-
-    <van-tabs class="pl-squares__tabs"
-      v-model="active"
-      swipeable
-      @click="onTabSelect">
-      <van-tab v-for="item in hotCate" :key="item"
-        :title="item"/>
-    </van-tabs>
-
-    <swiper class="pl-squares__swiper"
-      ref="mySwiper"
-      :options="swiperOptions">
-      <swiper-slide
-        v-for="(cate, index) in hotCate"
-        :key="cate"
-        class="swiper-item"
-        @scroll.passive="onScroll"
-      >
-        <!-- 第一次渲染后便缓存组件 -->
-        <keep-alive>
-          <div v-if="index !== active && isFirst[index]" class="swiper-loading">滑动加载...</div>
-          <VirtualScroller v-else :cat="cate"/>
-        </keep-alive>
-      </swiper-slide>
-    </swiper>
-
-    <!-- <tab-bar></tab-bar> -->
-  </div>
-</template>
-
 <script lang="ts">
 // import { mapGetters } from 'vuex'
 // import NavBar from '@/layout/components/NavBar'
@@ -40,91 +7,132 @@ import { useRequest } from '/@/utils/useRequest'
 import VirtualScroller from './Scroller.vue'
 
 export default {
-  name: 'palylist-square',
+  name: 'PalylistSquare',
   components: {
     // NavBar,
     // TabBar,
     // InfiniteScroll,
     VirtualScroller,
   },
-  data () {
+  data() {
     return {
       swiperOptions: {
         spaceBetween: 20,
         pagination: '.swiper-pagination',
         on: {
-          slideChange: _ => {
+          slideChange: (_) => {
             const activeIndex = this.swiper.activeIndex
             this.onSwiperChange(activeIndex)
-          }
-        }
+          },
+        },
       },
       loading: true,
       active: 0, // tab 和 swiper 共同维护
       hotCate: [], // tab 列表
       playlists: [], // 当前 tab 下的 playlist
-      isFirst: [] // 状态，判断每个 slide 组件是否第一次挂载
+      isFirst: [], // 状态，判断每个 slide 组件是否第一次挂载
     }
-  },
-  mounted () {
-    console.log('square mounted...')
-    this.extractPlaylistHot()
-  },
-  activated () {
-    // 销毁外层 scroll
-    this.$emit('destroyScroll')
   },
   computed: {
     // ...mapGetters(['bodyWidth']),
     bodyWidth() {
       return document.body.clientWidth
     },
-    title () {
+    title() {
       return this.$route.meta.title
     },
-    showLoading () {
+    showLoading() {
       return 1
     },
-    itemWidth () {
+    itemWidth() {
       return Math.floor(this.bodyWidth / 3.5)
     },
-    swiper () {
+    swiper() {
       return this.$refs.mySwiper.swiperInstance
     },
-    content () {
+    content() {
       return this.$refs.mySwiper.$el
-    }
+    },
+  },
+  watch: {
+    active(newVal, oldVal) {
+      if (this.isFirst[newVal])
+        this.isFirst[newVal] = 0
+    },
+  },
+  mounted() {
+    console.log('square mounted...')
+    this.extractPlaylistHot()
+  },
+  activated() {
+    // 销毁外层 scroll
+    this.$emit('destroyScroll')
   },
   methods: {
     // 点击 tab 触发数据请求
-    onTabSelect (index) {
+    onTabSelect(index) {
       this.swiper.slideTo(index)
     },
     // 滑动 swiper 触发数据请求
-    onSwiperChange (index) {
+    onSwiperChange(index) {
       this.active = index
     },
-    onScroll () {
+    onScroll() {
       console.log('scroll...')
     },
-    async extractPlaylistHot () {
+    async extractPlaylistHot() {
       const [error, data] = await useRequest('getPlaylistHot')()
-      if (error) return
+      if (error)
+        return
       const { tags } = data
       this.hotCate = tags.map(v => v.name)
       this.isFirst = this.hotCate.map(v => 1)
       this.isFirst[0] = 0
-    }
+    },
   },
-  watch: {
-    active (newVal, oldVal) {
-      if (this.isFirst[newVal]) {
-        this.isFirst[newVal] = 0
-      }
-    }
-  }
 }
 </script>
+
+<template>
+  <div class="pl-squares">
+    <!-- <nav-bar class="pl-squares__title" :title="title"></nav-bar> -->
+
+    <van-tabs
+      v-model="active"
+      class="pl-squares__tabs"
+      swipeable
+      @click="onTabSelect"
+    >
+      <van-tab
+        v-for="item in hotCate" :key="item"
+        :title="item"
+      />
+    </van-tabs>
+
+    <swiper
+      ref="mySwiper"
+      class="pl-squares__swiper"
+      :options="swiperOptions"
+    >
+      <swiper-slide
+        v-for="(cate, index) in hotCate"
+        :key="cate"
+        class="swiper-item"
+        @scroll.passive="onScroll"
+      >
+        <!-- 第一次渲染后便缓存组件 -->
+        <keep-alive>
+          <div v-if="index !== active && isFirst[index]" class="swiper-loading">
+            滑动加载...
+          </div>
+          <VirtualScroller v-else :cat="cate" />
+        </keep-alive>
+      </swiper-slide>
+    </swiper>
+
+    <!-- <tab-bar></tab-bar> -->
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .pl-squares {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { GetMvDetailData, CommentTypeEnum } from '@pluto-music/api'
-import { ref, shallowRef, onMounted, unref } from 'vue'
+import type { GetMvDetailData } from '@pluto-music/api'
+import { CommentTypeEnum } from '@pluto-music/api'
+import { onMounted, ref, shallowRef, unref } from 'vue'
 import { useRouteQuery } from '/@/hooks/useRouteQuery'
 import { useRequest } from '/@/utils'
 import Comment from '/@/components/comment/index.vue'
@@ -12,14 +13,16 @@ const detail = shallowRef<Nullable<GetMvDetailData>>(null)
 
 async function initData() {
   const [error, data] = await useRequest('getMvDetail')({ mvid: unref(id) })
-  if (error) return
+  if (error)
+    return
   // console.log(data)
   detail.value = data.data
 }
 
 async function getMvUrl() {
   const [error, data] = await useRequest('getMvUrl')({ id: unref(id) })
-  if (error) return
+  if (error)
+    return
   mvUrl.value = data.data.url
 }
 
@@ -37,13 +40,13 @@ onMounted(() => {
         <span class="mv-title__sub">{{ detail?.artists[0].name }}</span>
       </div>
       <div class="mv-content">
-        <video class="mv-container" controls :src="mvUrl"></video>
+        <video class="mv-container" controls :src="mvUrl" />
       </div>
       <div>
         <Comment :id="id" :type="CommentTypeEnum.MV" />
       </div>
     </div>
-    <div class="aside"></div>
+    <div class="aside" />
   </div>
 </template>
 

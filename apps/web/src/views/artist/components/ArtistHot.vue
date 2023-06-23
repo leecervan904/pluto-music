@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PropType } from 'vue'
-import { ISong } from '@pluto-music/api'
+import type { PropType } from 'vue'
+import type { ISong } from '@pluto-music/api'
 import SongListTable from '/@/components/base/SongListTable.vue'
 
 defineProps({

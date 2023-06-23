@@ -1,42 +1,6 @@
-<template>
-  <div class="bar">
-    <div class="btn-play" @click="handleToPlay">
-      <i class="btn-play-icon"></i>
-      <em>播放</em>
-    </div>
-    <div class="btn-add" @click="handleShowAbout"></div>
-    <div class="btn-collect" @click="handleShowAbout">
-      <i class="btn-collect-icon iconfont icon-shoucangjia"></i>
-      <em class="em-text">
-        <slot name="collect">收藏</slot>
-      </em>
-    </div>
-    <div class="btn-share" @click="handleShowAbout">
-      <i class="btn-comment-icon iconfont icon-fenxiang"></i>
-      <em class="em-text">
-        <slot name="share">分享</slot>
-      </em>
-    </div>
-    <div class="btn-download" @click="handleShowAbout">
-      <i class="btn-comment-icon iconfont icon-xiazai"></i>
-      <em class="em-text">
-        <slot name="download">下载</slot>
-      </em>
-    </div>
-    <div class="btn-comment">
-      <i class="btn-comment-icon iconfont icon-pinglun"></i>
-      <em class="em-text">
-        <slot name="comment">评论</slot>
-      </em>
-    </div>
-
-    <slot></slot>
-  </div>
-</template>
-
 <script lang="ts">
 import type { ISong } from '@pluto-music/api'
-import { defineComponent, type PropType } from 'vue'
+import { type PropType, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -52,11 +16,10 @@ export default defineComponent({
     const route = useRoute()
 
     function handleToPlay() {
-      if (route.name === 'song') {
+      if (route.name === 'song')
         emit('play')
-      } else {
+      else
         emit('play-all')
-      }
     }
 
     function handleShowAbout() {
@@ -70,6 +33,42 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="bar">
+    <div class="btn-play" @click="handleToPlay">
+      <i class="btn-play-icon" />
+      <em>播放</em>
+    </div>
+    <div class="btn-add" @click="handleShowAbout" />
+    <div class="btn-collect" @click="handleShowAbout">
+      <i class="btn-collect-icon iconfont icon-shoucangjia" />
+      <em class="em-text">
+        <slot name="collect">收藏</slot>
+      </em>
+    </div>
+    <div class="btn-share" @click="handleShowAbout">
+      <i class="btn-comment-icon iconfont icon-fenxiang" />
+      <em class="em-text">
+        <slot name="share">分享</slot>
+      </em>
+    </div>
+    <div class="btn-download" @click="handleShowAbout">
+      <i class="btn-comment-icon iconfont icon-xiazai" />
+      <em class="em-text">
+        <slot name="download">下载</slot>
+      </em>
+    </div>
+    <div class="btn-comment">
+      <i class="btn-comment-icon iconfont icon-pinglun" />
+      <em class="em-text">
+        <slot name="comment">评论</slot>
+      </em>
+    </div>
+
+    <slot />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .bar {

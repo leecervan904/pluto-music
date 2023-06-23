@@ -5,17 +5,17 @@ export default defineConfig({
     [
       /^multi-ellipsis$/,
       () => ({
-        overflow: 'hidden',
+        'overflow': 'hidden',
         'white-space': 'no-wrap',
         'text-overflow': 'ellipsis',
       }),
     ],
     [
       /^multi-ellipsis-(\d+)$/,
-      (match) => ({
-        overflow: 'hidden',
+      match => ({
+        'overflow': 'hidden',
         'text-overflow': 'ellipsis',
-        display: '-webkit-box',
+        'display': '-webkit-box',
         '-webkit-line-clamp': match[1],
         '-webkit-box-orient': 'vertical',
       }),
@@ -23,9 +23,9 @@ export default defineConfig({
   ],
   shortcuts: {
     // shortcuts to multiple utilities
-    btn: 'py-2 px-4 font-semibold rounded-lg shadow-md',
+    'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
     'btn-blue': 'text-white bg-blue-500 hover:bg-blue-700',
     // single utility alias
-    red: 'text-red-100',
+    'red': 'text-red-100',
   },
 })

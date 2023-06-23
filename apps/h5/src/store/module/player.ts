@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ISong } from '@pluto-music/api'
+import type { ISong } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 
 import { useLayoutStore } from './layout'
@@ -20,41 +20,39 @@ export interface PlayerStoreState {
   playlistId: Nullable<string | number>
 }
 
-const handleGetRandomSong = (playlist: ISong[], songId: number | string) => {
-  if (playlist.length === 1) return playlist[0]
+function handleGetRandomSong(playlist: ISong[], songId: number | string) {
+  if (playlist.length === 1)
+    return playlist[0]
   const length = playlist.length
   const currentIndex = playlist.findIndex(v => v.id === songId)
   let randomIndex = currentIndex
   // 简单判断逻辑：只要下一首不是当前播放的即可
-  while (randomIndex === currentIndex) {
+  while (randomIndex === currentIndex)
     randomIndex = Math.floor(Math.random() * length)
-  }
 
   return playlist[randomIndex]
 }
 
-const handleGetSongDetail = async (songId: number | string) => {
+async function handleGetSongDetail(songId: number | string) {
   const [error, data] = await useRequest('getSongDetail')({ id: songId })
-  if (error) {
+  if (error)
     console.log('[error] - get song detail', songId)
-    throw new Error('[error] - get song detail')
-  }
+    // throw new Error('[error] - get song detail')
 
   return data.songs[0]
 }
 
-const handleGetSongUrl = async (songId: string | number) => {
+async function handleGetSongUrl(songId: string | number) {
   const [error, data] = await useRequest('getSongUrl')({ id: songId })
-  if (error) {
+  if (error)
     console.log('[error] - get song url', songId)
-    throw new Error('[error] - get song url')
-  }
+    // throw new Error('[error] - get song url')
 
   const url = data.data[0].url
   return url
 }
 
-const isSongExist = (playlist: ISong[], songId: string | number) => {
+function isSongExist(playlist: ISong[], songId: string | number) {
   return playlist.some(v => v.id === songId)
 }
 
@@ -85,11 +83,13 @@ export const usePlayerStore = defineStore({
   actions: {
     initPlayer() {
       console.log('init player', isAudioInitialized)
-      if (isAudioInitialized) return
+      if (isAudioInitialized)
+        return
       try {
         this.audio?.play()
         this.audio?.pause()
-      } catch (error) {
+      }
+      catch (error) {
         console.log('initialize player')
       }
       isAudioInitialized = true
@@ -101,25 +101,27 @@ export const usePlayerStore = defineStore({
       this.song = song
     },
     addToPlaylist(song: ISong) {
-      if (this.playlist.some(v => v.id === song.id)) {
+      if (this.playlist.some(v => v.id === song.id))
         return
-      }
+
       this.playlist.push(song)
     },
     togglePlayMode() {
-      if (this.playMode === PlayMode.LOOP) {
+      if (this.playMode === PlayMode.LOOP)
         this.playMode = PlayMode.SINGLE
-      } else if (this.playMode === PlayMode.SINGLE) {
+
+      else if (this.playMode === PlayMode.SINGLE)
         this.playMode = PlayMode.RANDOM
-      } else {
+
+      else
         this.playMode = PlayMode.LOOP
-      }
     },
     togglePlayPrev() {
       if (this.playMode === PlayMode.RANDOM) {
         const nextSong = handleGetRandomSong(this.playlist, this.songId!)
         this.playSong(nextSong)
-      } else {
+      }
+      else {
         const index = this.playlist.findIndex(v => v.id === this.songId)
         // 处理边界：当前播放为播放列表第一首时，切换到最后一首
         const prevSong = index === 0
@@ -132,7 +134,8 @@ export const usePlayerStore = defineStore({
       if (this.playMode === PlayMode.RANDOM) {
         const nextSong = handleGetRandomSong(this.playlist, this.songId!)
         this.playSong(nextSong)
-      } else {
+      }
+      else {
         const index = this.playlist.findIndex(v => v.id === this.songId)
         // 处理边界：当前播放为最后一首时，切换到第一首
         const nextSong = index === this.playlist.length - 1
@@ -153,11 +156,12 @@ export const usePlayerStore = defineStore({
         // })
         return
       }
-      if (this.isPlay) {
+      if (this.isPlay)
         this.audio?.pause()
-      } else {
+
+      else
         this.audio?.play()
-      }
+
       this.isPlay = !this.isPlay
     },
     toggleShowPlaylist(val: boolean) {
@@ -174,9 +178,8 @@ export const usePlayerStore = defineStore({
       }
 
       let realSong = song
-      if (typeof song !== 'object') {
+      if (typeof song !== 'object')
         realSong = await handleGetSongDetail(song)
-      }
 
       const layoutStore = useLayoutStore()
 
@@ -195,9 +198,9 @@ export const usePlayerStore = defineStore({
         }
 
         // 添加到播放列表
-        addToPlaylist &&
-        !isSongExist(this.playlist, realSong.id) &&
-        this.addToPlaylist(realSong)
+        addToPlaylist
+        && !isSongExist(this.playlist, realSong.id)
+        && this.addToPlaylist(realSong)
         // 提交歌曲信息
         this.setCurrentSong(realSong)
         // 保证歌曲会播放
@@ -211,10 +214,11 @@ export const usePlayerStore = defineStore({
       // this.audio?.play()
     },
     updatePlaylist(playlist: ISong[], playlistId: number | string) {
-      if (this.playlistId === playlistId) return
+      if (this.playlistId === playlistId)
+        return
       this.playlist = playlist
       this.playlistId = playlistId
       this.playSong()
-    }
+    },
   },
 })

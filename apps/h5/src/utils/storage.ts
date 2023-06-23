@@ -11,7 +11,8 @@ function serialize<T = any>(val: T) {
 function deserialize<T>(val: string): IAppStorageData<T> | null {
   try {
     return JSON.parse(val) as IAppStorageData<T>
-  } catch (e) {
+  }
+  catch (e) {
     return null
   }
 }
@@ -29,23 +30,25 @@ export class AppStorage {
    */
   has(key: string, removeExpires = true) {
     const item = this.instance!.getItem(key)
-    if (!item) return false
+    if (!item)
+      return false
 
     if (removeExpires) {
       const res = deserialize(item)
-      if (res?.expiresIn && res.expiresIn < Date.now()) {
+      if (res?.expiresIn && res.expiresIn < Date.now())
         this.instance!.removeItem(key)
-      }
     }
 
     return this.instance!.getItem(key) !== null
   }
 
   getItem<T = any>(key: string, removeExpires = true): T | null {
-    if (!this.has(key, removeExpires)) return null
+    if (!this.has(key, removeExpires))
+      return null
     const store = this.instance!.getItem(key)
     const res = deserialize<T>(store!)
-    if (!res) return null
+    if (!res)
+      return null
     return res.data
   }
 
@@ -54,12 +57,12 @@ export class AppStorage {
     value: T,
     isCache = false,
     options: {
-      maxAge?: number,
-      weight?: number,
-    }
+      maxAge?: number
+      weight?: number
+    },
   ) {
     const data: IAppStorageData<T> = {
-      data: value
+      data: value,
     }
 
     if (isCache) {

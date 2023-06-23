@@ -1,38 +1,39 @@
-<template>
-  <div class="spinner" :style="spinnerStyles">
-    <div class="rect"
-      v-for="i in 5"
-      :key="i"
-      :style="rectStyles"
-    ></div>
-  </div>
-</template>
-
 <script>
 export default {
-  name: 'base-loading-spinner',
+  name: 'BaseLoadingSpinner',
   props: {
     width: { type: String, default: '50px' },
     height: { type: String, default: '40px' },
     itemWidth: { type: String, default: '15%' },
-    color: { type: String, default: '#333' }
+    color: { type: String, default: '#333' },
   },
   computed: {
-    spinnerStyles () {
+    spinnerStyles() {
       return {
         width: this.width,
-        height: this.height
+        height: this.height,
       }
     },
-    rectStyles () {
+    rectStyles() {
       return {
         width: this.itemWidth,
-        backgroundColor: this.color
+        backgroundColor: this.color,
       }
-    }
-  }
+    },
+  },
 }
 </script>
+
+<template>
+  <div class="spinner" :style="spinnerStyles">
+    <div
+      v-for="i in 5"
+      :key="i"
+      class="rect"
+      :style="rectStyles"
+    />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .spinner {

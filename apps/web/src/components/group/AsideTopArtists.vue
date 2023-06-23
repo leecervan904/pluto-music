@@ -14,18 +14,20 @@ withDefaults(
 )
 const emit = defineEmits(['to-artist'])
 
-const handleToArtist = (artist: IArtist) => {
+function handleToArtist(artist: IArtist) {
   emit('to-artist', artist.id)
 }
 </script>
 
 <template>
   <AsideItem class="hot-artists">
-    <template #title>热门歌手</template>
+    <template #title>
+      热门歌手
+    </template>
 
     <div v-for="item of artists" :key="item.id" class="item" @click="handleToArtist(item)">
       <div class="item-avatar">
-        <img :src="item.picUrl + '?param=50y50'" />
+        <img :src="`${item.picUrl}?param=50y50`">
       </div>
       <div class="item-info">
         <span>{{ item.name }}</span>

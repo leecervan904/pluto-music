@@ -1,36 +1,7 @@
-<template>
-  <div class="poster">
-    <div class="poster-img">
-      <div class="poster-img__mask"></div>
-      <img :src="detail?.picUrl + '?param=177y177'" />
-    </div>
-    <div class="poster-info">
-      <div class="info-header">
-        <div class="poster-info__icon"></div>
-        <h2 class="header-title">{{ detail?.name }}</h2>
-      </div>
-      <p class="info-about info-singer">
-        歌手：<span v-for="(item, i) of singers" :key="i">{{ item }}</span>
-      </p>
-      <p class="info-about info-date">发行时间：{{ publishDate }}</p>
-      <p class="info-about info-company">发行公司：{{ detail?.company }}</p>
-      <div class="info-btn">
-        <BtnBar v-bind="$attrs">
-          <template #share>
-            <span>({{ detail?.info.shareCount }})</span>
-          </template>
-          <template #comment>
-            <span>({{ detail?.info.commentCount }})</span>
-          </template>
-        </BtnBar>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { IAlbumDetail } from '@pluto-music/api'
-import { computed, PropType } from 'vue'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 import { dateFormat, getSingers } from '/@/utils'
 
 import BtnBar from '/@/components/base/BtnBar.vue'
@@ -45,6 +16,42 @@ const props = defineProps({
 const singers = computed(() => getSingers(props.detail?.artists || []))
 const publishDate = computed(() => dateFormat(props.detail?.publishTime))
 </script>
+
+<template>
+  <div class="poster">
+    <div class="poster-img">
+      <div class="poster-img__mask" />
+      <img :src="`${detail?.picUrl}?param=177y177`">
+    </div>
+    <div class="poster-info">
+      <div class="info-header">
+        <div class="poster-info__icon" />
+        <h2 class="header-title">
+          {{ detail?.name }}
+        </h2>
+      </div>
+      <p class="info-about info-singer">
+        歌手：<span v-for="(item, i) of singers" :key="i">{{ item }}</span>
+      </p>
+      <p class="info-about info-date">
+        发行时间：{{ publishDate }}
+      </p>
+      <p class="info-about info-company">
+        发行公司：{{ detail?.company }}
+      </p>
+      <div class="info-btn">
+        <BtnBar v-bind="$attrs">
+          <template #share>
+            <span>({{ detail?.info.shareCount }})</span>
+          </template>
+          <template #comment>
+            <span>({{ detail?.info.commentCount }})</span>
+          </template>
+        </BtnBar>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .poster {

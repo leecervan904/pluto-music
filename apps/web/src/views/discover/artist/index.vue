@@ -1,53 +1,6 @@
-<template>
-  <div class="ar">
-    <ArtistSidebar @change="handleChangeCate" />
-
-    <section class="ar-content">
-      <div class="ar-content-header">
-        <h4 class="header-title">{{ activeCate.name }}</h4>
-        <span v-show="isHeaderMore" class="header-more">更多 &gt;</span>
-      </div>
-
-      <Alphabet ref="refAlphabet" @change="handleChangeAlpha" />
-
-      <div class="ar-content-main">
-        <div class="main-top10">
-          <div
-            v-for="(ar, index) of artists.slice(0, 10)"
-            :key="index"
-            class="main-top10-item"
-            @click="handleToArtist(ar)"
-          >
-            <span :title="`${ar.name}的音乐`">
-              <img :src="`${ar.picUrl}?param=130y130`" :alt="`${ar.name}的音乐`" class="item-pic" />
-            </span>
-            <p class="item-info">
-              <span class="item-info-name">{{ ar.name }}</span>
-              <span v-show="ar.accountId" class="item-info-home"></span>
-            </p>
-          </div>
-        </div>
-        <div class="main-list">
-          <div
-            v-for="(ar, index) of artists.slice(10)"
-            :key="index"
-            class="main-list-item"
-            @click="handleToArtist(ar)"
-          >
-            <span class="main-list-item-name">{{ ar.name }}</span>
-            <span>
-              <span v-show="ar.accountId" class="main-list-item-home"></span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { IArtistCateItem } from '@pluto-music/api'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRequest } from '/@/utils'
 import useSearch from './hooks/useSearch'
@@ -62,29 +15,30 @@ const { activeCate, artists, form } = useSearch()
 const refAlphabet = ref<InstanceType<typeof Alphabet> | null>(null)
 const isHeaderMore = computed(() => activeCate.value.name === '推荐歌手')
 
-const getArtistList = async () => {
+async function getArtistList() {
   const [error, data] = await useRequest('getArtistCate')({ ...form })
-  if (error) return
+  if (error)
+    return
   artists.value = data.artists
 }
 
-const handleChangeAlpha = (alpha: string) => {
+function handleChangeAlpha(alpha: string) {
   form.initial = alpha
   getArtistList()
 }
 
-const handleChangeCate = (cate: ICateItem) => {
+function handleChangeCate(cate: ICateItem) {
   activeCate.value = cate
   form.type = cate.type
   form.area = cate.area
   form.initial = ''
-  if (refAlphabet.value) {
+  if (refAlphabet.value)
     refAlphabet.value!.reset()
-  }
+
   getArtistList()
 }
 
-const handleToArtist = (ar: IArtistCateItem) => {
+function handleToArtist(ar: IArtistCateItem) {
   router.push({
     name: 'artist',
     query: {
@@ -93,6 +47,55 @@ const handleToArtist = (ar: IArtistCateItem) => {
   })
 }
 </script>
+
+<template>
+  <div class="ar">
+    <ArtistSidebar @change="handleChangeCate" />
+
+    <section class="ar-content">
+      <div class="ar-content-header">
+        <h4 class="header-title">
+          {{ activeCate.name }}
+        </h4>
+        <span v-show="isHeaderMore" class="header-more">更多 &gt;</span>
+      </div>
+
+      <Alphabet ref="refAlphabet" @change="handleChangeAlpha" />
+
+      <div class="ar-content-main">
+        <div class="main-top10">
+          <div
+            v-for="(ar, index) of artists.slice(0, 10)"
+            :key="index"
+            class="main-top10-item"
+            @click="handleToArtist(ar)"
+          >
+            <span :title="`${ar.name}的音乐`">
+              <img :src="`${ar.picUrl}?param=130y130`" :alt="`${ar.name}的音乐`" class="item-pic">
+            </span>
+            <p class="item-info">
+              <span class="item-info-name">{{ ar.name }}</span>
+              <span v-show="ar.accountId" class="item-info-home" />
+            </p>
+          </div>
+        </div>
+        <div class="main-list">
+          <div
+            v-for="(ar, index) of artists.slice(10)"
+            :key="index"
+            class="main-list-item"
+            @click="handleToArtist(ar)"
+          >
+            <span class="main-list-item-name">{{ ar.name }}</span>
+            <span>
+              <span v-show="ar.accountId" class="main-list-item-home" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .ar {

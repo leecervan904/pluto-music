@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { shallowRef, onMounted, unref } from 'vue'
-import { IToplistDetailItem } from '@pluto-music/api'
-import { useRequest, storage, toplistKey, bodyWidth } from '/@/utils'
+import { onMounted, shallowRef } from 'vue'
+import type { IToplistDetailItem } from '@pluto-music/api'
+import { bodyWidth, storage, toplistKey, useRequest } from '/@/utils'
 
 import RankListCard from '/@/components/rank-list-card/index.vue'
 
@@ -10,10 +10,11 @@ const ids = [3779629, 2884035, 3778678, 19723756]
 
 const toplist = shallowRef<IToplistDetailItem[]>()
 
-const initData = async () => {
+async function initData() {
   if (!storage.has(toplistKey)) {
     const [error, data] = await useRequest('getToplistDetail')()
-    if (error) return
+    if (error)
+      return
     const { list } = data
     storage.setItem(toplistKey, list, true, {
       maxAge: 10 * 60 * 1000,
@@ -23,10 +24,10 @@ const initData = async () => {
   extractData(data)
 }
 
-const extractData = (data: IToplistDetailItem[]) => {
+function extractData(data: IToplistDetailItem[]) {
   toplist.value = data
-    .filter((v) => ids.includes(v.id as number))
-    .map((v) => ({
+    .filter(v => ids.includes(v.id as number))
+    .map(v => ({
       id: v.id,
       name: v.name,
       coverImgUrl: v.coverImgUrl,
@@ -54,7 +55,7 @@ onMounted(() => {
         :stop-propagation="false"
       >
         <van-swipe-item v-for="item of toplist" :key="item.id" class="hot-content__item">
-          <rank-list-card
+          <RankListCard
             v-model:tracks="item.tracks"
             :info="item"
             :cover-img-url="item.coverImgUrl"

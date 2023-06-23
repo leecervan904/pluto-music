@@ -1,40 +1,6 @@
-<template>
-  <div class="carousel" @mouseenter="stop" @mouseleave="start">
-    <div class="content">
-      <div class="img-wrapper">
-        <transition-group name="fade">
-          <div
-            v-for="(item, i) of banner"
-            v-show="i === active"
-            :key="i"
-            class="img-item"
-            @click="toView(item)"
-          >
-            <img key="img" :src="item.pic" />
-          </div>
-        </transition-group>
-
-        <div class="content__prev" @click="handleControl('prev')">&nbsp;</div>
-        <div class="content__next" @click="handleControl('next')">&nbsp;</div>
-        <div class="content-paganation">
-          <span
-            v-for="i of banner.length"
-            :key="i"
-            :class="['pag-dot', i - 1 === active ? 'pag-dot-active' : 'none']"
-            @click="handleControl(i - 1)"
-          ></span>
-        </div>
-      </div>
-      <div class="content__download" @click="handleDownload()">
-        <p class="download-desc">PC 安卓 iPhone WP iPad Mac 六大客户端</p>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import type { IBannerItem } from '@pluto-music/api'
-import { ref, computed, watch, onMounted, onUnmounted, defineComponent, unref } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, ref, unref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRequest } from '/@/utils'
 
@@ -51,7 +17,8 @@ export default defineComponent({
 
     async function initialData() {
       const [error, data] = await useRequest('getBanner')()
-      if (error) return
+      if (error)
+        return
       banner.value = data.banners
       start()
     }
@@ -67,13 +34,12 @@ export default defineComponent({
     }
 
     function handleControl(tag: 'prev' | 'next' | number) {
-      if (typeof tag === 'number') {
+      if (typeof tag === 'number')
         active.value = tag
-      } else if (tag === 'prev') {
+      else if (tag === 'prev')
         active.value = active.value === 0 ? banner.value.length - 1 : active.value - 1
-      } else if (tag === 'next') {
+      else if (tag === 'next')
         active.value = active.value === banner.value.length - 1 ? 0 : active.value + 1
-      }
     }
 
     function handleDownload() {
@@ -82,13 +48,12 @@ export default defineComponent({
 
     function toView(item: IBannerItem) {
       const { targetType, targetId, url } = item
-      if (targetType === 3000) {
+      if (targetType === 3000)
         window.open(url)
-      } else if (targetType === 1) {
+      else if (targetType === 1)
         router.push({ path: '/song', query: { id: targetId } })
-      } else if (targetType === 10) {
+      else if (targetType === 10)
         router.push({ path: '/album', query: { id: targetId } })
-      }
     }
 
     watch(bgMask, (newVal) => {
@@ -118,6 +83,46 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="carousel" @mouseenter="stop" @mouseleave="start">
+    <div class="content">
+      <div class="img-wrapper">
+        <transition-group name="fade">
+          <div
+            v-for="(item, i) of banner"
+            v-show="i === active"
+            :key="i"
+            class="img-item"
+            @click="toView(item)"
+          >
+            <img key="img" :src="item.pic">
+          </div>
+        </transition-group>
+
+        <div class="content__prev" @click="handleControl('prev')">
+&nbsp;
+        </div>
+        <div class="content__next" @click="handleControl('next')">
+&nbsp;
+        </div>
+        <div class="content-paganation">
+          <span
+            v-for="i of banner.length"
+            :key="i"
+            class="pag-dot" :class="[i - 1 === active ? 'pag-dot-active' : 'none']"
+            @click="handleControl(i - 1)"
+          />
+        </div>
+      </div>
+      <div class="content__download" @click="handleDownload()">
+        <p class="download-desc">
+          PC 安卓 iPhone WP iPad Mac 六大客户端
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .fade-enter,

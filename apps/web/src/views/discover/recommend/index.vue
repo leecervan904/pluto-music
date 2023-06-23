@@ -1,23 +1,3 @@
-<template>
-  <div class="recommend">
-    <div class="carousel-mask" :style="{ background: `url(${currentMask}) repeat-x center` }"></div>
-    <home-carousel v-model:current-mask="currentMask" class="carousel" />
-
-    <div class="content">
-      <div class="content-left">
-        <hot-category />
-        <new-category />
-        <bill-category />
-      </div>
-
-      <div class="content-right">
-        <AsideRecommend login-info :in-singers="homeSinger" :hot-players="homeHoster" />
-        <AsideDownload />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -35,6 +15,26 @@ const commonStore = useCommonStore()
 const { homeSinger, homeHoster } = storeToRefs(commonStore)
 const currentMask = ref('')
 </script>
+
+<template>
+  <div class="recommend">
+    <div class="carousel-mask" :style="{ background: `url(${currentMask}) repeat-x center` }" />
+    <HomeCarousel v-model:current-mask="currentMask" class="carousel" />
+
+    <div class="content">
+      <div class="content-left">
+        <HotCategory />
+        <NewCategory />
+        <BillCategory />
+      </div>
+
+      <div class="content-right">
+        <AsideRecommend login-info :in-singers="homeSinger" :hot-players="homeHoster" />
+        <AsideDownload />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .recommend {

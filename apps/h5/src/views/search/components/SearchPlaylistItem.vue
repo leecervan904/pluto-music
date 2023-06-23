@@ -1,12 +1,31 @@
+<script>
+import { formatCount } from '/@/utils'
+
+export default {
+  name: 'SearchPlaylist',
+  props: {
+    playlist: { type: Object, require: true },
+  },
+  methods: {
+    formatCount(count) {
+      return formatCount(count)
+    },
+  },
+}
+</script>
+
 <template>
   <router-link class="pl-item" tag="div" :to="`/playlist/${playlist.id}`">
     <div class="item-img__wrapper">
       <img
         :src="`${playlist.coverImgUrl}?param=100y100`"
-        :alt="playlist.name">
+        :alt="playlist.name"
+      >
     </div>
     <div class="item-info">
-      <p class="item-info__name">{{ playlist.name }}</p>
+      <p class="item-info__name">
+        {{ playlist.name }}
+      </p>
       <p class="item-info__more">
         {{ playlist.trackCount }} 首音乐
         by {{ playlist.creator && playlist.creator.nickname }}
@@ -15,22 +34,6 @@
     </div>
   </router-link>
 </template>
-
-<script>
-import { formatCount } from '/@/utils'
-
-export default {
-  name: 'search-playlist',
-  props: {
-    playlist: { type: Object, require: true }
-  },
-  methods: {
-    formatCount (count) {
-      return formatCount(count)
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 @import '/@/styles/mixins.scss';

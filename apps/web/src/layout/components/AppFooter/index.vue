@@ -1,41 +1,6 @@
-<template>
-  <div class="footer">
-    <div class="wrapper">
-      <div class="info">
-        <p class="info-link">
-          <span v-for="(item, i) of divideLinks" :key="i" class="link-item">
-            <a href="#">{{ item }}</a>
-          </span>
-        </p>
-        <p class="info-copyright">
-          <span>网易公司版权所有©1997-2019</span>
-          <span>杭州乐读科技有限公司运营：</span>
-          <span>
-            <a href="#">浙网文[2018]3506-263号</a>
-          </span>
-        </p>
-        <p class="info-contact">
-          <span>违法和不良信息举报电话：0571-89853516</span>
-          <span>举报邮箱：</span>
-          <span>
-            <a href="#">ncm5990@163.com</a>
-          </span>
-        </p>
-      </div>
-      <div class="icon">
-        <ul class="icon-list">
-          <li v-for="(item, i) of logos" :key="i" class="icon-item">
-            <a class="item-logo" href="#" :style="getBg(i).logoStyle"></a>
-            <span class="item-title" :style="getBg(i).ttStyle"></span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
-import { CSSProperties, defineComponent } from 'vue'
+import type { CSSProperties } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'MusicFooter',
@@ -87,7 +52,7 @@ export default defineComponent({
       return this.links
         .join('_')
         .split(/\b/)
-        .map((v) => (v === '_' ? '|' : v))
+        .map(v => (v === '_' ? '|' : v))
     },
     bg() {
       const res = []
@@ -102,8 +67,8 @@ export default defineComponent({
         logoSize = `${logos[i].logo_size[0]}px ${logos[i].logo_size[1]}px`
         titleBg = `url(${logos[i].tt_url}) no-repeat ${logos[i].tt_pos[0]}px ${logos[i].tt_pos[1]}px`
         titleSize = `${logos[i].tt_size[0]}px ${logos[i].tt_size[1]}px`
-        obj.logoStyle = { background: logoBg, 'background-size': logoSize }
-        obj.ttStyle = { background: titleBg, 'background-size': titleSize }
+        obj.logoStyle = { 'background': logoBg, 'background-size': logoSize }
+        obj.ttStyle = { 'background': titleBg, 'background-size': titleSize }
         res.push(obj)
       }
       return res
@@ -116,6 +81,42 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="footer">
+    <div class="wrapper">
+      <div class="info">
+        <p class="info-link">
+          <span v-for="(item, i) of divideLinks" :key="i" class="link-item">
+            <a href="#">{{ item }}</a>
+          </span>
+        </p>
+        <p class="info-copyright">
+          <span>网易公司版权所有©1997-2019</span>
+          <span>杭州乐读科技有限公司运营：</span>
+          <span>
+            <a href="#">浙网文[2018]3506-263号</a>
+          </span>
+        </p>
+        <p class="info-contact">
+          <span>违法和不良信息举报电话：0571-89853516</span>
+          <span>举报邮箱：</span>
+          <span>
+            <a href="#">ncm5990@163.com</a>
+          </span>
+        </p>
+      </div>
+      <div class="icon">
+        <ul class="icon-list">
+          <li v-for="(item, i) of logos" :key="i" class="icon-item">
+            <a class="item-logo" href="#" :style="getBg(i).logoStyle" />
+            <span class="item-title" :style="getBg(i).ttStyle" />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .footer {

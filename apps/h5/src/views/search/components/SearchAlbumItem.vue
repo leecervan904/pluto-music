@@ -1,14 +1,34 @@
+<script>
+import { formatArtists, formatPublishTime } from '/@/utils'
+
+export default {
+  name: 'SearchAlbum',
+  props: {
+    album: { type: Object, require: true },
+  },
+  methods: {
+    formatArtists(ar) {
+      return formatArtists(ar)
+    },
+    formatPublishTime(date) {
+      return formatPublishTime(date)
+    },
+  },
+}
+</script>
+
 <template>
   <router-link class="al-item" tag="div" :to="`/album/${album.id}`">
     <div class="left">
       <img
         :src="`${album.picUrl}?param=100y100`"
-        :alt="album.name">
+        :alt="album.name"
+      >
     </div>
     <div class="right">
       <p class="name">
-        <span>{{  album.name }}</span>
-        <span class="name-alia" v-show="album.alias.length">（{{  album.alias[0] }}）</span>
+        <span>{{ album.name }}</span>
+        <span v-show="album.alias.length" class="name-alia">（{{ album.alias[0] }}）</span>
       </p>
       <p class="ar">
         <span class="ar-name">{{ formatArtists(album.artists) }} </span>
@@ -17,25 +37,6 @@
     </div>
   </router-link>
 </template>
-
-<script>
-import { formatArtists, formatPublishTime } from '/@/utils'
-
-export default {
-  name: 'search-album',
-  props: {
-    album: { type: Object, require: true }
-  },
-  methods: {
-    formatArtists (ar) {
-      return formatArtists(ar)
-    },
-    formatPublishTime (date) {
-      return formatPublishTime(date)
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 @import '/@/styles/mixins.scss';

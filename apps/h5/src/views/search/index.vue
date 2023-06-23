@@ -1,41 +1,5 @@
-<template>
-  <div class="search-result">
-    <van-tabs v-model="active" @click-tab="handleTabSelect">
-      <van-tab v-for="tab in tabs" :key="tab.type" :title="tab.title" />
-    </van-tabs>
-
-    <div
-      :style="{
-        overflowY: 'auto',
-        height: `calc(100vh - 144px)`,
-      }"
-    >
-      <van-swipe
-        class="swiper"
-        ref="refSwiper"
-        :loop="false"
-        :show-indicators="false"
-      >
-        <van-swipe-item class="swiper-item">
-          <keep-alive>
-            <search-group v-if="tabs[0].active" v-model:keywords="keywords" @slide-to="handleTabSelect"/>
-            <div class="loading" v-else></div>
-          </keep-alive>
-        </van-swipe-item>
-
-        <van-swipe-item class="swiper-item" v-for="tab of tabs.slice(1)">
-          <keep-alive>
-            <search-view v-if="tab.active" :type="tab.name" :keywords="keywords" />
-            <div class="loading" v-else></div>
-          </keep-alive>
-        </van-swipe-item>
-      </van-swipe>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, unref  } from 'vue'
+import { computed, ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import SearchGroup from './components/SearchGroup.vue'
@@ -56,7 +20,7 @@ const tabs = ref<ITabItem[]>([
   { title: '单曲', name: 'song', active: 0, type: 1 },
   { title: '歌单', name: 'playlist', active: 0, type: 1000 },
   { title: '歌手', name: 'artist', active: 0, type: 100 },
-  { title: '专辑', name: 'album', active: 0, type: 10 }
+  { title: '专辑', name: 'album', active: 0, type: 10 },
   /* { title: '歌词', type: 1006 },
   { title: '电台', type: 1009 },
   { title: '用户', type: 1014 } */
@@ -74,12 +38,48 @@ const keywords = computed({
   },
 })
 
-const handleTabSelect = (item: ITabItem) => {
+function handleTabSelect(item: ITabItem) {
   const idx = unref(tabs).findIndex(v => v.title === item.title)
   tabs.value[idx].active = 1
   unref(refSwiper)!.swipeTo(idx)
 }
 </script>
+
+<template>
+  <div class="search-result">
+    <van-tabs v-model="active" @click-tab="handleTabSelect">
+      <van-tab v-for="tab in tabs" :key="tab.type" :title="tab.title" />
+    </van-tabs>
+
+    <div
+      :style="{
+        overflowY: 'auto',
+        height: `calc(100vh - 144px)`,
+      }"
+    >
+      <van-swipe
+        ref="refSwiper"
+        class="swiper"
+        :loop="false"
+        :show-indicators="false"
+      >
+        <van-swipe-item class="swiper-item">
+          <keep-alive>
+            <SearchGroup v-if="tabs[0].active" v-model:keywords="keywords" @slide-to="handleTabSelect" />
+            <div v-else class="loading" />
+          </keep-alive>
+        </van-swipe-item>
+
+        <van-swipe-item v-for="tab of tabs.slice(1)" class="swiper-item">
+          <keep-alive>
+            <SearchView v-if="tab.active" :type="tab.name" :keywords="keywords" />
+            <div v-else class="loading" />
+          </keep-alive>
+        </van-swipe-item>
+      </van-swipe>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .swiper {

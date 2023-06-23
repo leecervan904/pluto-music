@@ -1,52 +1,3 @@
-<template>
-  <div class="header">
-    <div class="wrapper-main">
-      <div class="main-header">
-        <router-link to="/discover/recommend" class="main-header__title"></router-link>
-        <ul class="nav">
-          <li v-for="item of nav" :key="item" class="nav-item">{{ item }}</li>
-          <li class="nav-hot">
-            <span class="main-header__badge"></span>
-          </li>
-        </ul>
-        <div class="main-header__search">
-          <input
-            v-model="searchText"
-            class="search-input"
-            type="text"
-            placeholder="音乐/视频/用户/电台"
-            @focus="handleFocus(true)"
-            @blur="handleFocus(false)"
-          />
-          <music-search
-            v-show="searchText && isFocus"
-            class="search-content"
-            :search-result="searchResult"
-          ></music-search>
-        </div>
-        <div class="creator-center" @click="handleShowAbout()">创作者中心</div>
-        <div class="main-header__sign">
-          <span class="main-header__sign__status" @click="handleShowAbout()">登录</span>
-        </div>
-      </div>
-    </div>
-    <div class="wrapper-sub">
-      <div class="sub-header">
-        <ul class="sub-nav">
-          <li
-            v-for="(item, i) of subNav"
-            :key="i"
-            :class="['sub-nav-item', { 'sub-nav-item-active': isNavActive(i) }]"
-            @click="handleSubNavClick(i)"
-          >
-            {{ item.title }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { ISearchResult } from '@pluto-music/api'
 import { ref, watch } from 'vue'
@@ -92,18 +43,71 @@ function handleShowAbout() {
 
 async function handleSearch(search: string) {
   const [error, data] = await useRequest('getSearchSuggest')({ keywords: [search] })
-  if (error) return
+  if (error)
+    return
   searchResult.value = data.result
   console.log(data.result)
 }
 
 watch(searchText, async (val) => {
   const search = val.replace(/\s/g, '')
-  if (search) {
+  if (search)
     handleSearch(search)
-  }
 })
 </script>
+
+<template>
+  <div class="header">
+    <div class="wrapper-main">
+      <div class="main-header">
+        <router-link to="/discover/recommend" class="main-header__title" />
+        <ul class="nav">
+          <li v-for="item of nav" :key="item" class="nav-item">
+            {{ item }}
+          </li>
+          <li class="nav-hot">
+            <span class="main-header__badge" />
+          </li>
+        </ul>
+        <div class="main-header__search">
+          <input
+            v-model="searchText"
+            class="search-input"
+            type="text"
+            placeholder="音乐/视频/用户/电台"
+            @focus="handleFocus(true)"
+            @blur="handleFocus(false)"
+          >
+          <MusicSearch
+            v-show="searchText && isFocus"
+            class="search-content"
+            :search-result="searchResult"
+          />
+        </div>
+        <div class="creator-center" @click="handleShowAbout()">
+          创作者中心
+        </div>
+        <div class="main-header__sign">
+          <span class="main-header__sign__status" @click="handleShowAbout()">登录</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper-sub">
+      <div class="sub-header">
+        <ul class="sub-nav">
+          <li
+            v-for="(item, i) of subNav"
+            :key="i"
+            class="sub-nav-item" :class="[{ 'sub-nav-item-active': isNavActive(i) }]"
+            @click="handleSubNavClick(i)"
+          >
+            {{ item.title }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 /* @import '@/styles/variables.scss'; */

@@ -1,45 +1,5 @@
-<template>
-  <CardMask
-    :src="bgImage"
-    :color="'rgba(0, 0, 0, .7)'"
-    :blur="'2px'">
-    <div class="ranklist-card">
-
-      <router-link class="ranklist-card__title" tag="div"
-        :to="`/ranklist/${info.id}`">
-        <span>{{ name }}</span>
-        <svg-icon icon-class="caret-right"></svg-icon>
-      </router-link>
-
-      <div class="ranklist-card__list">
-        <div class="list-item" v-for="(item, i) of tracks" :key="i"
-          @click="playSong(item.id)">
-
-          <div class="list-item__left">
-            <img
-              :src="`${item.picUrl}?param=50y50`"
-              :alt="info.name">
-          </div>
-
-          <div class="list-item__center">
-            <span class="info__order">{{ i + 1 }}</span>
-            <span class="info__name">{{ item.first }}</span>
-            <span class="info__separator">-</span>
-            <span class="info__artists">{{ item.second }}</span>
-          </div>
-
-          <div class="list-item__right">
-            <svg-icon v-if="item.id === songId" class="list-item__right--red" icon-class="sound"></svg-icon>
-            <span v-else>新</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </CardMask>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted, unref } from 'vue'
+import { computed, onMounted, ref, unref } from 'vue'
 import { formatArtists, getPlaylistDetailKey, storage } from '/@/utils'
 import { useRequest } from '/@/utils/useRequest'
 import { usePlayerStore } from '/@/store/module/player'
@@ -61,16 +21,18 @@ const name = ref('')
 const tracks = ref([])
 const bgImage = computed(() => unref(tracks).length ? `${unref(tracks)[0].picUrl}?param=400y400` : '')
 
-const initData = () => {
+function initData() {
   const playlistDetailKey = getPlaylistDetailKey(props.info.id)
   if (storage.has(playlistDetailKey)) {
     const data = storage.getItem<GetPlaylistDetailResult>(playlistDetailKey)!
     name.value = data.playlist.name
     extractTracks(data.playlist)
-  } else {
+  }
+  else {
     setTimeout(async () => {
       const [error, data] = await useRequest('getPlaylistDetail')({ id: props.info.id })
-      if (error) return
+      if (error)
+        return
       storage.setItem(playlistDetailKey, data, true, { maxAge: 10 * 60 * 1000 })
       const { playlist } = data
       name.value = playlist.name
@@ -79,22 +41,22 @@ const initData = () => {
   }
 }
 
-const extractTracks = (playlist) => {
+function extractTracks(playlist) {
   const tempTracks = playlist.tracks
     .slice(0, 3)
-    .map(v => {
+    .map((v) => {
       const second = formatArtists(v.ar)
       return {
         id: v.id,
         first: v.name,
         second,
-        picUrl: v.al.picUrl
+        picUrl: v.al.picUrl,
       }
     })
   tracks.value = Object.freeze([].concat(tempTracks))
 }
 
-const playSong  = (song) => {
+function playSong(song) {
   // const tracks = this.$storage.getItem(`toplist-${this.info.id}`).data.tracks
   // this.$store.dispatch('player/updatePlaylist', {
   //   tracks,
@@ -107,6 +69,50 @@ onMounted(() => {
   initData()
 })
 </script>
+
+<template>
+  <CardMask
+    :src="bgImage"
+    color="rgba(0, 0, 0, .7)"
+    blur="2px"
+  >
+    <div class="ranklist-card">
+      <router-link
+        class="ranklist-card__title" tag="div"
+        :to="`/ranklist/${info.id}`"
+      >
+        <span>{{ name }}</span>
+        <svg-icon icon-class="caret-right" />
+      </router-link>
+
+      <div class="ranklist-card__list">
+        <div
+          v-for="(item, i) of tracks" :key="i" class="list-item"
+          @click="playSong(item.id)"
+        >
+          <div class="list-item__left">
+            <img
+              :src="`${item.picUrl}?param=50y50`"
+              :alt="info.name"
+            >
+          </div>
+
+          <div class="list-item__center">
+            <span class="info__order">{{ i + 1 }}</span>
+            <span class="info__name">{{ item.first }}</span>
+            <span class="info__separator">-</span>
+            <span class="info__artists">{{ item.second }}</span>
+          </div>
+
+          <div class="list-item__right">
+            <svg-icon v-if="item.id === songId" class="list-item__right--red" icon-class="sound" />
+            <span v-else>新</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </CardMask>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

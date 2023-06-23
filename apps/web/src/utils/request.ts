@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosError } from 'axios'
+import type { AxiosError, AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 
 export type ResponseType<T = any, E = any> = Promise<[null, T] | [E, null]>
 
@@ -15,14 +16,13 @@ const instance = axios.create({
  * 这里的类型定义似乎没什么必要？
  * 我所需要的类型都在 useRequest 中重写了
  */
-const request = async <T = any>(
-  config: AxiosRequestConfig,
-): Promise<ResponseType<IResponseData<T>, AxiosError>> => {
+async function request<T = any>(config: AxiosRequestConfig): Promise<ResponseType<IResponseData<T>, AxiosError>> {
   return new Promise(async (resolve) => {
     try {
       const res = await instance.request<IResponseData<T>>(config)
       resolve([null, res.data])
-    } catch (err) {
+    }
+    catch (err) {
       resolve([err as AxiosError, null])
     }
   })

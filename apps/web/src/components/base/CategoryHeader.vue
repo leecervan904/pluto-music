@@ -1,24 +1,5 @@
-<template>
-  <div class="header">
-    <div class="title">{{ title }}</div>
-    <ul v-show="list.length" class="list">
-      <router-link
-        v-for="(item, i) of divideList"
-        :key="i"
-        class="item"
-        :to="`/discover/playlist?cate=${item}`"
-        >{{ item }}</router-link
-      >
-    </ul>
-    <div class="more">
-      <router-link :to="morePath" class="more-text">更多</router-link>
-      <span class="more-arrow"></span>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue'
+import { type PropType, defineComponent } from 'vue'
 import { addSeparator } from '/@/utils'
 
 export default defineComponent({
@@ -44,6 +25,30 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="header">
+    <div class="title">
+      {{ title }}
+    </div>
+    <ul v-show="list.length" class="list">
+      <router-link
+        v-for="(item, i) of divideList"
+        :key="i"
+        class="item"
+        :to="`/discover/playlist?cate=${item}`"
+      >
+        {{ item }}
+      </router-link>
+    </ul>
+    <div class="more">
+      <router-link :to="morePath" class="more-text">
+        更多
+      </router-link>
+      <span class="more-arrow" />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .header {

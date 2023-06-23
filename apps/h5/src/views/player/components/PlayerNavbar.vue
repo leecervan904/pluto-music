@@ -1,27 +1,31 @@
+<script>
+export default {
+  name: 'PlayerNavbar',
+  props: {
+    songName: { type: String, default: '' },
+    artists: { type: String, default: '' },
+  },
+}
+</script>
+
 <template>
   <div class="navbar">
     <div class="navbar-left">
-      <svg-icon icon-class="back" @click="$emit('hide-player')"></svg-icon>
+      <svg-icon icon-class="back" @click="$emit('hide-player')" />
     </div>
     <div class="navbar-center">
-      <h2 class="title">{{ songName }}</h2>
-      <p class="singer">{{ artists }}</p>
+      <h2 class="title">
+        {{ songName }}
+      </h2>
+      <p class="singer">
+        {{ artists }}
+      </p>
     </div>
     <div class="navbar-right" @click="$emit('show-comment')">
       <SvgIcon icon-class="comment" />
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'player-navbar',
-  props: {
-    songName: { type: String, default: '' },
-    artists: { type: String, default: '' }
-  },
-}
-</script>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

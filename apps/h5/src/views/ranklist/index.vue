@@ -1,28 +1,7 @@
-<template>
-  <div class="ranklist">
-    <loading-spinner v-if="loading"
-      width="30px"
-      height="30px"
-      color="rgb(238, 10, 36)"
-      itemWidth="8%"
-    />
-
-    <div v-else>
-      <SongListPoster :detail="detail" />
-      <SongListContent
-        :count="tracks.length"
-        :collect="detail.subscribedCount"
-        :tracks="tracks"
-        @play-song="handlePlaySong"
-        @play-all="handleUpdatePlaylist"/>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, unref } from 'vue'
+import { computed, onMounted, reactive, ref, unref } from 'vue'
 import { useRoute } from 'vue-router'
-import { ISong, IPlaylist } from '@pluto-music/api'
+import type { IPlaylist, ISong } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 import { usePlayerStore } from '/@/store/module/player'
 
@@ -44,18 +23,19 @@ const detail = reactive({
   description: '',
   commentCount: 0,
   shareCount: 0,
-  subscribedCount: 0
+  subscribedCount: 0,
 })
 
 const id = computed(() => route.params.id)
 
-const getRank = async () => {
+async function getRank() {
   // Todo: 缓存至 storage
   loading.value = true
   const [error, data] = await useRequest('getRankList')({ id: unref(id) })
   loading.value = false
 
-  if (error) return
+  if (error)
+    return
   console.log(data)
   const { playlist } = data
   // 将 playlist 属性缓存
@@ -71,21 +51,20 @@ const getRank = async () => {
   extractDetail(playlist)
 }
 
-const extractDetail = (data: IPlaylist) => {
-  Object.keys(detail).map(v => {
-    if (data[v]) {
+function extractDetail(data: IPlaylist) {
+  Object.keys(detail).map((v) => {
+    if (data[v])
       detail[v] = data[v]
-    }
   })
   detail.avatarUrl = data.creator.avatarUrl
   detail.nickname = data.creator.nickname
 }
 
-const handlePlaySong = (song: ISong) => {
+function handlePlaySong(song: ISong) {
   playerStore.playSong(song)
 }
 
-const handleUpdatePlaylist = () => {
+function handleUpdatePlaylist() {
   playerStore.updatePlaylist(unref(tracks), unref(id) as string)
 }
 
@@ -93,3 +72,26 @@ onMounted(() => {
   getRank()
 })
 </script>
+
+<template>
+  <div class="ranklist">
+    <loading-spinner
+      v-if="loading"
+      width="30px"
+      height="30px"
+      color="rgb(238, 10, 36)"
+      item-width="8%"
+    />
+
+    <div v-else>
+      <SongListPoster :detail="detail" />
+      <SongListContent
+        :count="tracks.length"
+        :collect="detail.subscribedCount"
+        :tracks="tracks"
+        @play-song="handlePlaySong"
+        @play-all="handleUpdatePlaylist"
+      />
+    </div>
+  </div>
+</template>

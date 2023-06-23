@@ -7,7 +7,7 @@ const props = defineProps({
   item: {
     type: Object,
     required: true,
-  }
+  },
 })
 
 const router = useRouter()
@@ -15,13 +15,12 @@ const router = useRouter()
 const playerStore = usePlayerStore()
 const isActive = computed(() => props.item.id === playerStore.songId)
 
-const onSelect = () => {
+function onSelect() {
   // if (this.item.type === 'song') {
   //   this.$store.dispatch('player/changeSong', { song: this.item.id, toPlayer: false })
   // }
-  if (props.item.type === 'album') {
+  if (props.item.type === 'album')
     router.push({ path: `/album/${props.item.id}` })
-  }
 }
 </script>
 
@@ -37,12 +36,14 @@ const onSelect = () => {
         <span class="line-item__center-info__separator">-</span>
         <span class="line-item__center-info__singer">{{ item.artists }}</span>
       </p>
-      <p class="line-item__center-desc">{{ item.description || '暂无描述' }}</p>
+      <p class="line-item__center-desc">
+        {{ item.description || '暂无描述' }}
+      </p>
     </div>
 
     <div v-show="item.type !== 'album'" class="line-item__right">
-      <svg-icon v-if="!isActive" icon-class="play"></svg-icon>
-      <svg-icon v-else icon-class="sound"></svg-icon>
+      <svg-icon v-if="!isActive" icon-class="play" />
+      <svg-icon v-else icon-class="sound" />
     </div>
   </div>
 </template>

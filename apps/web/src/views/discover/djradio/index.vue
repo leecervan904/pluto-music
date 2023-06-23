@@ -1,10 +1,12 @@
+<script setup lang="ts"></script>
+
 <template>
   <div :class="$style.djradio">
-    <h3 :class="$style.title">页面开发中...</h3>
+    <h3 :class="$style.title">
+      页面开发中...
+    </h3>
   </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style lang="scss" module>
 .djradio {

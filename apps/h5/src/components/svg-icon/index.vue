@@ -1,3 +1,27 @@
+<script>
+export default {
+  name: 'SvgIcon',
+  props: {
+    iconClass: {
+      type: String,
+      require: true,
+    },
+    className: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    iconName() {
+      return `#icon-${this.iconClass}`
+    },
+    svgClass() {
+      return this.className ? `svg-icon ${this.className}` : 'svg-icon'
+    },
+  },
+}
+</script>
+
 <template>
   <span>
     <svg :class="svgClass" aria-hidden="true" v-on="$attrs">
@@ -5,30 +29,6 @@
     </svg>
   </span>
 </template>
-
-<script>
-export default {
-  name: 'svg-icon',
-  props: {
-    iconClass: {
-      type: String,
-      require: true
-    },
-    className: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    iconName () {
-      return `#icon-${this.iconClass}`
-    },
-    svgClass () {
-      return this.className ? `svg-icon ${this.className}` : 'svg-icon'
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .svg-icon {

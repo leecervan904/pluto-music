@@ -1,40 +1,6 @@
-<template>
-  <div class="bill-cate-item">
-    <div class="header">
-      <div class="header-left">
-        <img class="left-pic" :src="`${coverImgUrl}?param=200y200`" alt="" />
-        <router-link :to="`/discover/toplist?id=${id}`" class="header-left__link"></router-link>
-      </div>
-      <div class="header-right">
-        <div class="right-title">
-          <router-link :to="`/discover/toplist?id=${id}`">{{ name }}</router-link>
-        </div>
-        <div class="right-options">
-          <span class="right-options__play" @click="playAll()"></span>
-          <span href="#" class="right-options__addall" @click="handleShowAbout()"></span>
-        </div>
-      </div>
-    </div>
-    <div class="list">
-      <div v-for="(item, i) of list" :key="i" class="item">
-        <span class="item-order">{{ i + 1 }}</span>
-        <router-link :to="`/song?id=${item.id}`" class="item-name">{{ item.name }}</router-link>
-        <div class="item-options">
-          <span class="icon item-options__icon-play" @click="handleToPlay(item)"></span>
-          <span class="icon item-options__icon-add" @click="handleAdd(item)"></span>
-          <span href="#" class="icon item-options__icon-collect" @click="handleShowAbout()"></span>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      <router-link :to="`/discover/toplist?id=${id}`" class="show-all">查看全部&gt;</router-link>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { ISong } from '@pluto-music/api'
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRequest } from '/@/utils'
 import { usePlayerStore } from '/@/store/module/player'
 
@@ -53,7 +19,8 @@ const coverImgUrl = ref('')
 
 async function initialData() {
   const [error, data] = await useRequest('getRankList')({ id: props.id })
-  if (error) return
+  if (error)
+    return
   const { playlist } = data
   name.value = playlist.name
   coverImgUrl.value = playlist.coverImgUrl
@@ -62,7 +29,8 @@ async function initialData() {
 
 async function playAll() {
   const [error, data] = await useRequest('getRankList')({ id: props.id })
-  if (error) return
+  if (error)
+    return
   playerStore.updatePlaylist(data.playlist.tracks, data.playlist.id)
 }
 
@@ -80,6 +48,46 @@ onMounted(() => {
   initialData()
 })
 </script>
+
+<template>
+  <div class="bill-cate-item">
+    <div class="header">
+      <div class="header-left">
+        <img class="left-pic" :src="`${coverImgUrl}?param=200y200`" alt="">
+        <router-link :to="`/discover/toplist?id=${id}`" class="header-left__link" />
+      </div>
+      <div class="header-right">
+        <div class="right-title">
+          <router-link :to="`/discover/toplist?id=${id}`">
+            {{ name }}
+          </router-link>
+        </div>
+        <div class="right-options">
+          <span class="right-options__play" @click="playAll()" />
+          <span href="#" class="right-options__addall" @click="handleShowAbout()" />
+        </div>
+      </div>
+    </div>
+    <div class="list">
+      <div v-for="(item, i) of list" :key="i" class="item">
+        <span class="item-order">{{ i + 1 }}</span>
+        <router-link :to="`/song?id=${item.id}`" class="item-name">
+          {{ item.name }}
+        </router-link>
+        <div class="item-options">
+          <span class="icon item-options__icon-play" @click="handleToPlay(item)" />
+          <span class="icon item-options__icon-add" @click="handleAdd(item)" />
+          <span href="#" class="icon item-options__icon-collect" @click="handleShowAbout()" />
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <router-link :to="`/discover/toplist?id=${id}`" class="show-all">
+        查看全部&gt;
+      </router-link>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 /* @import '@/styles/variables.scss'; */

@@ -1,30 +1,3 @@
-<template>
-  <div class="pagination">
-    <a href="#" :class="prevClasses" @click.prevent="changePage('prev')">
-      <i class="iconfont icon-houtui"></i>
-      <em>上一页</em>
-    </a>
-    <a
-      v-for="(page, i) of showPages"
-      :key="i"
-      href="#"
-      :class="[
-        'page-item',
-        {
-          'page-active': page === currentPage,
-          'paga-ellipsis': page === '...',
-        },
-      ]"
-      @click.prevent="changePage(page)"
-      >{{ page }}</a
-    >
-    <a href="#" :class="nextClasses" @click.prevent="changePage('next')">
-      <em>下一页</em>
-      <i class="iconfont icon-qianjin"></i>
-    </a>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { pageChanges } from '/@/utils'
@@ -64,16 +37,20 @@ export default defineComponent({
       this.currentPage = 1
     },
     changePage(i: '...' | 'prev' | 'next' | number) {
-      if (i === '...') {
+      if (i === '...')
         return
-      }
+
       if (i === 'prev') {
-        if (this.currentPage === 1) return
+        if (this.currentPage === 1)
+          return
         this.currentPage = this.currentPage - 1
-      } else if (i === 'next') {
-        if (this.currentPage === this.pages) return
+      }
+      else if (i === 'next') {
+        if (this.currentPage === this.pages)
+          return
         this.currentPage = this.currentPage + 1
-      } else {
+      }
+      else {
         this.currentPage = i
       }
       // 触发 changePage 事件，向父组件传递 currentPage
@@ -82,6 +59,31 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="pagination">
+    <a href="#" :class="prevClasses" @click.prevent="changePage('prev')">
+      <i class="iconfont icon-houtui" />
+      <em>上一页</em>
+    </a>
+    <a
+      v-for="(page, i) of showPages"
+      :key="i"
+      href="#"
+      class="page-item" :class="[
+        {
+          'page-active': page === currentPage,
+          'paga-ellipsis': page === '...',
+        },
+      ]"
+      @click.prevent="changePage(page)"
+    >{{ page }}</a>
+    <a href="#" :class="nextClasses" @click.prevent="changePage('next')">
+      <em>下一页</em>
+      <i class="iconfont icon-qianjin" />
+    </a>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .pagination {

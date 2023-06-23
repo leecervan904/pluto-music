@@ -1,59 +1,5 @@
-<template>
-  <div class="desc-wrapper">
-    <div class="rank-poster">
-      <!-- 封面图 -->
-      <div class="left">
-        <div class="img-wrapper">
-          <img :src="`${detail.coverImgUrl}?param=200y200`" :alt="detail.name" />
-        </div>
-      </div>
-      <div class="right">
-        <p class="right-para title">{{ detail.name }}</p>
-        <!-- 发行时间 || 更新时间 -->
-        <p v-if="detail.type === 'album'" class="right-para publish-time">
-          发行时间：{{ formatedPublishTime }}
-        </p>
-        <p v-else class="right-para update-time">最近更新：{{ formatedUpdateTime }}</p>
-        <!-- 歌手 || 创建者 -->
-        <p v-if="detail.type === 'album'" class="right-para artists">
-          <span class="artists-tag">歌手:</span>
-          <span class="artists-name">{{ formatedArtists }}</span>
-          <svg-icon icon-class="caret-right" class="artists-caret"></svg-icon>
-        </p>
-        <p v-else class="right-para creator">
-          <span class="creator-avatar">
-            <img :src="detail.avatarUrl" :alt="detail.nickname" />
-          </span>
-          <span class="creator-name">{{ detail.nickname }}</span>
-        </p>
-        <!-- 描述信息 -->
-        <p class="right-para desc">{{ detail.description }}</p>
-      </div>
-    </div>
-
-    <div class="rank-menubar">
-      <div v-coming="''" class="menu-item menu-comment">
-        <svg-icon icon-class="comment"></svg-icon>
-        <p class="menu-item-desc">{{ detail.commentCount }}</p>
-      </div>
-      <div v-coming="''" class="menu-item menu-share">
-        <svg-icon icon-class="share"></svg-icon>
-        <p class="menu-item-desc">{{ detail.shareCount }}</p>
-      </div>
-      <div v-coming="''" class="menu-item menu-download">
-        <svg-icon icon-class="download"></svg-icon>
-        <p class="menu-item-desc">下载</p>
-      </div>
-      <div v-coming="''" class="menu-item menu-select-multi">
-        <svg-icon icon-class="select-multi"></svg-icon>
-        <p class="menu-item-desc">多选</p>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import { formatArtists, formatUpdateTime, formatPublishTime } from '/@/utils'
+import { formatArtists, formatPublishTime, formatUpdateTime } from '/@/utils'
 
 export default {
   name: 'SongListPoster',
@@ -76,6 +22,74 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div class="desc-wrapper">
+    <div class="rank-poster">
+      <!-- 封面图 -->
+      <div class="left">
+        <div class="img-wrapper">
+          <img :src="`${detail.coverImgUrl}?param=200y200`" :alt="detail.name">
+        </div>
+      </div>
+      <div class="right">
+        <p class="right-para title">
+          {{ detail.name }}
+        </p>
+        <!-- 发行时间 || 更新时间 -->
+        <p v-if="detail.type === 'album'" class="right-para publish-time">
+          发行时间：{{ formatedPublishTime }}
+        </p>
+        <p v-else class="right-para update-time">
+          最近更新：{{ formatedUpdateTime }}
+        </p>
+        <!-- 歌手 || 创建者 -->
+        <p v-if="detail.type === 'album'" class="right-para artists">
+          <span class="artists-tag">歌手:</span>
+          <span class="artists-name">{{ formatedArtists }}</span>
+          <svg-icon icon-class="caret-right" class="artists-caret" />
+        </p>
+        <p v-else class="right-para creator">
+          <span class="creator-avatar">
+            <img :src="detail.avatarUrl" :alt="detail.nickname">
+          </span>
+          <span class="creator-name">{{ detail.nickname }}</span>
+        </p>
+        <!-- 描述信息 -->
+        <p class="right-para desc">
+          {{ detail.description }}
+        </p>
+      </div>
+    </div>
+
+    <div class="rank-menubar">
+      <div v-coming="''" class="menu-item menu-comment">
+        <svg-icon icon-class="comment" />
+        <p class="menu-item-desc">
+          {{ detail.commentCount }}
+        </p>
+      </div>
+      <div v-coming="''" class="menu-item menu-share">
+        <svg-icon icon-class="share" />
+        <p class="menu-item-desc">
+          {{ detail.shareCount }}
+        </p>
+      </div>
+      <div v-coming="''" class="menu-item menu-download">
+        <svg-icon icon-class="download" />
+        <p class="menu-item-desc">
+          下载
+        </p>
+      </div>
+      <div v-coming="''" class="menu-item menu-select-multi">
+        <svg-icon icon-class="select-multi" />
+        <p class="menu-item-desc">
+          多选
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

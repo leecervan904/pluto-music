@@ -1,19 +1,9 @@
-<template>
-  <!-- <keep-alive :exclude="excludePath"> -->
-    <router-view v-slot="{ Component }">
-      <transition :name="transitionName" :mode="transitionMode">
-        <component :is="Component" />
-      </transition>
-    </router-view>
-  <!-- </keep-alive> -->
-</template>
-
 <script lang="ts">
-import { ref, computed, watch, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'app-main',
+  name: 'AppMain',
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -22,14 +12,14 @@ export default defineComponent({
     const transitionName = ref<'route-forward' | 'route-back'>('route-forward')
     const transitionMode = computed(() => router.transitionName === 'route-back'
       ? 'in-out'
-      : 'out-in'
+      : 'out-in',
     )
 
     watch(
       () => route.path,
       () => {
         transitionName.value = router.transitionName
-      }
+      },
     )
 
     return {
@@ -40,3 +30,13 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <!-- <keep-alive :exclude="excludePath"> -->
+  <router-view v-slot="{ Component }">
+    <transition :name="transitionName" :mode="transitionMode">
+      <component :is="Component" />
+    </transition>
+  </router-view>
+  <!-- </keep-alive> -->
+</template>

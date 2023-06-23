@@ -1,8 +1,37 @@
+<script lang="ts">
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
+
+export default defineComponent({
+  name: 'AboutSite',
+  emits: ['show'],
+  setup(props, { emit }) {
+    const refFilter = ref<HTMLElement | null>(null)
+    const handleShow = () => {
+      emit('show')
+    }
+
+    onMounted(() => {
+      refFilter.value?.addEventListener('click', handleShow, false)
+    })
+
+    onUnmounted(() => {
+      refFilter.value?.removeEventListener('click', handleShow)
+    })
+
+    return {
+      refFilter,
+    }
+  },
+})
+</script>
+
 <template>
   <div class="as">
-    <div ref="refFilter" class="filter"></div>
+    <div ref="refFilter" class="filter" />
     <div class="wrapper">
-      <h3 class="title">关于网站</h3>
+      <h3 class="title">
+        关于网站
+      </h3>
       <h4>声明：</h4>
       <p>
         本网站为
@@ -29,55 +58,22 @@
       <h4>更多</h4>
       <ul>
         <li>
-          本网站<strong
-            >不会实现与用户登录相关的功能，包括登录、收藏、分享、下载以及发表评论等</strong
-          >
+          本网站<strong>不会实现与用户登录相关的功能，包括登录、收藏、分享、下载以及发表评论等</strong>
         </li>
         <li>
           感谢
           <a href="https://github.com/Binaryify" target="_blank">Binaryify</a>
           提供的网易云音乐 API：
-          <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank"
-            >NeteaseCloudMusicApi</a
-          >
+          <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a>
         </li>
         <li>
-          网站源码地址：<a href="https://github.com/ZW-L/netease-cloud-music_web" target="_blank"
-            >GitHub</a
-          >，欢迎技术交流
+          网站源码地址：<a href="https://github.com/ZW-L/netease-cloud-music_web" target="_blank">GitHub</a>，欢迎技术交流
         </li>
       </ul>
       <h4>温馨提示：请勿对本网站产生依赖！</h4>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { ref, onMounted, onUnmounted, defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'AboutSite',
-  emits: ['show'],
-  setup(props, { emit }) {
-    const refFilter = ref<HTMLElement | null>(null)
-    const handleShow = () => {
-      emit('show')
-    }
-
-    onMounted(() => {
-      refFilter.value?.addEventListener('click', handleShow, false)
-    })
-
-    onUnmounted(() => {
-      refFilter.value?.removeEventListener('click', handleShow)
-    })
-
-    return {
-      refFilter,
-    }
-  },
-})
-</script>
 
 <style lang="scss" scoped>
 .as {

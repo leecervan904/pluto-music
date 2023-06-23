@@ -1,15 +1,15 @@
-<template>
-  <div class="album">
-    <img class="album-img" :src="al?.picUrl + '?param=150y150'" />
-    <div class="album__mask"></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 defineProps({
   al: Object,
 })
 </script>
+
+<template>
+  <div class="album">
+    <img class="album-img" :src="`${al?.picUrl}?param=150y150`">
+    <div class="album__mask" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .album {

@@ -15,12 +15,14 @@ defineProps({
   },
 })
 
-const handleShowAbout = () => {}
+function handleShowAbout() {}
 </script>
 
 <template>
   <div v-if="loginInfo" class="login-info">
-    <p class="info-desc">登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机</p>
+    <p class="info-desc">
+      登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
+    </p>
     <a class="info-btn">用户登录</a>
   </div>
 
@@ -31,17 +33,23 @@ const handleShowAbout = () => {}
     </template>
     <template #after>
       <div class="footer">
-        <p class="footer-text" @click="handleShowAbout">申请成为音乐人</p>
+        <p class="footer-text" @click="handleShowAbout">
+          申请成为音乐人
+        </p>
       </div>
     </template>
 
     <div v-for="(item, i) of inSingers" :key="i" class="item">
       <div class="item-pic">
-        <img :src="item.avatar" />
+        <img :src="item.avatar">
       </div>
       <div class="item-info">
-        <p class="info-name">{{ item.name }}</p>
-        <p class="info-desc">{{ item.desc }}</p>
+        <p class="info-name">
+          {{ item.name }}
+        </p>
+        <p class="info-desc">
+          {{ item.desc }}
+        </p>
       </div>
     </div>
   </AsideItem>
@@ -53,14 +61,16 @@ const handleShowAbout = () => {}
 
     <div v-for="(item, i) of hotPlayers" :key="i" class="item">
       <div class="item-avatar">
-        <img :src="item.avatar" />
+        <img :src="item.avatar">
       </div>
       <div class="item-info">
         <p class="info-name">
           {{ item.name }}
-          <i class="info-name-sup"></i>
+          <i class="info-name-sup" />
         </p>
-        <p class="info-desc">{{ item.desc }}</p>
+        <p class="info-desc">
+          {{ item.desc }}
+        </p>
       </div>
     </div>
   </AsideItem>

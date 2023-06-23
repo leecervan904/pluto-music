@@ -12,10 +12,16 @@ defineProps({
 
 <template>
   <div class="artist-desc">
-    <div class="artist-desc__tag">陈奕迅简介</div>
-    <div class="artist-desc__brief">{{ desc?.briefDesc }}</div>
+    <div class="artist-desc__tag">
+      陈奕迅简介
+    </div>
+    <div class="artist-desc__brief">
+      {{ desc?.briefDesc }}
+    </div>
     <div v-for="item in desc?.introduction" :key="item.ti" class="artist-desc__item">
-      <div class="artist-desc__item-title">{{ item.ti }}</div>
+      <div class="artist-desc__item-title">
+        {{ item.ti }}
+      </div>
       <div class="artist-desc__item-content">
         <div
           v-for="(row, i) in item.txt.split('\n')"

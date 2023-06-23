@@ -1,8 +1,9 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import viteCompression from 'vite-plugin-compression'
 import vueJSX from '@vitejs/plugin-vue-jsx'
+
 // import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
@@ -11,7 +12,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => tag.startsWith('My'),
+          isCustomElement: tag => tag.startsWith('My'),
         },
       },
     }),
@@ -48,7 +49,7 @@ export default defineConfig({
         target: 'http://localhost:3000',
         // target: 'https://api.music.lizhiwen.online',
         // secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },

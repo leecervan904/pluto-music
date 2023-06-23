@@ -1,5 +1,5 @@
 import type { IArtistCateItem } from '@pluto-music/api'
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import type { ICateItem } from '../typing'
 
 export default function useSearch() {

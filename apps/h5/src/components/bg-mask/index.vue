@@ -1,13 +1,6 @@
-<template>
-  <div class="mask" :style="maskStyles">
-    <div class="mask-cover"></div>
-    <slot></slot>
-  </div>
-</template>
-
 <script>
 export default {
-  name: 'base-mask',
+  name: 'BaseMask',
   props: {
     background: { type: String, default: 'transparent' },
     bgImage: { type: String, default: '' },
@@ -25,6 +18,13 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div class="mask" :style="maskStyles">
+    <div class="mask-cover" />
+    <slot />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .mask {

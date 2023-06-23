@@ -37,7 +37,7 @@ function handleChangeTab(tab: ArtistTabEnum) {
     </div>
 
     <div class="artist-poster__avatar">
-      <img class="img" :src="`${artist?.img1v1Url}?param=640y300`" :alt="artist?.name" />
+      <img class="img" :src="`${artist?.img1v1Url}?param=640y300`" :alt="artist?.name">
     </div>
     <div class="artist-poster__tabs">
       <div

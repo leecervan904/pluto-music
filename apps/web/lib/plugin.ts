@@ -1,6 +1,6 @@
 // packages/vue-library/lib/plugin.ts
 
-import { Plugin } from 'vue'
+import type { Plugin } from 'vue'
 import { applyPolyfills, defineCustomElements } from '@pluto-music/stencil/loader'
 
 export const ComponentLibrary: Plugin = {

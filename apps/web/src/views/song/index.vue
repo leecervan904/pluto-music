@@ -1,38 +1,7 @@
-<template>
-  <div class="song">
-    <div v-if="detail" class="content">
-      <div class="main">
-        <song-album :al="detail.al"></song-album>
-        <div class="main-info">
-          <song-poster
-            :detail="detail"
-            @play="handlePlay"
-            @to-artist="handleToArtist"
-            @to-album="handleToAlbum"
-          />
-          <song-lyric :lyric="lyric" />
-        </div>
-      </div>
-      <Comment :id="songId" :type="CommentTypeEnum.SONG" />
-    </div>
-
-    <div class="aside">
-      <AsideSong
-        :relative-playlist="relativePlaylist"
-        :similar-song="similarSong"
-        @to-song="handleToSong"
-        @to-playlist="handleToPlaylist"
-        @play-song="handlePlay"
-      />
-      <AsideDownload />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { IRelativePlaylistItem, ISong } from '@pluto-music/api'
 import { CommentTypeEnum } from '@pluto-music/api'
-import { ref, computed, onMounted, watch, unref, type ComputedRef } from 'vue'
+import { type ComputedRef, computed, onMounted, ref, unref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRequest } from '/@/utils'
 import { usePlayerStore } from '/@/store/module/player'
@@ -58,22 +27,26 @@ const similarSong = ref<ISong[]>([]) // 边栏参数，相似歌曲
 async function initialData() {
   // 获取歌曲信息
   const [error, data] = await useRequest('getSongDetail')({ id: unref(songId) })
-  if (error) return
+  if (error)
+    return
   detail.value = data.songs[0]
 
   // 获取歌词
   const [error2, data2] = await useRequest('getLyric')({ id: unref(songId) })
-  if (error2) return
+  if (error2)
+    return
   lyric.value = data2.lrc.lyric
 
   // 获取相似歌单
   const [error3, data3] = await useRequest('getSimPlaylist')({ id: unref(songId) })
-  if (error3) return
+  if (error3)
+    return
   relativePlaylist.value = data3.playlists
 
   // 获取相似音乐
   const [error4, data4] = await useRequest('getSimSong')({ id: unref(songId) })
-  if (error4) return
+  if (error4)
+    return
   similarSong.value = data4.songs
 }
 
@@ -102,6 +75,37 @@ watch(songId, initialData)
 
 onMounted(initialData)
 </script>
+
+<template>
+  <div class="song">
+    <div v-if="detail" class="content">
+      <div class="main">
+        <SongAlbum :al="detail.al" />
+        <div class="main-info">
+          <SongPoster
+            :detail="detail"
+            @play="handlePlay"
+            @to-artist="handleToArtist"
+            @to-album="handleToAlbum"
+          />
+          <SongLyric :lyric="lyric" />
+        </div>
+      </div>
+      <Comment :id="songId" :type="CommentTypeEnum.SONG" />
+    </div>
+
+    <div class="aside">
+      <AsideSong
+        :relative-playlist="relativePlaylist"
+        :similar-song="similarSong"
+        @to-song="handleToSong"
+        @to-playlist="handleToPlaylist"
+        @play-song="handlePlay"
+      />
+      <AsideDownload />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .song {

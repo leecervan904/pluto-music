@@ -1,18 +1,5 @@
-<template>
-  <div class="lyric">
-    <div ref="refLyric" class="lyric-main">
-      <p v-for="(item, i) of lyrics" :key="i">{{ item }}</p>
-    </div>
-    <p class="lyric-ctrl" @click="handleShowLyric">
-      <em v-if="!showAllLyric" class="ctrl-text">展开</em>
-      <em v-else class="ctrl-text">收起</em>
-      <i :class="['ctrl-icon', showAllLyric ? 'ctrl-icon--down' : 'ctrl-icon--up']"></i>
-    </p>
-  </div>
-</template>
-
 <script lang="ts">
-import { ref, computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 
 export default defineComponent({
   props: {
@@ -25,18 +12,18 @@ export default defineComponent({
     const refLyric = ref<HTMLElement | null>(null)
     const showAllLyric = ref(false)
     const lyrics = computed(() =>
-      props.lyric.split('\n').map((v) => v.replace(/[\[\]\d\:\.]+/, '')),
+      props.lyric.split('\n').map(v => v.replace(/[\[\]\d\:\.]+/, '')),
     )
     const lyricControlIcon = computed(() =>
       showAllLyric.value ? 'ctrl-down-icon' : 'ctrl-up-icon',
     )
 
     function handleShowLyric() {
-      if (showAllLyric.value) {
+      if (showAllLyric.value)
         refLyric.value!.style.height = '299px'
-      } else {
+      else
         refLyric.value!.style.height = 'auto'
-      }
+
       showAllLyric.value = !showAllLyric.value
     }
 
@@ -50,6 +37,21 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="lyric">
+    <div ref="refLyric" class="lyric-main">
+      <p v-for="(item, i) of lyrics" :key="i">
+        {{ item }}
+      </p>
+    </div>
+    <p class="lyric-ctrl" @click="handleShowLyric">
+      <em v-if="!showAllLyric" class="ctrl-text">展开</em>
+      <em v-else class="ctrl-text">收起</em>
+      <i class="ctrl-icon" :class="[showAllLyric ? 'ctrl-icon--down' : 'ctrl-icon--up']" />
+    </p>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .lyric {

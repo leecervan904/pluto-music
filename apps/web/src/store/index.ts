@@ -1,6 +1,8 @@
 import type { App } from 'vue'
+
 // import type { Router } from 'vue-router'
-import { defineStore, createPinia } from 'pinia'
+import { createPinia, defineStore } from 'pinia'
+
 // import { router } from '/@/router'
 
 export const useMainStore = defineStore({
@@ -10,7 +12,7 @@ export const useMainStore = defineStore({
   }),
 })
 
-export const setupStore = (app: App) => {
+export function setupStore(app: App) {
   const pinia = createPinia()
   // pinia.use(({ store }) => {
   //   store.router = router

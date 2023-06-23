@@ -1,12 +1,5 @@
-<template>
-  <div class="toplist">
-    <sidebar v-model:id="currentId" />
-    <rank-list v-model:id="currentId" />
-  </div>
-</template>
-
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import Sidebar from './components/Sidebar.vue'
 import RankList from './components/RankList.vue'
 
@@ -25,6 +18,13 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="toplist">
+    <Sidebar v-model:id="currentId" />
+    <RankList v-model:id="currentId" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .toplist {

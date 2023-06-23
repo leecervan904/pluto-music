@@ -1,5 +1,5 @@
 import type { ISong } from '@pluto-music/api'
-import { defineStore } from 'pinia'
+import type { defineStore } from 'pinia'
 
 export enum PlayMode {
   LOOP = 0,
@@ -17,21 +17,21 @@ export interface PlayerStoreState {
   ctime: number
 }
 
-const innerGetRandomSong = (playlist: ISong[], songId: number | string) => {
-  if (playlist.length === 1) return playlist[0]
+function innerGetRandomSong(playlist: ISong[], songId: number | string) {
+  if (playlist.length === 1)
+    return playlist[0]
   const length = playlist.length
-  const currentIndex = playlist.findIndex((v) => v.id === songId)
+  const currentIndex = playlist.findIndex(v => v.id === songId)
   let randomIndex = currentIndex
   // 简单判断逻辑：只要下一首不是当前播放的即可
-  while (randomIndex === currentIndex) {
+  while (randomIndex === currentIndex)
     randomIndex = Math.floor(Math.random() * length)
-  }
 
   return playlist[randomIndex]
 }
 
-const isSongExist = (playlist: ISong[], songId: string | number) => {
-  return playlist.some((v) => v.id === songId)
+function isSongExist(playlist: ISong[], songId: string | number) {
+  return playlist.some(v => v.id === songId)
 }
 
 interface IGenPlayerStoreOption {
@@ -42,13 +42,13 @@ interface IGenPlayerStoreOption {
   getRandomSong?: (playlist: ISong[], songId: number | string) => ISong
 }
 
-export const genPlayerStore = ({
+export function genPlayerStore({
   define,
   id,
   getSongDetail,
   getSongUrl,
   getRandomSong = innerGetRandomSong,
-}: IGenPlayerStoreOption) => {
+}: IGenPlayerStoreOption) {
   let isAudioInitialized = false
 
   return define({
@@ -64,21 +64,23 @@ export const genPlayerStore = ({
       ctime: 0,
     }),
     getters: {
-      songId: (state) => state.song?.id,
-      songName: (state) => state.song?.name,
-      songAr: (state) => state.song?.ar || [],
-      songDt: (state) => state.song?.dt,
-      songUrl: (state) => state.song?.url,
-      songPicUrl: (state) => state.song?.al?.picUrl,
+      songId: state => state.song?.id,
+      songName: state => state.song?.name,
+      songAr: state => state.song?.ar || [],
+      songDt: state => state.song?.dt,
+      songUrl: state => state.song?.url,
+      songPicUrl: state => state.song?.al?.picUrl,
     },
     actions: {
       initPlayer() {
         console.log('init player', isAudioInitialized)
-        if (isAudioInitialized) return
+        if (isAudioInitialized)
+          return
         try {
           this.audio?.play()
           this.audio?.pause()
-        } catch (error) {
+        }
+        catch (error) {
           console.log('initialize player')
         }
         isAudioInitialized = true
@@ -88,9 +90,8 @@ export const genPlayerStore = ({
       },
       setCTime(time: number, play = false) {
         this.ctime = time
-        if (play) {
+        if (play)
           this.audio!.currentTime = this.ctime
-        }
       },
       setAudio(audio: HTMLAudioElement) {
         this.audio = audio
@@ -99,23 +100,23 @@ export const genPlayerStore = ({
         this.song = song
       },
       togglePlayMode() {
-        if (this.playMode === PlayMode.LOOP) {
+        if (this.playMode === PlayMode.LOOP)
           this.playMode = PlayMode.SINGLE
-        } else if (this.playMode === PlayMode.SINGLE) {
+        else if (this.playMode === PlayMode.SINGLE)
           this.playMode = PlayMode.RANDOM
-        } else {
+        else
           this.playMode = PlayMode.LOOP
-        }
       },
       togglePlayPrev() {
         if (this.playMode === PlayMode.RANDOM) {
           const nextSong = getRandomSong(this.playlist, this.songId!)
           this.playSong(nextSong)
-        } else {
-          const index = this.playlist.findIndex((v) => v.id === this.songId)
+        }
+        else {
+          const index = this.playlist.findIndex(v => v.id === this.songId)
           // 处理边界：当前播放为播放列表第一首时，切换到最后一首
-          const prevSong =
-            index === 0 ? this.playlist[this.playlist.length - 1] : this.playlist[index - 1]
+          const prevSong
+            = index === 0 ? this.playlist[this.playlist.length - 1] : this.playlist[index - 1]
           this.playSong(prevSong)
         }
       },
@@ -124,11 +125,12 @@ export const genPlayerStore = ({
         if (this.playMode === PlayMode.RANDOM) {
           const nextSong = getRandomSong(this.playlist, this.songId!)
           this.playSong(nextSong)
-        } else {
-          const index = this.playlist.findIndex((v) => v.id === this.songId)
+        }
+        else {
+          const index = this.playlist.findIndex(v => v.id === this.songId)
           // 处理边界：当前播放为最后一首时，切换到第一首
-          const nextSong =
-            index === this.playlist.length - 1 ? this.playlist[0] : this.playlist[index + 1]
+          const nextSong
+            = index === this.playlist.length - 1 ? this.playlist[0] : this.playlist[index + 1]
           this.playSong(nextSong)
         }
       },
@@ -144,11 +146,11 @@ export const genPlayerStore = ({
           // })
           return
         }
-        if (this.isPlay) {
+        if (this.isPlay)
           this.audio?.pause()
-        } else {
+        else
           this.audio?.play()
-        }
+
         this.isPlay = !this.isPlay
       },
       async playSong(song: ISong | string | number | undefined = undefined, addToPlaylist = true) {
@@ -158,9 +160,8 @@ export const genPlayerStore = ({
         }
 
         let realSong = song
-        if (typeof song !== 'object') {
+        if (typeof song !== 'object')
           realSong = await getSongDetail(song)
-        }
 
         if (typeof realSong === 'object') {
           const url = await getSongUrl(realSong.id)
@@ -179,7 +180,8 @@ export const genPlayerStore = ({
         }
       },
       updatePlaylist(playlist: ISong[], playlistId: number | string) {
-        if (this.playlistId === playlistId) return
+        if (this.playlistId === playlistId)
+          return
         this.playlist = playlist
         this.playlistId = playlistId
         this.playSong()
@@ -192,16 +194,15 @@ export const genPlayerStore = ({
         this.song = null
       },
       addToPlaylist(song: ISong) {
-        if (this.playlist.some((v) => v.id === song.id)) {
+        if (this.playlist.some(v => v.id === song.id))
           return
-        }
+
         this.playlist.push(song)
       },
       deleteFromPlaylist(song: ISong) {
-        const idx = this.playlist.findIndex((v) => v.id === song.id)
-        if (idx > -1) {
+        const idx = this.playlist.findIndex(v => v.id === song.id)
+        if (idx > -1)
           this.playlist.splice(idx, 1)
-        }
       },
     },
   })

@@ -1,56 +1,3 @@
-<template>
-  <section class="dj">
-    <h2 class="dj-title">
-      <span class="dj-title__main">电台</span>
-      <span
-        class="dj-title__item dj-title__hot"
-        :class="{ bold: active === 'hot' }"
-        @click="extractDjData('hot')"
-        >最热</span
-      >
-      <span
-        class="dj-title__item dj-title_new"
-        :class="{ bold: active !== 'hot' }"
-        @click="extractDjData('new')"
-        >最新</span
-      >
-    </h2>
-
-    <transition name="fade">
-      <base-scroll
-        ref="scroll"
-        v-loading="loading"
-        class="dj-content__wrapper"
-        :options="scrollOptions"
-        :data="activeList"
-        m-loading-text="加载中..."
-        m-loading-vertical="20px"
-        m-loading-background="#fff"
-      >
-        <ul ref="content" class="dj-content" :style="{ height: contentHeight }">
-          <li
-            v-for="item of activeList"
-            :key="item.id"
-            v-coming="'电台'"
-            class="dj-content__item"
-            :style="{ width: itemWidth + 'px' }"
-          >
-            <div class="item-image">
-              <img
-                v-lazy="`${item.picUrl}?param=200y200`"
-                :src="`${item.picUrl}?param=200y200`"
-                :alt="item.name"
-              />
-            </div>
-            <div class="item-title">{{ item.name }}</div>
-            <div class="item-desc">{{ item.rcmdtext }}</div>
-          </li>
-        </ul>
-      </base-scroll>
-    </transition>
-  </section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex'
 
@@ -88,13 +35,14 @@ export default {
   },
   methods: {
     extractDjData(type) {
-      if (this.active === type && this.activeList.length) return
+      if (this.active === type && this.activeList.length)
+        return
       this.loading = true
       this.active = type
       this.$api.getToplistDj({ type }).then((res) => {
         const { toplist } = res.data
         this.loading = false
-        this.activeList = toplist.map((v) => ({
+        this.activeList = toplist.map(v => ({
           id: v.id,
           name: v.name,
           picUrl: v.picUrl,
@@ -106,6 +54,61 @@ export default {
   },
 }
 </script>
+
+<template>
+  <section class="dj">
+    <h2 class="dj-title">
+      <span class="dj-title__main">电台</span>
+      <span
+        class="dj-title__item dj-title__hot"
+        :class="{ bold: active === 'hot' }"
+        @click="extractDjData('hot')"
+      >最热</span>
+      <span
+        class="dj-title__item dj-title_new"
+        :class="{ bold: active !== 'hot' }"
+        @click="extractDjData('new')"
+      >最新</span>
+    </h2>
+
+    <transition name="fade">
+      <base-scroll
+        ref="scroll"
+        v-loading="loading"
+        class="dj-content__wrapper"
+        :options="scrollOptions"
+        :data="activeList"
+        m-loading-text="加载中..."
+        m-loading-vertical="20px"
+        m-loading-background="#fff"
+      >
+        <ul ref="content" class="dj-content" :style="{ height: contentHeight }">
+          <li
+            v-for="item of activeList"
+            :key="item.id"
+            v-coming="'电台'"
+            class="dj-content__item"
+            :style="{ width: `${itemWidth}px` }"
+          >
+            <div class="item-image">
+              <img
+                v-lazy="`${item.picUrl}?param=200y200`"
+                :src="`${item.picUrl}?param=200y200`"
+                :alt="item.name"
+              >
+            </div>
+            <div class="item-title">
+              {{ item.name }}
+            </div>
+            <div class="item-desc">
+              {{ item.rcmdtext }}
+            </div>
+          </li>
+        </ul>
+      </base-scroll>
+    </transition>
+  </section>
+</template>
 
 <style lang="scss" scoped>
 @import '@/styles/variables.scss';

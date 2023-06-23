@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, type ComputedRef } from 'vue'
+import { type ComputedRef, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRouteQuery } from '/@/hooks/useRouteQuery'
 import {
-  useGetArtists,
-  useGetArtistMv,
-  useGetArtistDesc,
   useGetArtistAlbum,
+  useGetArtistDesc,
+  useGetArtistMv,
+  useGetArtists,
   useGetTopArtists,
 } from './hooks/useGetData'
 import { ArtistTabEnum } from './typing'
@@ -31,7 +31,7 @@ const { mvs, getMv } = useGetArtistMv(id)
 const { desc } = useGetArtistDesc(id)
 const { topArtists } = useGetTopArtists(id)
 
-const handleToArtist = (id: string | number) => {
+function handleToArtist(id: string | number) {
   router.push(`/artist?id=${id}`)
 }
 </script>

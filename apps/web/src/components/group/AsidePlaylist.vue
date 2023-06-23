@@ -16,8 +16,8 @@ defineProps({
 
 const emit = defineEmits(['to-playlist'])
 
-const handleShowAbout = () => {}
-const handleToPlaylist = (id: number | string) => {
+function handleShowAbout() {}
+function handleToPlaylist(id: number | string) {
   emit('to-playlist', id)
 }
 </script>
@@ -31,9 +31,9 @@ const handleToPlaylist = (id: number | string) => {
     <div v-for="(item, i) of playlistLikes" :key="i" class="item">
       <img
         v-show="item.avatarUrl"
-        :src="item.avatarUrl + '?param=40y40'"
+        :src="`${item.avatarUrl}?param=40y40`"
         @click="handleShowAbout"
-      />
+      >
     </div>
   </AsideItem>
 
@@ -44,7 +44,7 @@ const handleToPlaylist = (id: number | string) => {
 
     <div v-for="(item, i) of relativeRecommend" :key="i" class="item">
       <div class="item-avatar">
-        <img v-show="item.coverImgUrl" :src="item.coverImgUrl + '?param=50y50'" />
+        <img v-show="item.coverImgUrl" :src="`${item.coverImgUrl}?param=50y50`">
       </div>
       <div class="item-info">
         <p class="info-name" @click="handleToPlaylist(item.id)">

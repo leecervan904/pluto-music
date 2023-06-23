@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useLayoutStore } from '../store/module/layout';
+import { computed, ref } from 'vue'
+import { useLayoutStore } from '../store/module/layout'
 
 const layoutStore = useLayoutStore()
 const checked = ref(false)
@@ -16,8 +16,8 @@ const showConfig = computed({
 
 <template>
   <van-popup
-    class="app-config"
     v-model:show="showConfig"
+    class="app-config"
     position="left"
     :style="{ width: '80%', height: '100%' }"
   >

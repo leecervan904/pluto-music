@@ -1,23 +1,3 @@
-<template>
-  <div class="content">
-    <div class="wrapper">
-      <img :src="picUrl" class="img" />
-      <router-link :to="`/playlist?id=${info.id}`" class="img-link"></router-link>
-      <div class="info">
-        <span class="info-headset"></span>
-        <span class="info-count">{{ playCount }}</span>
-        <span class="info-play" @click="handlePlayAll"></span>
-      </div>
-    </div>
-    <router-link :to="`/playlist?id=${info.id}`" class="title">
-      <p :class="['title-name', titleEllipsis ? 'ellipsis' : '']">
-        {{ info.name }}
-      </p>
-    </router-link>
-    <slot></slot>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { usePlayerStore } from '/@/store/module/player'
@@ -42,11 +22,13 @@ export default defineComponent({
     const playerStore = usePlayerStore()
     const handlePlayAll = async () => {
       const [error, data] = await useRequest('getPlaylistDetail')({ id: props.info.id })
-      if (error) return
+      if (error)
+        return
 
       const { trackIds, id } = data.playlist
-      const [error2, data2] = await useRequest('getSongDetail')({ id: trackIds.map((v) => v.id) })
-      if (error2) return
+      const [error2, data2] = await useRequest('getSongDetail')({ id: trackIds.map(v => v.id) })
+      if (error2)
+        return
 
       playerStore.updatePlaylist(data2.songs, id)
     }
@@ -68,6 +50,26 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="content">
+    <div class="wrapper">
+      <img :src="picUrl" class="img">
+      <router-link :to="`/playlist?id=${info.id}`" class="img-link" />
+      <div class="info">
+        <span class="info-headset" />
+        <span class="info-count">{{ playCount }}</span>
+        <span class="info-play" @click="handlePlayAll" />
+      </div>
+    </div>
+    <router-link :to="`/playlist?id=${info.id}`" class="title">
+      <p class="title-name" :class="[titleEllipsis ? 'ellipsis' : '']">
+        {{ info.name }}
+      </p>
+    </router-link>
+    <slot />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .content {

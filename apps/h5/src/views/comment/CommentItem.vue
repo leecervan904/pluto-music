@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import VueType from 'vue-types'
-import { ICommentItem } from '@pluto-music/api'
+import type { ICommentItem } from '@pluto-music/api'
 
 import SvgIcon from '/@/components/svg-icon/index.vue'
 

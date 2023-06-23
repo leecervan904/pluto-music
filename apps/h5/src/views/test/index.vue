@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, h } from 'vue'
+import { h, ref } from 'vue'
 import { Motion, Presence } from 'motion/vue'
 import { useLayoutStore } from '/@/store/module/layout'
 import Example from './Example.vue'
@@ -7,7 +7,7 @@ import Example from './Example.vue'
 const layoutStore = useLayoutStore()
 
 const show = ref(false)
-const handleClick = () => {
+function handleClick() {
   layoutStore.toggleShowMiniPlayer()
 }
 
@@ -22,7 +22,9 @@ const genTitle = () => h('h1', null, ['hello world'])
     <Example :custom-renderer="() => 'hello'" />
 
     <div>
-      <van-button @click="handleClick">toggle</van-button>
+      <van-button @click="handleClick">
+        toggle
+      </van-button>
     </div>
 
     <!-- <div class="parent"> -->
@@ -35,7 +37,9 @@ const genTitle = () => h('h1', null, ['hello world'])
           :exit="{ opacity: 0, x: -100, y: 100 }"
         >
           <div class="box">
-            <van-button @click="show = !show">toggle</van-button>
+            <van-button @click="show = !show">
+              toggle
+            </van-button>
           </div>
         </Motion>
       </Presence>

@@ -1,73 +1,6 @@
-<template>
-  <div class="play-list-table">
-    <div class="list-title">
-      <span class="title-main">歌曲列表</span>
-      <span class="title-sub">{{ songList.length }}首歌</span>
-      <span v-show="showPlayCount" class="title-play"
-        >播放： <em class="title-play-count">{{ playCount }}</em
-        >次
-      </span>
-    </div>
-    <table v-show="songList.length">
-      <thead>
-        <tr class="header">
-          <th class="th-indent"></th>
-          <th class="th-title">标题</th>
-          <th class="th-duration">时长</th>
-          <th class="th-singers">歌手</th>
-          <th v-if="showAlbum" class="th-album">专辑</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, i) of songList" :key="i" class="song-item">
-          <td class="td-indent">
-            <span class="td-indent-order">{{ i + 1 }}</span>
-            <span class="td-title-play" @click="handlePlay(item)">&nbsp;</span>
-          </td>
-          <td class="td-title">
-            <div class="td-title-more">
-              <span class="td-title-name">
-                <router-link class="td-title-name-main" :to="`/song?id=${item.id}`">{{
-                  item.name
-                }}</router-link>
-                <em v-show="item.alia.length" class="td-title-name-sub">- ({{ item.alia[0] }})</em>
-              </span>
-              <span v-if="item.mv" class="td-title-mv" @click="$router.push(`/mv?id=${item.mv}`)"
-                >&nbsp;</span
-              >
-            </div>
-          </td>
-          <td class="td-duration">
-            <span class="td-duration-time">{{ getDuration(item.dt) }}</span>
-            <div class="td-duration-options">
-              <span class="opt-add" @click="handleAddToPlaylist(item)"></span>
-              <span class="opt-collect" @click="handleShowAbout()"></span>
-              <span class="opt-share" @click="handleShowAbout()"></span>
-              <span class="opt-download" @click="handleShowAbout()"></span>
-            </div>
-          </td>
-          <td class="td-singers">
-            <span
-              v-for="(singer, index) of item.ar"
-              :key="index"
-              @click="handleToArtist(singer.id)"
-            >
-              <em href="" class="td-singers-name" @click="handleShowAbout()">{{ singer.name }}</em>
-              <em v-show="index < item.ar.length - 1" class="td-singers-devide"> / </em>
-            </span>
-          </td>
-          <td v-if="showAlbum" class="td-album">
-            <router-link :to="`/album?id=${item.al.id}`">{{ item.al.name }}</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
-
 <script lang="ts">
-import { ISong } from '@pluto-music/api'
-import { defineComponent, type PropType } from 'vue'
+import type { ISong } from '@pluto-music/api'
+import { type PropType, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePlayerStore } from '/@/store/module/player'
 import { getDuration } from '/@/utils'
@@ -118,6 +51,79 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="play-list-table">
+    <div class="list-title">
+      <span class="title-main">歌曲列表</span>
+      <span class="title-sub">{{ songList.length }}首歌</span>
+      <span v-show="showPlayCount" class="title-play">播放： <em class="title-play-count">{{ playCount }}</em>次
+      </span>
+    </div>
+    <table v-show="songList.length">
+      <thead>
+        <tr class="header">
+          <th class="th-indent" />
+          <th class="th-title">
+            标题
+          </th>
+          <th class="th-duration">
+            时长
+          </th>
+          <th class="th-singers">
+            歌手
+          </th>
+          <th v-if="showAlbum" class="th-album">
+            专辑
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, i) of songList" :key="i" class="song-item">
+          <td class="td-indent">
+            <span class="td-indent-order">{{ i + 1 }}</span>
+            <span class="td-title-play" @click="handlePlay(item)">&nbsp;</span>
+          </td>
+          <td class="td-title">
+            <div class="td-title-more">
+              <span class="td-title-name">
+                <router-link class="td-title-name-main" :to="`/song?id=${item.id}`">{{
+                  item.name
+                }}</router-link>
+                <em v-show="item.alia.length" class="td-title-name-sub">- ({{ item.alia[0] }})</em>
+              </span>
+              <span v-if="item.mv" class="td-title-mv" @click="$router.push(`/mv?id=${item.mv}`)">&nbsp;</span>
+            </div>
+          </td>
+          <td class="td-duration">
+            <span class="td-duration-time">{{ getDuration(item.dt) }}</span>
+            <div class="td-duration-options">
+              <span class="opt-add" @click="handleAddToPlaylist(item)" />
+              <span class="opt-collect" @click="handleShowAbout()" />
+              <span class="opt-share" @click="handleShowAbout()" />
+              <span class="opt-download" @click="handleShowAbout()" />
+            </div>
+          </td>
+          <td class="td-singers">
+            <span
+              v-for="(singer, index) of item.ar"
+              :key="index"
+              @click="handleToArtist(singer.id)"
+            >
+              <em href="" class="td-singers-name" @click="handleShowAbout()">{{ singer.name }}</em>
+              <em v-show="index < item.ar.length - 1" class="td-singers-devide"> / </em>
+            </span>
+          </td>
+          <td v-if="showAlbum" class="td-album">
+            <router-link :to="`/album?id=${item.al.id}`">
+              {{ item.al.name }}
+            </router-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .list-title {

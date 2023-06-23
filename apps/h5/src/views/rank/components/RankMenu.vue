@@ -1,40 +1,48 @@
+<script>
+// import { mapGetters } from 'vuex'
+
+export default {
+  name: 'RankMenu',
+  props: {
+    title: { type: String, require: true },
+    rank: { type: Array, default: () => [] },
+  },
+  computed: {
+    // ...mapGetters(['bodyWidth']),
+    itemWidth() {
+      return `${document.body.clientWidth * 0.3}px`
+    },
+  },
+}
+</script>
+
 <template>
   <div>
-    <h2 class="title">{{ title }}</h2>
+    <h2 class="title">
+      {{ title }}
+    </h2>
     <div class="list">
-      <router-link class="item" tag="div" :style="{ width: itemWidth }"
-        v-for="(item, index) of rank" :key="index"
-        :to="`/ranklist/${item.id}`">
+      <router-link
+        v-for="(item, index) of rank" :key="index" class="item"
+        tag="div" :style="{ width: itemWidth }"
+        :to="`/ranklist/${item.id}`"
+      >
         <div class="item-wrapper">
           <div class="img-wrapper">
-            <img class="img" v-show="item.coverImgUrl"
+            <img
+              v-show="item.coverImgUrl" class="img"
               :src="`${item.coverImgUrl}?param=200y200`"
-              :alt="item.name">
+              :alt="item.name"
+            >
           </div>
-          <p class="item-name">{{ item.name }}</p>
+          <p class="item-name">
+            {{ item.name }}
+          </p>
         </div>
       </router-link>
     </div>
   </div>
 </template>
-
-<script>
-// import { mapGetters } from 'vuex'
-
-export default {
-  name: 'rank-menu',
-  props: {
-    title: { type: String, require: true },
-    rank: { type: Array, default: () => [] }
-  },
-  computed: {
-    // ...mapGetters(['bodyWidth']),
-    itemWidth () {
-      return document.body.clientWidth * 0.3 + 'px'
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

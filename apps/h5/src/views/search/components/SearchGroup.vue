@@ -1,68 +1,5 @@
-<template>
-    <div class="s-group">
-      <!-- loading -->
-      <div class="s-group__loading" v-if="loading">
-        <LoadingSpinner
-          width="30px"
-          height="30px"
-          color="rgb(238, 10, 36)"
-          itemWidth="8%"
-        />
-      </div>
-
-      <!-- 相关搜索 -->
-      <div class="s-group__block s-group__related" v-show="!!simQuerys">
-        <div class="s-group__title">相关搜索</div>
-        <div class="related-content">
-          <span class="related-item"
-            v-for="item in simQuerys" :key="item.keyword"
-            @click="$emit('update:keywords', item.keyword)">
-            {{ item.keyword }}
-          </span>
-        </div>
-      </div>
-
-      <!-- 单曲 -->
-      <div class="s-group__block s-group__song" v-show="song.songs.length">
-        <div class="s-group__title">单曲</div>
-        <song-item
-          v-for="item in song.songs" :key="item.id"
-          :song=item
-          @play-song="playSong"/>
-        <div class="s-group__footer" @click="$emit('slide-to', 1)">{{ song.moreText }} ></div>
-      </div>
-
-      <!-- 歌单 -->
-      <div class="s-group__block s-group__playlist" v-show="playList.playLists.length">
-        <div class="s-group__title">歌单</div>
-        <search-playlist-item
-          v-for="item in playList.playLists" :key="item.id"
-          :playlist=item />
-        <div class="s-group__footer" @click="$emit('slide-to', 2)">{{ playList.moreText }} ></div>
-      </div>
-
-      <!-- 歌手 -->
-      <div class="s-group__block s-group__artists" v-show="artist.artists.length">
-        <div class="s-group__title">歌手</div>
-        <search-artist-item
-          v-for="item in artist.artists" :key="item.id"
-          :artist=item />
-        <div class="s-group__footer" @click="$emit('slide-to', 3)">{{ artist.moreText }} ></div>
-      </div>
-
-      <!-- 专辑 -->
-      <div class="s-group__block s-group__album" v-show="album.albums.length">
-        <div class="s-group__title">专辑</div>
-        <search-album-item
-          v-for="item in album.albums" :key="item.id"
-          :album=item />
-        <div class="s-group__footer" @click="$emit('slide-to', 4)">{{ album.moreText }} ></div>
-      </div>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { ref, onMounted, watch, unref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRequest } from '/@/utils'
 
 import SongItem from '/@/components/song-item/index.vue'
@@ -71,7 +8,7 @@ import SearchAlbumItem from './SearchAlbumItem.vue'
 import SearchArtistItem from './SearchArtistItem.vue'
 
 const props = defineProps({
-  keywords: { type: String, require: true }
+  keywords: { type: String, require: true },
 })
 
 const loading = ref(false)
@@ -81,12 +18,13 @@ const album = ref({ albums: [] })
 const artist = ref({ artists: [] })
 const song = ref({ songs: [] })
 
-const initData = async () => {
+async function initData() {
   loading.value = true
   const [error, data] = await useRequest('getSearch')({ keywords: props.keywords })
   loading.value = false
 
-  if (error) return
+  if (error)
+    return
 
   simQuerys.value = data.result.sim_query.sim_querys
   playList.value = data.result.playList
@@ -99,7 +37,7 @@ const initData = async () => {
   // })
 }
 
-const playSong =  (song) => {
+function playSong(song) {
   // this.$store.dispatch('player/changeSong', { song })
 }
 
@@ -109,6 +47,93 @@ onMounted(() => {
 
 watch(() => props.keywords, initData)
 </script>
+
+<template>
+  <div class="s-group">
+    <!-- loading -->
+    <div v-if="loading" class="s-group__loading">
+      <LoadingSpinner
+        width="30px"
+        height="30px"
+        color="rgb(238, 10, 36)"
+        item-width="8%"
+      />
+    </div>
+
+    <!-- 相关搜索 -->
+    <div v-show="!!simQuerys" class="s-group__block s-group__related">
+      <div class="s-group__title">
+        相关搜索
+      </div>
+      <div class="related-content">
+        <span
+          v-for="item in simQuerys"
+          :key="item.keyword" class="related-item"
+          @click="$emit('update:keywords', item.keyword)"
+        >
+          {{ item.keyword }}
+        </span>
+      </div>
+    </div>
+
+    <!-- 单曲 -->
+    <div v-show="song.songs.length" class="s-group__block s-group__song">
+      <div class="s-group__title">
+        单曲
+      </div>
+      <SongItem
+        v-for="item in song.songs" :key="item.id"
+        :song="item"
+        @play-song="playSong"
+      />
+      <div class="s-group__footer" @click="$emit('slide-to', 1)">
+        {{ song.moreText }} >
+      </div>
+    </div>
+
+    <!-- 歌单 -->
+    <div v-show="playList.playLists.length" class="s-group__block s-group__playlist">
+      <div class="s-group__title">
+        歌单
+      </div>
+      <SearchPlaylistItem
+        v-for="item in playList.playLists" :key="item.id"
+        :playlist="item"
+      />
+      <div class="s-group__footer" @click="$emit('slide-to', 2)">
+        {{ playList.moreText }} >
+      </div>
+    </div>
+
+    <!-- 歌手 -->
+    <div v-show="artist.artists.length" class="s-group__block s-group__artists">
+      <div class="s-group__title">
+        歌手
+      </div>
+      <SearchArtistItem
+        v-for="item in artist.artists" :key="item.id"
+        :artist="item"
+      />
+      <div class="s-group__footer" @click="$emit('slide-to', 3)">
+        {{ artist.moreText }} >
+      </div>
+    </div>
+
+    <!-- 专辑 -->
+    <div v-show="album.albums.length" class="s-group__block s-group__album">
+      <div class="s-group__title">
+        专辑
+      </div>
+      <SearchAlbumItem
+        v-for="item in album.albums" :key="item.id"
+        :album="item"
+      />
+      <div class="s-group__footer" @click="$emit('slide-to', 4)">
+        {{ album.moreText }} >
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '/@/styles/variables.scss';

@@ -1,30 +1,6 @@
-<template>
-  <div class="list">
-    <rank-list-poster
-      v-if="listInfo"
-      :list-info="listInfo"
-      :song-list="songList"
-      :update-frequency="updateFrequency"
-      @play-all="handlePlayAll"
-    />
-
-    <div class="list-main">
-      <div class="list-title">
-        <span class="title-main">歌曲列表</span>
-        <span class="title-sub">{{ trackCount }}首歌</span>
-        <span class="title-play"
-          >播放： <em class="title-play-count">{{ playCount }}</em
-          >次
-        </span>
-      </div>
-      <rank-list-table :song-list="songList" />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import type { ISong } from '@pluto-music/api'
-import { ref, reactive, watchEffect, defineComponent } from 'vue'
+import { defineComponent, reactive, ref, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCommonStore } from '/@/store/module/common'
 import { useRequest } from '/@/utils'
@@ -68,10 +44,11 @@ export default defineComponent({
       // emit('update', id)
       // 获取排行榜的歌曲列表
       const [error, data] = await useRequest('getRankList')({ id })
-      if (error) return
+      if (error)
+        return
       const detail = data.playlist
       listInfo.name = detail.name
-      listInfo.id = detail.id + ''
+      listInfo.id = `${detail.id}`
       listInfo.coverImgUrl = detail.coverImgUrl
       listInfo.updateTime = detail.updateTime
       listInfo.updateFrequency = detail.updateFrequency || listInfo.updateFrequency
@@ -109,14 +86,36 @@ export default defineComponent({
       return this.toIdx[`id_${this.id}`]
     },
     updateFrequency() {
-      const oid =
-        this.featureRank.find((v) => v.id === this.id) ||
-        this.globalRank.find((v) => v.id === this.id)
+      const oid
+        = this.featureRank.find(v => v.id === this.id)
+        || this.globalRank.find(v => v.id === this.id)
       return oid ? oid.updateFrequency : '每天更新'
     },
   },
 })
 </script>
+
+<template>
+  <div class="list">
+    <RankListPoster
+      v-if="listInfo"
+      :list-info="listInfo"
+      :song-list="songList"
+      :update-frequency="updateFrequency"
+      @play-all="handlePlayAll"
+    />
+
+    <div class="list-main">
+      <div class="list-title">
+        <span class="title-main">歌曲列表</span>
+        <span class="title-sub">{{ trackCount }}首歌</span>
+        <span class="title-play">播放： <em class="title-play-count">{{ playCount }}</em>次
+        </span>
+      </div>
+      <RankListTable :song-list="songList" />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .list {

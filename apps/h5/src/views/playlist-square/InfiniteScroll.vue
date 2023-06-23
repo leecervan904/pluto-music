@@ -1,52 +1,12 @@
-<template>
-  <div>
-    <recycle-scroller class="playlist-scroller"
-      ref="refScroller"
-      :items="playlists"
-      :item-size="itemSize"
-      :buffer="600"
-      key-filed="id"
-      page-mode
-      emit-update
-      @resize="onResize"
-      @update="onUpdate">
-
-      <template v-slot="{ item }">
-        <div class="playlist-row">
-          <PlaylistItem class="playlist-item"
-            v-for="(cell, index) of item.list" :key="index"
-            :width="itemWidth + 'px'"
-            :id="cell.id"
-            :img="cell.coverImgUrl"
-            :playcount="cell.playCount"
-            :desc="cell.description"/>
-        </div>
-      </template>
-
-      <template #after>
-        <LoadingSpinner v-show="loading"
-          width="30px"
-          height="30px"
-          color="rgb(238, 10, 36)"
-          itemWidth="8%"/>
-        <div v-if="!loading && !hasMore"
-          class="playlist-nomore">
-          <p>没有更多数据了</p>
-        </div>
-      </template>
-    </recycle-scroller>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted, unref } from 'vue'
+import { onMounted, ref, unref } from 'vue'
 import { useRequest } from '/@/utils/useRequest'
 
 import PlaylistItem from '/@/components/playlist-item/index.vue'
 import LoadingSpinner from '/@/components/loading-spinner/index.vue'
 
 const props = defineProps({
-  cat: { type: String, default: '' }
+  cat: { type: String, default: '' },
 })
 
 const loading = ref(true)
@@ -62,23 +22,23 @@ const itemSize = itemWidth * 1.5
 
 const refScroller = ref<HTMLElement | null>(null)
 
-const onUpdate = (start, end) => {
+function onUpdate(start, end) {
   const scrollTop = unref(refScroller)?.getScroll?.()?.end
-  if (unref(hasMore) &&
-      !unref(loading) && // 保证仅触发一次
-      scrollTop > 1000 && // 该事件会自动刷新一次，设置一个阈值判定当滚动后才触发
-      scrollTop + threshold >= itemSize * unref(playlists).length
+  if (unref(hasMore)
+      && !unref(loading) // 保证仅触发一次
+      && scrollTop > 1000 // 该事件会自动刷新一次，设置一个阈值判定当滚动后才触发
+      && scrollTop + threshold >= itemSize * unref(playlists).length
   ) {
     console.log('scrollTop is %d, now to fetch data...', scrollTop)
     getPlaylist(props.cat, unref(cache).length)
   }
 }
 
-const onResize = () => {
+function onResize() {
   console.log('size change, now size: ', unref(cache).length)
 }
 // 每行 3 个歌单，需要将数据拆分为对象数组
-const to3ColList = (playlists) => {
+function to3ColList(playlists) {
   const ret = []
   for (let i = 0, l = playlists.length; i < l; i += 3) {
     const list = playlists.slice(i, i + 3)
@@ -87,13 +47,13 @@ const to3ColList = (playlists) => {
   return ret
 }
 
-const getPlaylist = (cat: string) => {
+function getPlaylist(cat: string) {
   loading.value = true
   setTimeout(async () => {
     const [error, data] = await useRequest('getTopPlaylist')({
       cat,
       limit,
-      offset: unref(cache).length
+      offset: unref(cache).length,
     })
     if (error) {
       loading.value = false
@@ -114,6 +74,53 @@ onMounted(() => {
   getPlaylist(props.cat)
 })
 </script>
+
+<template>
+  <div>
+    <recycle-scroller
+      ref="refScroller"
+      class="playlist-scroller"
+      :items="playlists"
+      :item-size="itemSize"
+      :buffer="600"
+      key-filed="id"
+      page-mode
+      emit-update
+      @resize="onResize"
+      @update="onUpdate"
+    >
+      <template #default="{ item }">
+        <div class="playlist-row">
+          <PlaylistItem
+            v-for="(cell, index) of item.list"
+            :id="cell.id" :key="index"
+            class="playlist-item"
+            :width="`${itemWidth}px`"
+            :img="cell.coverImgUrl"
+            :playcount="cell.playCount"
+            :desc="cell.description"
+          />
+        </div>
+      </template>
+
+      <template #after>
+        <LoadingSpinner
+          v-show="loading"
+          width="30px"
+          height="30px"
+          color="rgb(238, 10, 36)"
+          item-width="8%"
+        />
+        <div
+          v-if="!loading && !hasMore"
+          class="playlist-nomore"
+        >
+          <p>没有更多数据了</p>
+        </div>
+      </template>
+    </recycle-scroller>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .playlist {
