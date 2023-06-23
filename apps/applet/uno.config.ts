@@ -9,7 +9,7 @@ export default {
   shortcuts: [
     {
       'border-base': 'border border-gray-500_10',
-      center: 'flex justify-center items-center',
+      'center': 'flex justify-center items-center',
     },
   ],
   // transformers: [
