@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJSX from '@vitejs/plugin-vue-jsx'
@@ -38,7 +38,7 @@ export default defineConfig({
     alias: [
       {
         find: /\/@\//,
-        replacement: path.resolve(__dirname, 'src') + '/',
+        replacement: `${path.resolve(__dirname, 'src')}/`,
       },
     ],
   },
@@ -54,7 +54,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },

@@ -1,5 +1,6 @@
-import { IRelativePlaylistItem } from '@pluto-music/api'
-import { PropType, defineComponent } from 'vue'
+import type { IRelativePlaylistItem } from '@pluto-music/api'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export type PlaylistItem = Omit<IRelativePlaylistItem, 'creator'>
 

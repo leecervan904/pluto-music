@@ -53,7 +53,7 @@ importers:
       unplugin-vue-components: ^0.22.12
       vite: 4.1.1
       vite-plugin-compression: ^0.5.1
-      vite-plugin-electron: ^0.11.1
+      vite-plugin-electron: ^0.12.0
       vue: ^3.2.25
       vue-router: ^4.0.13
       vue-tsc: ^1.0.24
@@ -81,7 +81,7 @@ importers:
       unocss: registry.npmmirror.com/unocss/0.48.4_vite@4.1.1
       unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.22.12_vue@3.2.47
       vite: registry.npmmirror.com/vite/4.1.1_@types+node@18.11.18+sass@1.57.1
-      vite-plugin-electron: registry.npmmirror.com/vite-plugin-electron/0.11.2
+      vite-plugin-electron: registry.npmmirror.com/vite-plugin-electron/0.12.0
       vue-tsc: registry.npmmirror.com/vue-tsc/1.0.24_typescript@4.9.5
 
   apps/h5:
@@ -6049,7 +6049,7 @@ packages:
     name: axios
     version: 0.26.1
     dependencies:
-      follow-redirects: registry.npmmirror.com/follow-redirects/1.15.2_debug@4.3.4
+      follow-redirects: registry.npmmirror.com/follow-redirects/1.15.2
     transitivePeerDependencies:
       - debug
     dev: false
@@ -8028,6 +8028,7 @@ packages:
         optional: true
     dependencies:
       debug: registry.npmmirror.com/debug/4.3.4
+    dev: true
 
   registry.npmmirror.com/for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/for-each/-/for-each-0.3.3.tgz}
@@ -11648,10 +11649,10 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmmirror.com/vite-plugin-electron/0.11.2:
-    resolution: {integrity: sha512-umQRmSuA80JVxKB3PfO55o8mFTrW+sEtu7kZ5TYKAnkuYpKw7qgxl4f/65gp8x5BGHJjYh/iIRIE26x3Xqc4mQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-electron/-/vite-plugin-electron-0.11.2.tgz}
+  registry.npmmirror.com/vite-plugin-electron/0.12.0:
+    resolution: {integrity: sha512-MVvi7XZdrPKBkCMMK/Kiwdl4Epg3GSPPyk3wOAMhWEGKmCemrXkD/xUU8rF7jF0pthR6ZPjd2gmeNxSLWMQfZw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-electron/-/vite-plugin-electron-0.12.0.tgz}
     name: vite-plugin-electron
-    version: 0.11.2
+    version: 0.12.0
     dev: true
 
   registry.npmmirror.com/vite-plugin-mkcert/1.12.0_vite@4.1.1:

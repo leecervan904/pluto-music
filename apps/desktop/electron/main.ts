@@ -1,7 +1,7 @@
-import { app, BrowserWindow } from 'electron'
-import path from 'path'
+import path from 'node:path'
+import { BrowserWindow, app } from 'electron'
 
-const createWindow = () => {
+function createWindow() {
   const win = new BrowserWindow({
     webPreferences: {
       contextIsolation: false, // 是否开启隔离上下文
@@ -19,7 +19,8 @@ const createWindow = () => {
   if (app.isPackaged) {
     // 如果打包了，渲染 dist/index.html
     win.loadFile(path.join(__dirname, '../dist/index.html'))
-  } else {
+  }
+  else {
     // 本地启动的vue项目路径
     win.loadURL('http://localhost:8030')
   }
@@ -28,13 +29,13 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow() // 创建窗口
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0)
+      createWindow()
   })
 })
 
 // 关闭窗口
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (process.platform !== 'darwin')
     app.quit()
-  }
 })

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, shallowRef, onMounted } from 'vue'
+import { onMounted, ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
-import { IRelativePlaylistItem } from '@pluto-music/api'
+import type { IRelativePlaylistItem } from '@pluto-music/api'
 import { useRequest } from '/@/utils/useRequest'
 
 import PlaylistCard from '/@/components/playlist-card/index'
@@ -24,21 +24,22 @@ const cates = [
   'ACG',
 ]
 
-const initData = async (cat: string) => {
+async function initData(cat: string) {
   loading.value = true
   const [error, data] = await useRequest('getTopPlaylist')({ limit: 16, cat })
   loading.value = false
 
-  if (error) return
+  if (error)
+    return
   playlists.value = data.playlists
 }
 
-const handleChange = (cat: string) => {
+function handleChange(cat: string) {
   active.value = cat
   initData(cat)
 }
 
-const handleToPlaylist = (id: number | string) => {
+function handleToPlaylist(id: number | string) {
   router.push({ name: 'playlist', query: { id } })
 }
 
@@ -49,7 +50,9 @@ onMounted(() => {
 
 <template>
   <div class="h-30px flex justify-between">
-    <div class="flex-1">全部歌单</div>
+    <div class="flex-1">
+      全部歌单
+    </div>
     <div class="flex justify-between items-center">
       <span
         v-for="cate in cates"
@@ -57,8 +60,7 @@ onMounted(() => {
         class="ml-10px cursor-pointer"
         :class="active === cate ? 'text-black' : 'text-#ccc'"
         @click="handleChange(cate)"
-        >{{ cate }}</span
-      >
+      >{{ cate }}</span>
     </div>
   </div>
 

@@ -5,7 +5,7 @@ export default defineConfig({
     colors: {
       veryCool: '#0000ff', // class="text-very-cool"
       brand: {
-        primary: 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
+        primary: 'hsla(var(--hue, 217), 78%, 51%)', // class="bg-brand-primary"
       },
     },
   },
@@ -13,17 +13,17 @@ export default defineConfig({
     [
       /^ellipsis$/,
       () => ({
-        overflow: 'hidden',
+        'overflow': 'hidden',
         'white-space': 'no-wrap',
         'text-overflow': 'ellipsis',
       }),
     ],
     [
       /^multi-ellipsis-(\d+)$/,
-      (match) => ({
-        overflow: 'hidden',
+      match => ({
+        'overflow': 'hidden',
         'text-overflow': 'ellipsis',
-        display: '-webkit-box',
+        'display': '-webkit-box',
         '-webkit-line-clamp': match[1],
         '-webkit-box-orient': 'vertical',
       }),
@@ -31,7 +31,8 @@ export default defineConfig({
     [
       /^text-(.*)$/,
       ([, c], { theme }) => {
-        if (theme.colors[c]) return { color: theme.colors[c] }
+        if (theme.colors[c])
+          return { color: theme.colors[c] }
       },
     ],
     [
@@ -43,9 +44,9 @@ export default defineConfig({
   ],
   shortcuts: {
     // shortcuts to multiple utilities
-    btn: 'py-2 px-4 font-semibold rounded-lg shadow-md',
+    'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
     'btn-green': 'text-white bg-green-500 hover:bg-green-700',
     // single utility alias
-    red: 'text-red-100',
+    'red': 'text-red-100',
   },
 })

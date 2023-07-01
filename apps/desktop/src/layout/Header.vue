@@ -10,7 +10,7 @@ const menu = [
 ]
 
 const search = ref('')
-const handleSearch = () => {}
+function handleSearch() {}
 </script>
 
 <script lang="ts">
@@ -23,7 +23,9 @@ export default {
 
 <template>
   <div class="app-header__left">
-    <div class="h-50px lh-50px bg-red-400 pointer" @click="$router.go(-1)">back</div>
+    <div class="h-50px lh-50px bg-red-400 pointer" @click="$router.go(-1)">
+      back
+    </div>
   </div>
 
   <div class="app-header__right">
@@ -34,8 +36,9 @@ export default {
         class="app-header__right-nav-item"
         :class="{ 'is-active': $route.path.startsWith(item.to) }"
         :to="item.to"
-        >{{ item.label }}</router-link
       >
+        {{ item.label }}
+      </router-link>
     </div>
 
     <div class="app-header__right-search">

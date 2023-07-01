@@ -1,5 +1,7 @@
 export {}
 
+type AAA = 123
+
 /**
  * UnionToIntersection<{ foo: string } | { bar: string }> =
  *  { foo: string } & { bar: string }.
@@ -35,4 +37,9 @@ declare global {
   (...args: any) => Promise<infer R>
     ? R
     : never
+}
+
+declare module 'vite-plugin-electron' {
+  const vitePluginElectron: any;
+  export default vitePluginElectron;
 }

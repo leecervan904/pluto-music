@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TableColumnsType } from 'ant-design-vue'
-import { shallowRef, computed, onMounted, unref } from 'vue'
+import type { TableColumnsType } from 'ant-design-vue'
+import { computed, onMounted, shallowRef, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { IPlaylist, ISong } from '@pluto-music/api'
+import type { IPlaylist, ISong } from '@pluto-music/api'
 import { getDuration } from '@pluto-music/shared'
 import { useRequest } from '/@/utils/useRequest'
 
@@ -43,7 +43,8 @@ const columns: TableColumnsType = [
 
 async function initData() {
   const [error, data] = await useRequest('getPlaylistDetail')({ id: unref(playlistId) })
-  if (error) return
+  if (error)
+    return
   detail.value = data.playlist
   songList.value = data.playlist.tracks
   console.log(songList.value)
@@ -57,13 +58,15 @@ onMounted(initData)
     <div class="flex mb-20px">
       <div class="overflow-hidden rounded-10px">
         <div class="w-200px h-0 pb-1/1">
-          <img class="w-100/100" :src="detail?.coverImgUrl" />
+          <img class="w-100/100" :src="detail?.coverImgUrl">
         </div>
       </div>
 
       <div class="flex-1 px-10px">
         <h3>{{ detail?.name }}</h3>
-        <div class="multi-ellipsis-2">简介：{{ detail?.description }}</div>
+        <div class="multi-ellipsis-2">
+          简介：{{ detail?.description }}
+        </div>
       </div>
     </div>
 

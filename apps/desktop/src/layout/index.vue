@@ -11,11 +11,13 @@ import Header from './Header.vue'
     <div class="app-main">
       <!-- <div class="app-sidebar">sidebar</div> -->
       <div class="app-content">
-        <router-view></router-view>
+        <router-view />
       </div>
     </div>
 
-    <div class="app-footer">footer</div>
+    <div class="app-footer">
+      footer
+    </div>
   </div>
 </template>
 

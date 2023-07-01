@@ -1,3 +1,3 @@
-import os from 'os'
+import os from 'node:os'
 
 console.log('platform', os.platform(), __dirname)
